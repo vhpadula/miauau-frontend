@@ -11,8 +11,8 @@ const TitleLogo: React.FC<TitleLogoProps> = ({ size, className }) => {
     return (
         <>
             {size === "l" && (
-                <div className="flex items-center">
-                    <div className={`relative w-24 p-12 ${className}`}>
+                <div className={`flex items-center ${className}`}>
+                    <div className={`relative w-24 p-12 `}>
                         <Image
                             src="/earth-icon.svg"
                             alt="Earth Icon"
@@ -24,7 +24,7 @@ const TitleLogo: React.FC<TitleLogoProps> = ({ size, className }) => {
             )}
 
             {size === "sm" && (
-                <div className="flex items-center">
+                <div className={`flex items-center ${className}`}>
                     <div className={`relative w-8 p-6`}>
                         <Image
                             src="/earth-icon.svg"

@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { OutlineBtn, TitleText } from "@/components/atoms";
-import { TitleLogo } from "@/components";
+import { TitleLogo, Footer, OutlineBtn } from "@/components";
 export default function Home() {
     return (
         <>
-            <div className="absolute top-0 left-0 right-0 h-[30vw] min-h-[75%] z-[-1]">
+            <div className="absolute top-0 left-0 right-0 h-[30vw] min-h-[70%] z-[-1]">
                 <Image
                     src="/background.svg"
                     alt="Background"
@@ -16,7 +15,7 @@ export default function Home() {
 
             <main className="flex w-full min-h-screen flex-col items-center justify-between">
                 <div className="flex w-full justify-end">
-                    <OutlineBtn width="32" height="12" className="mr-2">
+                    <OutlineBtn width="32" height="12" className="mr-2 my-1">
                         Sobre Nós
                     </OutlineBtn>
                     <OutlineBtn width="36" height="12" className="mr-2">
@@ -27,19 +26,19 @@ export default function Home() {
 
                 <p>Sistema Inteligente para Administração da sua ONG</p>
 
-                <OutlineBtn width="72" height="24" className="my-1">
+                <OutlineBtn width="72" height="24" className="my-5">
                     Inscreva-se Gratuitamente
                 </OutlineBtn>
-                <div className="relative w-20 p-48">
+
+                <div className="relative min-h-60 px-[40%] py-[15%]">
                     <Image
                         src="./window.svg"
                         alt="Window Example"
                         fill={true}
                     />
                 </div>
-                <div className="flex w-full justify-end items-center h-20 bg-primary">
-                    <TitleLogo size="sm" className="m-1" />
-                </div>
+
+                <Footer />
             </main>
         </>
     );
