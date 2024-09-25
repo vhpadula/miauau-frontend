@@ -6,7 +6,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 const navigation = [
     { name: "Animais", href: "#Animais" },
     { name: "Voluntários", href: "#Voluntários" },
@@ -20,7 +20,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavBar() {
-    const pathname = usePathname();
+    const [currentSection, setCurrentSection] = useState("");
 
     return (
         <Disclosure as="nav" className="bg-gray text-primary">
@@ -49,16 +49,19 @@ export default function NavBar() {
                                         key={item.name}
                                         href={item.href}
                                         aria-current={
-                                            pathname === item.href
+                                            currentSection === item.name
                                                 ? "page"
                                                 : undefined
                                         }
                                         className={classNames(
-                                            pathname === item.href
-                                                ? "bg-gray-900 text-primary"
+                                            currentSection === item.name
+                                                ? "bg-gray text-primary"
                                                 : "text-gray-300 hover:bg-gray-700 hover:text-primary",
                                             "rounded-md px-3 py-2 text-sm font-medium"
                                         )}
+                                        onClick={() =>
+                                            setCurrentSection(item.href)
+                                        }
                                     >
                                         {item.name}
                                     </Link>
@@ -77,14 +80,17 @@ export default function NavBar() {
                             as="a"
                             href={item.href}
                             aria-current={
-                                pathname === item.href ? "page" : undefined
+                                currentSection === item.name
+                                    ? "page"
+                                    : undefined
                             }
                             className={classNames(
-                                pathname === item.href
+                                currentSection === item.name
                                     ? "bg-gray-900 text-white"
                                     : "text-gray-300 hover:bg-gray-700 hover:text-white",
                                 "block rounded-md px-3 py-2 text-base font-medium"
                             )}
+                            onClick={() => setCurrentSection(item.href)}
                         >
                             {item.name}
                         </DisclosureButton>
