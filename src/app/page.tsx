@@ -15,10 +15,10 @@ export default function Home() {
 
             <main className="flex w-full min-h-screen flex-col items-center justify-between">
                 <div className="flex w-full justify-end">
-                    <OutlineBtn width="32" height="12" className="mr-2 my-1">
+                    <OutlineBtn width="36" height="12" className="mr-2 my-1">
                         Sobre Nós
                     </OutlineBtn>
-                    <OutlineBtn width="36" height="12" className="mr-2">
+                    <OutlineBtn width="36" height="12" className="mr-2 my-1">
                         Login
                     </OutlineBtn>
                 </div>

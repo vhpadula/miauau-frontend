@@ -21,6 +21,7 @@ const config: Config = {
             accent: "#D4F1F4",
             white: "#FFFFFF",
             black: "#000000",
+            gray: "#EDF2F7",
         },
         fontFamily: {
             sans: ["Graphik", "sans-serif"],
