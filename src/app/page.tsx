@@ -44,6 +44,7 @@ export default function Home() {
                         fill={true}
                     />
                 </div>
+                <Footer />
             </main>
         </>
     );

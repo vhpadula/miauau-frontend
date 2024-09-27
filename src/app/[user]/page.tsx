@@ -1,11 +1,32 @@
+"use client";
 import Image from "next/image";
-import { NavBar } from "@/components";
+import {
+    Animals,
+    Events,
+    Finance,
+    Header,
+    Settings,
+    Volunteers,
+} from "@/components";
+import { useState } from "react";
 export default function Page() {
+    const [currentSection, setCurrentSection] = useState("Animais");
     return (
         <>
-            <NavBar />
-            <main className="flex flex-col items-center justify-center h-full">
-                <h1 className="text-6xl font-bold">Hello, World!</h1>
+            <Header
+                imageSrc="/images/anjosnaterra.png"
+                username="Anjos Na Terra"
+                className="fixed top-0 "
+                currentSection={currentSection}
+                setCurrentSection={setCurrentSection}
+            />
+
+            <main className="flex flex-col items-center justify-center h-screen">
+                `{currentSection === "Animais" && <Animals />}
+                {currentSection === "Voluntários" && <Volunteers />}
+                {currentSection === "Finanças" && <Finance />}
+                {currentSection === "Eventos" && <Events />}
+                {currentSection === "Configurações" && <Settings />}
             </main>
         </>
     );

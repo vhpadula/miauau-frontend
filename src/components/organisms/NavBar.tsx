@@ -7,7 +7,6 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 const navigation = [
     { name: "Animais", href: "#Animais", iconPath: "/icons/animal.svg" },
     {
@@ -28,9 +27,15 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function NavBar() {
-    const [currentSection, setCurrentSection] = useState("");
+interface NavBarProps {
+    currentSection: string;
+    setCurrentSection: (section: string) => void;
+}
 
+export default function NavBar({
+    currentSection,
+    setCurrentSection,
+}: NavBarProps) {
     return (
         <>
             <Disclosure
@@ -84,23 +89,23 @@ export default function NavBar() {
 
             <Disclosure as="nav" className="md:hidden">
                 {/* Mobile menu button */}
-                <div className="-ml-2 flex md:hidden">
-                    <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md  p-2   hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ">
+                <div className="-ml-2 flex md:hidden absolute">
+                    <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md  p-2   hover:text-white ">
                         <span className="absolute -inset-0.5" />
                         <span className="sr-only">Open main menu</span>
                         <Bars3Icon
                             aria-hidden="true"
-                            className="block h-6 w-6 group-data-[open]:hidden text-primary"
+                            className="block h-6 w-6 group-data-[open]:hidden text-primary mt-24 ml-2"
                         />
                         <XMarkIcon
                             aria-hidden="true"
-                            className="hidden h-6 w-6 group-data-[open]:block text-primary"
+                            className="hidden h-6 w-6 group-data-[open]:block text-primary "
                         />
                     </DisclosureButton>
                 </div>
                 {/* Mobile menu */}
-                <DisclosurePanel className="md:hidden">
-                    <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                <DisclosurePanel className="md:hidden mt-24 ml-5">
+                    <div className="space-y-1 px-2 pb-3 pt-6 sm:px-3">
                         {navigation.map((item) => (
                             <div
                                 key={item.name}
