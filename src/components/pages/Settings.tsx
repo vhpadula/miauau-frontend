@@ -5,16 +5,7 @@ type TitleTextProps = {
 };
 
 const TitleText: React.FC<TitleTextProps> = ({ textSize }) => {
-    return (
-        <div>
-            <span className={`text-white ${textSize} font-bold font-Roboto`}>
-                ONG
-            </span>
-            <span className={`text-tertiary ${textSize} font-bold font-Roboto`}>
-                Admin
-            </span>
-        </div>
-    );
+    return <p className="text-6xl font-bold text-primary">Configurações</p>;
 };
 
 export default TitleText;

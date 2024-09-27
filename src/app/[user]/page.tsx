@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import {
     Animals,
     Events,
@@ -21,12 +20,16 @@ export default function Page() {
                 setCurrentSection={setCurrentSection}
             />
 
-            <main className="flex flex-col items-center justify-center h-screen">
-                `{currentSection === "Animais" && <Animals />}
-                {currentSection === "Voluntários" && <Volunteers />}
-                {currentSection === "Finanças" && <Finance />}
+            <main className="h-screen">
+                {currentSection === "Animais" && <Animals a="1" />}
+                {currentSection === "Voluntários" && (
+                    <Volunteers textSize="2" />
+                )}
+                {currentSection === "Finanças" && <Finance textSize="2" />}
                 {currentSection === "Eventos" && <Events />}
-                {currentSection === "Configurações" && <Settings />}
+                {currentSection === "Configurações" && (
+                    <Settings textSize="2" />
+                )}
             </main>
         </>
     );

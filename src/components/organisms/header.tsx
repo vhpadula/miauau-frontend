@@ -17,17 +17,17 @@ const Header: React.FC<HeaderProps> = ({
     setCurrentSection,
 }) => {
     return (
-        <>
+        <div className="fixed w-screen h-screen">
+            <HeaderGroup
+                className="fixed z-10"
+                username={username}
+                imageSrc={imageSrc}
+            />
             <NavBar
                 currentSection={currentSection}
                 setCurrentSection={setCurrentSection}
             />
-            <HeaderGroup
-                className={className}
-                username={username}
-                imageSrc={imageSrc}
-            />
-        </>
+        </div>
     );
 };
 

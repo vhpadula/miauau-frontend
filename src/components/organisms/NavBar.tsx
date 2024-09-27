@@ -104,7 +104,7 @@ export default function NavBar({
                     </DisclosureButton>
                 </div>
                 {/* Mobile menu */}
-                <DisclosurePanel className="md:hidden mt-24 ml-5">
+                <DisclosurePanel className="md:hidden mt-20 ml-5 bg-white">
                     <div className="space-y-1 px-2 pb-3 pt-6 sm:px-3">
                         {navigation.map((item) => (
                             <div
