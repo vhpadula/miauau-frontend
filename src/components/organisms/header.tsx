@@ -23,10 +23,10 @@ const Header: React.FC<HeaderProps> = ({
                 username={username}
                 imageSrc={imageSrc}
             />
-            <NavBar
+            {username && <NavBar
                 currentSection={currentSection}
                 setCurrentSection={setCurrentSection}
-            />
+            />}
         </div>
     );
 };
