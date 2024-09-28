@@ -18,8 +18,8 @@ export default function Login() {
     const [passwordError, setPasswordError] = useState("");
     const [tryingToLogin, setTryingToLogin] = useState(false);
     const [tryingToRegister, setTryingToRegister] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+    const [registerErrorMessage, setRegisterErrorMessage] = useState("");
+    const [registerSuccessMessage, setRegisterSuccessMessage] = useState("");
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -36,10 +36,10 @@ export default function Login() {
                 const response = await login({ login: email, password: password });
 				contextLogin(response.token);
 				router.push('/'); //ajustar pro lugar correto
-                setSuccessMessage("Login realizado com sucesso!");
+                setRegisterSuccessMessage("Login realizado com sucesso!");
             } catch (error) {
 				console.log(error)
-                setErrorMessage("Erro ao fazer login. Verifique suas credenciais.");
+                setRegisterErrorMessage("Erro ao fazer login. Verifique as suas credenciais.");
             } finally {
                 setTryingToLogin(false);
             }
@@ -47,21 +47,21 @@ export default function Login() {
 	};
 
 	const handleRegister = async () => {
-        setErrorMessage("");
-        setSuccessMessage("");
+        setRegisterErrorMessage("");
+        setRegisterSuccessMessage("");
 
         if (!email || !password) {
-            setErrorMessage("Preencha todos os campos");
+            setRegisterErrorMessage("Preencha todos os campos");
             return;
         }
 
         setTryingToRegister(true);
 
         try {
-            const response = await register({ email, password });
-            setSuccessMessage("Cadastro realizado com sucesso!");
+            const response = await register({ login: email, password: password });
+            setRegisterSuccessMessage("Cadastro realizado com sucesso! Prossiga com o login.");
         } catch (error) {
-            setErrorMessage("Erro ao cadastrar. Tente novamente.");
+            setRegisterErrorMessage("Erro ao cadastrar. Tente novamente.");
         } finally {
             setTryingToRegister(false);
         }
@@ -118,8 +118,8 @@ export default function Login() {
                                     disabled={tryingToLogin || tryingToRegister}
                                 />
 							</div>
-							{errorMessage && <p className="text-red-500">{errorMessage}</p>}
-							{successMessage && <p className="text-green-500">{successMessage}</p>}
+							{registerErrorMessage && <p className="text-error text-sm text-center">{registerErrorMessage}</p>}
+							{registerSuccessMessage && <p className="text-success text-sm text-center">{registerSuccessMessage}</p>}
 						</form>
 						<Button label="Esqueceu a senha?" variant="link"/>
                     </div>

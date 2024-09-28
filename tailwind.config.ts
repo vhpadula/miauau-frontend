@@ -26,7 +26,10 @@ const config: Config = {
                 200: "#EDF2F7",
                 300: "#E5E5E5",
                 400: "#D4D4D4",
-            }
+            },
+            success: "#82DD55",
+            error: "#E23636",
+            warning: "#EDB95E"
         },
         fontFamily: {
             sans: ["Graphik", "sans-serif"],
