@@ -1,11 +1,11 @@
 import React from "react";
 import { VolunteerCard } from "../molecules";
 
-type VolunteersProps = {
+type VolunteersListProps = {
     text: string;
 };
 
-const Volunteers: React.FC<VolunteersProps> = ({ text }) => {
+const VolunteersList: React.FC<VolunteersListProps> = ({ text }) => {
     const volunteers = [
         {
             id: "1",
@@ -163,13 +163,8 @@ const Volunteers: React.FC<VolunteersProps> = ({ text }) => {
     const currentVolunteers = volunteers.slice(indexOfFirstVolunteer, indexOfLastVolunteer);
 
     const handlePageChange = (pageNumber: number) => {
-        console.log("aqui");
         setCurrentPage(pageNumber);
     };
-
-    console.log('Total Pages:', totalPages);
-    console.log('Current Page:', currentPage);
-    console.log('Current Volunteers:', currentVolunteers);
 
 
     return (
@@ -211,4 +206,4 @@ const Volunteers: React.FC<VolunteersProps> = ({ text }) => {
     )
 };
 
-export default Volunteers;
+export default VolunteersList;

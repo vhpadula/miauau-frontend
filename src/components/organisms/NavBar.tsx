@@ -8,14 +8,26 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 const navigation = [
-    { name: "Animais", href: "#Animais", iconPath: "/icons/animal.svg" },
+    { 
+        name: "Animais", 
+        href: "#Animais", 
+        iconPath: "/icons/animal.svg" 
+    },
     {
         name: "Voluntários",
         href: "#Voluntários",
         iconPath: "/icons/users.svg",
     },
-    { name: "Finanças", href: "#Finanças", iconPath: "/icons/money.svg" },
-    { name: "Eventos", href: "#Eventos", iconPath: "/icons/calendar.svg" },
+    { 
+        name: "Finanças", 
+        href: "#Finanças", 
+        iconPath: "/icons/money.svg" 
+    },
+    { 
+        name: "Eventos", 
+        href: "#Eventos", 
+        iconPath: "/icons/calendar.svg" 
+    },
     {
         name: "Configurações",
         href: "#Configurações",
