@@ -8,6 +8,7 @@ type VolunteerCardProps = {
     role: string;
     occupancy: string;
     age: string;
+    setCurrentSection: (section: string) => void;
 };
 
 const VolunteerCard: React.FC<VolunteerCardProps> = ({
@@ -16,17 +17,18 @@ const VolunteerCard: React.FC<VolunteerCardProps> = ({
     name,
     role,
     occupancy,
-    age
+    age,
+    setCurrentSection
 }) => {
     return (
         <div
             id={id}
             className="flex flex-col items-center justify-center  bg-accent rounded-md w-56 h-72 z-50"
-            onClick={() => console.log("VolunteerCard Clicked")}
+            onClick={() => setCurrentSection(`Voluntário#${id}`)}
             >
             <Link
                 key={name}
-                href={`#${id}`}
+                href={`Voluntário#${id}`}
             >
                 <Image src={imageSrc} alt="Voluntários" width={125} height={125} />
                 <p className="font-bold text-primary my-1">{name}</p>

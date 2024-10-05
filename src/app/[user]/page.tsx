@@ -5,11 +5,17 @@ import {
     Finance,
     Header,
     Settings,
-    Volunteers,
+    VolunteersList,
+    VolunteerPage
 } from "@/components";
 import { useState } from "react";
 export default function Page() {
     const [currentSection, setCurrentSection] = useState("Animais");
+
+    function getId (section: string) {
+        return section.split("#")[1];
+    }
+
     return (
         <>
             <Header
@@ -23,7 +29,10 @@ export default function Page() {
             <main className="h-screen">
                 {currentSection === "Animais" && <Animals a="1" />}
                 {currentSection === "Voluntários" && (
-                    <Volunteers textSize="2" />
+                    <VolunteersList setCurrentSection={setCurrentSection} />
+                )}
+                {currentSection.startsWith("Voluntário#") && (
+                    <VolunteerPage id={getId(currentSection)} />
                 )}
                 {currentSection === "Finanças" && <Finance textSize="2" />}
                 {currentSection === "Eventos" && <Events />}

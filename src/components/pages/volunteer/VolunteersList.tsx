@@ -1,11 +1,11 @@
 import React from "react";
-import { VolunteerCard } from "../molecules";
+import { VolunteerCard } from "../../molecules";
 
 type VolunteersListProps = {
-    text: string;
+    setCurrentSection: (section: string) => void;
 };
 
-const VolunteersList: React.FC<VolunteersListProps> = ({ text }) => {
+const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) => {
     const volunteers = [
         {
             id: "1",
@@ -168,10 +168,14 @@ const VolunteersList: React.FC<VolunteersListProps> = ({ text }) => {
 
 
     return (
-        <div
-            id={text}
-            className="flex flex-col items-center justify-center ml-16 h-screen "
-        >
+        <div className="flex flex-col items-center justify-center ml-16 h-screen">
+            <div className="w-full flex justify-end mr-6">
+                <button 
+                className="m-4 p-2 bg-primary text-white rounded z-50"
+                    onClick={()=> console.log("adicionou")}>
+                    Create New
+                </button>
+            </div>
             <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-2 max-h-screen">
                 {currentVolunteers.map((volunteer) => (
                     <VolunteerCard
@@ -182,6 +186,7 @@ const VolunteersList: React.FC<VolunteersListProps> = ({ text }) => {
                         role={volunteer.role}
                         occupancy={volunteer.occupancy}
                         age={volunteer.age}
+                        setCurrentSection={setCurrentSection}
                     />
                 ))}
             </div>
