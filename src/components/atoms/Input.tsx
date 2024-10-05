@@ -2,21 +2,30 @@ import { FC, InputHTMLAttributes } from "react";
 import Image from "next/image";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    label?: string;          // Texto do label associado ao input
+    label?: string;
+    variant?: "form" | "login"; 
     labelIconSrc?: string;
-    error?: string;          // Mensagem de erro para o input
-    className?: string;      // Classe adicional para estilização do input
-    containerClass?: string; // Classe adicional para o container
+    error?: string;
+    className?: string;
+    containerClass?: string;
+    helperText?: string;
 }
 
 const Input: FC<InputProps> = ({
     labelIconSrc,
     label,
+    variant = "form",
     error,
     className = "",
     containerClass = "",
+    helperText,
     ...props
 }) => {
+    
+	const variantStyles = {
+		form: "font-Roboto text-base text-black",
+		login: "font-Roboto text-xl text-primary",
+	};
     return (
         <div className={`flex flex-col ${containerClass}`}>
             <div className="flex mb-2 ">
@@ -30,8 +39,8 @@ const Input: FC<InputProps> = ({
                     />
                 )}
                 {label && (
-                    <label htmlFor={props.id} className="font-Roboto text-xl text-primary">
-                        {label}
+                    <label htmlFor={props.id} className={`${variantStyles[variant]}`}>
+                        {label}{props.required && <label className="text-error"> *</label>}
                     </label>
                 )}
             </div>
@@ -41,7 +50,8 @@ const Input: FC<InputProps> = ({
                 }`}
                 {...props}
             />
-            {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+            {helperText && <p className="text-sm text-gray-700">{helperText}</p>}
+            {error && <p className="mt-1 text-sm text-error">{error}</p>}
         </div>
     );
 };

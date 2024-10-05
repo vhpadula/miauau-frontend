@@ -89,6 +89,7 @@ export default function Login() {
 								error={emailError}
 								placeholder="email@email.com"
 								className="text-black"
+								variant="login"
 								required
 							/>
 							<Input
@@ -101,6 +102,7 @@ export default function Login() {
 								placeholder="Digite sua senha"
 								type="password"
 								className="text-black"
+								variant="login"
 								required
 							/>
 							<div className="grid grid-cols-2 gap-2">
