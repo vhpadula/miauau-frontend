@@ -1,160 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { VolunteerCard } from "../../molecules";
 
 type VolunteersListProps = {
     setCurrentSection: (section: string) => void;
 };
 
-const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) => {
-    const volunteers = [
-        {
-            id: "1",
-            name: "John Doe",
-            role: "Coordinator",
-            occupancy: "Full-time",
-            age: "35",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "2",
-            name: "Jane Smith",
-            role: "Assistant",
-            occupancy: "Part-time",
-            age: "28",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "3",
-            name: "Emily Johnson",
-            role: "Trainer",
-            occupancy: "Full-time",
-            age: "42",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "4",
-            name: "Michael Brown",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "22",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "5",
-            name: "Jessica White",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "25",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "6",
-            name: "David Green",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "30",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "7",
-            name: "Emma Black",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "27",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "8",
-            name: "James Blue",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "29",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "9",
-            name: "Sophia Red",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "31",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "10",
-            name: "Oliver Yellow",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "26",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "11",
-            name: "Amelia Purple",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "32",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "12",
-            name: "Benjamin Orange",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "33",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "13",
-            name: "Mia Pink",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "24",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "14",
-            name: "Ethan Brown",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "23",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "15",
-            name: "Ava Green",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "34",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "16",
-            name: "Noah Black",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "36",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "17",
-            name: "Isabella Blue",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "37",
-            imageSrc: "/images/default.png"
-        },
-        {
-            id: "18",
-            name: "Liam Red",
-            role: "Volunteer",
-            occupancy: "Part-time",
-            age: "38",
-            imageSrc: "/images/default.png"
-        }
-    ]
+type VolunteerProps = {
+    id: string;
+    name: string;
+    phone: string;
+    profession: string;
+    email: string;
+}
 
+const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) => {
+
+    const imageSrc = "/images/default.png";
+    const [volunteers, setVolunteers] = useState<VolunteerProps[]>([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [volunteersPerPage] = React.useState(8);
+
+    useEffect(() => {
+        fetch("http://localhost:8080/person/volunteers")
+            .then(response => response.json())
+            .then(data => setVolunteers(data))
+            .catch(error => console.error("Error fetching data:", error));
+    }, []);
 
     const totalPages = Math.ceil(volunteers.length / volunteersPerPage);
 
@@ -165,6 +36,10 @@ const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) =>
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
+
+    useEffect(() => {
+        console.log(volunteers);
+    }, [volunteers]);
 
 
     return (
@@ -181,11 +56,11 @@ const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) =>
                     <VolunteerCard
                         key={volunteer.id}
                         id={volunteer.id}
-                        imageSrc={volunteer.imageSrc}
+                        imageSrc={imageSrc}
                         name={volunteer.name}
-                        role={volunteer.role}
-                        occupancy={volunteer.occupancy}
-                        age={volunteer.age}
+                        phone={volunteer.phone}
+                        profession={volunteer.profession}
+                        email={volunteer.email}
                         setCurrentSection={setCurrentSection}
                     />
                 ))}

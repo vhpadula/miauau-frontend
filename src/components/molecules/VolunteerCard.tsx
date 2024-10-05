@@ -5,9 +5,9 @@ type VolunteerCardProps = {
     id: string;
     imageSrc: string;
     name: string;
-    role: string;
-    occupancy: string;
-    age: string;
+    phone: string;
+    profession: string;
+    email: string;
     setCurrentSection: (section: string) => void;
 };
 
@@ -15,11 +15,20 @@ const VolunteerCard: React.FC<VolunteerCardProps> = ({
     id,
     imageSrc,
     name,
-    role,
-    occupancy,
-    age,
+    phone,
+    profession,
+    email,
     setCurrentSection
 }) => {
+    function formatPhoneNumber(phoneNumberString: string) {
+        const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+        const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+        }
+        return null;
+    }
+
     return (
         <div
             id={id}
@@ -32,9 +41,9 @@ const VolunteerCard: React.FC<VolunteerCardProps> = ({
             >
                 <Image src={imageSrc} alt="Voluntários" width={125} height={125} />
                 <p className="font-bold text-primary my-1">{name}</p>
-                <p className="text-primary text-sm font-bold">{role}</p>
-                <p className="text-primary text-sm font-bold">{occupancy}</p>
-                <p className="text-primary text-sm font-bold">{age} Anos</p>
+                <p className="text-primary text-sm font-bold">{profession}</p>
+                <p className="text-primary text-sm font-bold">{formatPhoneNumber(phone)}</p>
+                <p className="text-primary text-sm font-bold">{email}</p>
             </Link>
         </div>
     );
