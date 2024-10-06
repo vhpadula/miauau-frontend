@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { get } from "@/services/baseServices";
 import VolunteerCard from "@/components/molecules/VolunteerCard";
@@ -36,12 +37,17 @@ export default function VolunteersList () {
     }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center ml-52 h-screen">
-            <div className="w-full flex justify-end mr-6">
-                <button 
-                className="m-4 p-2 bg-primary text-white rounded z-10"
-                    onClick={()=> console.log("adicionou")}>
-                    Create New
+        <div className="flex flex-col items-center pl-52 pt-20 h-screen">
+            <div className="w-full flex justify-end mt-4 mb-10 mr-6">
+                <button className="m-4 p-2 bg-primary text-white rounded z-10 flex items-center" onClick={()=> console.log("adicionou")}>
+                    <Image
+                        src={"/icons/file-plus.svg"}
+                        alt={"Add New"}
+                        width={20}
+                        height={20}
+                        className="mr-2"
+                    />
+                    <p className="font-roboto text-base">Novo</p>
                 </button>
             </div>
             <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-2 max-h-screen">
