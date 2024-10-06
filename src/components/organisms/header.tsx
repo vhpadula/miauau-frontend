@@ -2,19 +2,13 @@ import React from "react";
 import { HeaderGroup, NavBar } from "@/components";
 
 interface HeaderProps {
-    className?: string;
     username?: string;
     imageSrc?: string;
-    currentSection: string;
-    setCurrentSection: (section: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
-    className,
     username,
     imageSrc,
-    currentSection,
-    setCurrentSection,
 }) => {
     return (
         <div className="fixed w-screen h-screen">
@@ -23,10 +17,7 @@ const Header: React.FC<HeaderProps> = ({
                 username={username}
                 imageSrc={imageSrc}
             />
-            <NavBar
-                currentSection={currentSection}
-                setCurrentSection={setCurrentSection}
-            />
+            <NavBar/>
         </div>
     );
 };

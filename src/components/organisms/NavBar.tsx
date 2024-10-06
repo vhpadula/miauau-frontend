@@ -7,30 +7,32 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
 const navigation = [
     { 
         name: "Animais", 
-        href: "#Animais", 
+        href: "animals", 
         iconPath: "/icons/animal.svg" 
     },
     {
         name: "Voluntários",
-        href: "#Voluntários",
+        href: "volunteers",
         iconPath: "/icons/users.svg",
     },
     { 
         name: "Finanças", 
-        href: "#Finanças", 
+        href: "finance", 
         iconPath: "/icons/money.svg" 
     },
     { 
         name: "Eventos", 
-        href: "#Eventos", 
+        href: "events", 
         iconPath: "/icons/calendar.svg" 
     },
     {
         name: "Configurações",
-        href: "#Configurações",
+        href: "config",
         iconPath: "/icons/config.svg",
     },
 ];
@@ -39,15 +41,13 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-interface NavBarProps {
-    currentSection: string;
-    setCurrentSection: (section: string) => void;
-}
+export default function NavBar() {
+    const [currentUrl, setCurrentUrl] = useState("");
 
-export default function NavBar({
-    currentSection,
-    setCurrentSection,
-}: NavBarProps) {
+    useEffect(() => {
+        setCurrentUrl(window.location.pathname.split("/").pop() || "animals");
+    }, []);
+    
     return (
         <>
             <Disclosure
@@ -63,14 +63,15 @@ export default function NavBar({
                                         <div
                                             key={item.name}
                                             className={classNames(
-                                                currentSection === item.name
+                                                currentUrl.includes(item.href)
                                                     ? "text-primary bg-accent  hover:text-secondary"
                                                     : "bg-gray text-primary",
                                                 "rounded-md px-6 py-2 text-md font-medium flex items-center"
                                             )}
-                                            onClick={() =>
-                                                setCurrentSection(item.name)
-                                            }
+                                            onClick={() => {
+                                                <Link href={item.href}/>
+                                                setCurrentUrl(item.href);
+                                            }}
                                         >
                                             <Image
                                                 src={item.iconPath}
@@ -83,7 +84,7 @@ export default function NavBar({
                                                 key={item.name}
                                                 href={item.href}
                                                 aria-current={
-                                                    currentSection === item.name
+                                                    currentUrl.includes(item.href)
                                                         ? "page"
                                                         : undefined
                                                 }
@@ -122,12 +123,15 @@ export default function NavBar({
                             <div
                                 key={item.name}
                                 className={classNames(
-                                    currentSection === item.name
+                                    currentUrl.includes(item.href)
                                         ? "text-primary bg-accent  hover:text-secondary"
                                         : " text-primary",
                                     "rounded-md px-6 py-2 text-md font-medium flex items-center"
                                 )}
-                                onClick={() => setCurrentSection(item.name)}
+                                onClick={() => {
+                                    <Link href={item.href}/>
+                                    setCurrentUrl(item.href);
+                                }}
                             >
                                 <Image
                                     src={item.iconPath}
@@ -141,7 +145,7 @@ export default function NavBar({
                                     key={item.name}
                                     href={item.href}
                                     aria-current={
-                                        currentSection === item.name
+                                        currentUrl.includes(item.href)
                                             ? "page"
                                             : undefined
                                     }

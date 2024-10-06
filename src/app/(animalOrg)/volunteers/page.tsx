@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { VolunteerCard } from "../../molecules";
-
-type VolunteersListProps = {
-    setCurrentSection: (section: string) => void;
-};
+"use client";
+import { useEffect, useState } from "react";
+import { get } from "@/services/baseServices";
+import VolunteerCard from "@/components/molecules/VolunteerCard";
 
 type VolunteerProps = {
     id: string;
@@ -13,19 +11,12 @@ type VolunteerProps = {
     email: string;
 }
 
-const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) => {
+export default function VolunteersList () {
 
     const imageSrc = "/images/default.png";
+    const [currentPage, setCurrentPage] = useState(1);
+    const [volunteersPerPage] = useState(8);
     const [volunteers, setVolunteers] = useState<VolunteerProps[]>([]);
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [volunteersPerPage] = React.useState(8);
-
-    useEffect(() => {
-        fetch("http://localhost:8080/person/volunteers")
-            .then(response => response.json())
-            .then(data => setVolunteers(data))
-            .catch(error => console.error("Error fetching data:", error));
-    }, []);
 
     const totalPages = Math.ceil(volunteers.length / volunteersPerPage);
 
@@ -37,22 +28,24 @@ const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) =>
         setCurrentPage(pageNumber);
     };
 
-    useEffect(() => {
-        console.log(volunteers);
-    }, [volunteers]);
-
+    useEffect( () => {
+        get("person/volunteers")
+        .then((response) => {
+            setVolunteers(response);
+        });
+    }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center ml-16 h-screen">
+        <div className="flex flex-col items-center justify-center ml-52 h-screen">
             <div className="w-full flex justify-end mr-6">
                 <button 
-                className="m-4 p-2 bg-primary text-white rounded z-50"
+                className="m-4 p-2 bg-primary text-white rounded z-10"
                     onClick={()=> console.log("adicionou")}>
                     Create New
                 </button>
             </div>
             <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-2 max-h-screen">
-                {currentVolunteers.map((volunteer) => (
+                {currentVolunteers.map((volunteer: VolunteerProps) => (
                     <VolunteerCard
                         key={volunteer.id}
                         id={volunteer.id}
@@ -61,12 +54,11 @@ const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) =>
                         phone={volunteer.phone}
                         profession={volunteer.profession}
                         email={volunteer.email}
-                        setCurrentSection={setCurrentSection}
                     />
                 ))}
             </div>
             {totalPages > 1 && (
-                <div className="flex justify-center mt-4 z-50">
+                <div className="flex justify-center mt-4 z-10">
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
                         key={index + 1}
@@ -85,5 +77,3 @@ const VolunteersList: React.FC<VolunteersListProps> = ({ setCurrentSection }) =>
         </div>
     )
 };
-
-export default VolunteersList;

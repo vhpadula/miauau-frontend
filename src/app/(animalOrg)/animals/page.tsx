@@ -1,11 +1,10 @@
+"use client";
 import React from "react";
-import { AnimalCard } from "../molecules";
+import AnimalCard from "@/components/molecules/AnimalCard";
 
-type AnimalsProps = {
-    a: string;
-};
 
-const Animals: React.FC<AnimalsProps> = ({ a }) => {
+
+export default function Animals () {
     const animals = [
         {
             id: "1",
@@ -82,10 +81,7 @@ const Animals: React.FC<AnimalsProps> = ({ a }) => {
     ];
 
     return (
-        <div
-            id={a}
-            className="flex flex-col items-center justify-center ml-16 h-screen "
-        >
+        <div className="flex flex-col items-center justify-center ml-16 h-screen ">
             <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-2 max-h-screen">
                 {animals.map((animal) => (
                     <AnimalCard
@@ -104,4 +100,3 @@ const Animals: React.FC<AnimalsProps> = ({ a }) => {
     );
 };
 
-export default Animals;
