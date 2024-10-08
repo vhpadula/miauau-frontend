@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import { FormData } from "./types";
 import * as Yup from "yup";
+import Checkbox from "@/components/atoms/Checkbox";
+import RadioButton from "@/components/atoms/RadioButton";
 
 const validationSchema  = Yup.object().shape({
     personalInformation: Yup.object().shape({
@@ -39,17 +41,14 @@ const validationSchema  = Yup.object().shape({
 			unemployed: Yup.boolean(),
 			other: Yup.boolean(),
             otherDescription: Yup.string().when('other', (other) => {
-				if (other) {
+				if (other && other[0]) {
+					console.log("other", other)
 					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
 				} 
 				return Yup.string().nullable()
 			}),
 		  }),
-		  rent: Yup.object({
-			fixed: Yup.boolean(),
-			variable: Yup.boolean(),
-			doesNotHave: Yup.boolean(),
-		  }),
+		  rent: Yup.string().required('Preenchimento obrigatório'),
 		}),
 		residence: Yup.object({
 		  type: Yup.object({
@@ -58,7 +57,8 @@ const validationSchema  = Yup.object().shape({
 			grange: Yup.boolean(),
 			other: Yup.boolean(),
             otherDescription: Yup.string().when('other', (other) => {
-				if (other) {
+				if (other && other[0]) {
+					console.log("other", other)
 					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
 				} 
 				return Yup.string().nullable()
@@ -130,11 +130,7 @@ export default function AdoptionForm() {
 					other: false,
 					otherDescription: ""
 				},
-				rent: {
-					fixed: false,
-					variable: false,
-					doesNotHave: false
-				}
+				rent: ""
 			},
 			residence: {
 				type: {
@@ -454,8 +450,159 @@ export default function AdoptionForm() {
 						</div>
 					</div>
 				);
-		default:
-			return null;
+			case 2:
+				return (
+					<>
+						<div>
+							<p className="font-black font-Roboto text-xl text-primary mb-5">Ocupação</p>
+							<div className="grid gap-7">
+								<Input
+									label="Profissão"
+									name="socioeconomicProfile.occupation.profession"
+									value={formikProps?.values?.socioeconomicProfile?.occupation?.profession}
+									onChange={formikProps.handleChange}
+									placeholder="ex: Professor"
+									className="text-black"
+									variant="form"
+									required
+								/>
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Ocupação<label className="text-error"> *</label>
+									</label>
+									<Checkbox
+										label="Trabalha"
+										id="socioeconomicProfile.occupation.occupation.working"
+										isChecked={formikProps?.values?.socioeconomicProfile?.occupation?.occupation?.working}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Estuda"
+										id="socioeconomicProfile.occupation.occupation.studying"
+										isChecked={formikProps?.values?.socioeconomicProfile?.occupation?.occupation?.studying}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Desempregado"
+										id="socioeconomicProfile.occupation.occupation.unemployed"
+										isChecked={formikProps?.values?.socioeconomicProfile?.occupation?.occupation?.unemployed}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label={`Outro ${formikProps.values?.socioeconomicProfile?.occupation?.occupation?.other ? "(Descreva abaixo)": ""}`}
+										id="socioeconomicProfile.occupation.occupation.other"
+										isChecked={formikProps?.values?.socioeconomicProfile?.occupation?.occupation?.other}
+										onChange={formikProps.handleChange}
+									/>
+									{formikProps.values?.socioeconomicProfile?.occupation?.occupation?.other && (
+										<Input
+											name="socioeconomicProfile.occupation.occupation.otherDescription"
+											value={formikProps?.values?.socioeconomicProfile?.occupation?.occupation.otherDescription}
+											onChange={formikProps.handleChange}
+											placeholder="ex: voluntário"
+											className="text-black"
+											variant="form"
+											required
+										/>
+									)}
+								</div>
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Renda<label className="text-error"> *</label>
+									</label>
+									<RadioButton
+										label="Fixa"
+										id="socioeconomicProfile.occupation.rent"
+										isSelected={formikProps?.values?.socioeconomicProfile?.occupation?.rent === "fixed"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.occupation.rent", "fixed")}
+									/>
+									<RadioButton
+										label="Variável"
+										id="socioeconomicProfile.occupation.rent"
+										isSelected={formikProps?.values?.socioeconomicProfile?.occupation?.rent === "variable"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.occupation.rent", "variable")}
+									/>
+									<RadioButton
+										label="Não possui"
+										id="socioeconomicProfile.occupation.rent"
+										isSelected={formikProps?.values?.socioeconomicProfile?.occupation?.rent === "doesNotHave"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.occupation.rent", "doesNotHave")}
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="mt-11">
+							<p className="font-black font-Roboto text-xl text-primary mb-5">Residência</p>
+							<div className="grid gap-7">
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Tipo<label className="text-error"> *</label>
+									</label>
+									<Checkbox
+										label="Casa"
+										id="socioeconomicProfile.residence.type.house"
+										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.house}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Apartamento"
+										id="socioeconomicProfile.residence.type.apartment"
+										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.apartment}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Sítio"
+										id="socioeconomicProfile.residence.type.grange"
+										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.grange}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Outro"
+										id="socioeconomicProfile.residence.type.other"
+										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.other}
+										onChange={formikProps.handleChange}
+									/>
+									{formikProps?.values?.socioeconomicProfile?.residence?.type?.other && (
+										<Input
+											name="socioeconomicProfile.residence.type.otherDescription"
+											value={formikProps?.values?.socioeconomicProfile?.residence?.type?.otherDescription}
+											onChange={formikProps.handleChange}
+											placeholder="ex: fazenda"
+											className="text-black"
+											variant="form"
+											required
+										/>
+									)}
+								</div>
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Situação da residência<label className="text-error"> *</label>
+									</label>
+									<Checkbox
+										label="Própria"
+										id="socioeconomicProfile.residence.own"
+										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.own}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Alugada"
+										id="socioeconomicProfile.residence.rent"
+										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.rent}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Herdada"
+										id="socioeconomicProfile.residence.inherited"
+										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.inherited}
+										onChange={formikProps.handleChange}
+									/>
+								</div>
+							</div>
+						</div>
+					</>
+				);
+			default:
+				return null;
 		}
 	};
 

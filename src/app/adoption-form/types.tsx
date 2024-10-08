@@ -27,11 +27,7 @@ export interface FormData {
                 other: boolean,
                 otherDescription: string
             },
-            rent: {
-                fixed: boolean,
-                variable: boolean,
-                doesNotHave: boolean
-            }
+            rent: string
         },
         residence: {
             type: {

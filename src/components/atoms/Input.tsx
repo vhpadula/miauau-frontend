@@ -46,7 +46,7 @@ const Input: FC<InputProps> = ({
             </div>
             <input
                 className={`p-2 border rounded-md outline-none transition focus:ring-2 focus:ring-blue-400 focus:border-transparent ${className} ${
-                error ? "border-red-500" : "border-gray-300"
+                error ? "border-error" : "border-gray-300"
                 }`}
                 {...props}
             />
