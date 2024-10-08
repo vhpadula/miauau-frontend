@@ -2,15 +2,18 @@
 import {
     HeaderGroup,
 	Button,
-	Input
+	Input,
+	Checkbox,
+	RadioButton,
+	YesNoRadioButton
 } from "@/components";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import { FormData } from "./types";
 import * as Yup from "yup";
-import Checkbox from "@/components/atoms/Checkbox";
-import RadioButton from "@/components/atoms/RadioButton";
+
+const defaultError = 'Preenchimento obrigatório';
 
 const validationSchema  = Yup.object().shape({
     personalInformation: Yup.object().shape({
@@ -42,13 +45,12 @@ const validationSchema  = Yup.object().shape({
 			other: Yup.boolean(),
             otherDescription: Yup.string().when('other', (other) => {
 				if (other && other[0]) {
-					console.log("other", other)
 					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
 				} 
 				return Yup.string().nullable()
 			}),
 		  }),
-		  rent: Yup.string().required('Preenchimento obrigatório'),
+		  rent: Yup.string().required(defaultError),
 		}),
 		residence: Yup.object({
 		  type: Yup.object({
@@ -58,7 +60,6 @@ const validationSchema  = Yup.object().shape({
 			other: Yup.boolean(),
             otherDescription: Yup.string().when('other', (other) => {
 				if (other && other[0]) {
-					console.log("other", other)
 					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
 				} 
 				return Yup.string().nullable()
@@ -69,7 +70,33 @@ const validationSchema  = Yup.object().shape({
 		  inherited: Yup.boolean(),
 		}),
 	  }),
-	});
+	  	housingDetails: Yup.object().shape({
+			generalCharacteristics: Yup.object().shape({
+				pool: Yup.boolean().required(defaultError),
+				poolWithProtection: Yup.string().when('pool', (pool) => {
+					if (pool && pool[0]) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
+				}),
+				fence: Yup.boolean(),
+				wall: Yup.boolean(),
+				windowsWithScreen: Yup.boolean(),
+				balconyWithScreen: Yup.boolean(),
+				willInstallScreens: Yup.boolean().when(['windowsWithScreen', 'balconyWithScreen'], (items) => {
+					if (items.length== 2 && (!items[0] || !items[1])) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
+				}),
+				yard: Yup.string().required(defaultError),
+				safeHouse: Yup.boolean().required(defaultError),
+				flightRisk: Yup.boolean().required(defaultError),
+				condominiumRestriction: Yup.string().required(defaultError),
+			}),
+    	}),
+	})
+	;
 
 export default function AdoptionForm() {
 	const router = useRouter();
@@ -124,119 +151,118 @@ export default function AdoptionForm() {
 			occupation: {
 				profession: "",
 				occupation: {
-					working: false,
-					studying: false,
-					unemployed: false,
-					other: false,
+					working: undefined,
+					studying: undefined,
+					unemployed: undefined,
+					other: undefined,
 					otherDescription: ""
 				},
 				rent: ""
 			},
 			residence: {
 				type: {
-					house: false,
-					apartment: false,
-					grange: false,
-					other: false,
+					house: undefined,
+					apartment: undefined,
+					grange: undefined,
+					other: undefined,
 					otherDescription: ""
 				},
-				own: false,
-				rent: false,
-				inherited: false
+				own: undefined,
+				rent: undefined,
+				inherited: undefined
 			}
 		},
 		housingDetails: {
 			generalCharacteristics: {
-				pool: false,
-				poolWithProtection: false,
-				fence: false,
-				wall: false,
-				windowsWithScreen: false,
-				balconyWithScreen: false,
-				willInstallScreens: false,
-				yard: false,
-				bigYard: false,
-				safeHouse: false,
-				flightRisk: false,
+				pool: undefined,
+				poolWithProtection: undefined,
+				fence: undefined,
+				wall: undefined,
+				windowsWithScreen: undefined,
+				balconyWithScreen: undefined,
+				willInstallScreens: undefined,
+				yard: "",
+				safeHouse: undefined,
+				flightRisk: undefined,
 				condominiumRestriction: ""
 			}
 		},
 		coexistence: {
 			generalCharacteristics: {
 				animalWillStay: {
-					inside: false,
-					outside: false
+					inside: undefined,
+					outside: undefined
 				},
-				possibilityOfMoving: false,
-				livesAlone: false,
+				possibilityOfMoving: undefined,
+				livesAlone: undefined,
 				livesWithWho: "",
 				amountOfChildrenInTheHouse: 0,
-				childrensAge: false,
-				alergicResidents: false,
+				childrensAge: undefined,
+				alergicResidents: undefined,
 				whatHappensInCaseOfAlergies: "",
-				allResidentsAgree: false,
+				allResidentsAgree: undefined,
 				numberOfAnimalsCurrently: 0,
-				castrated: false
+				castrated: undefined
 			}
 		},
 		animals: {
 			previous: {
-				hadAnimalsBefore: false,
+				hadAnimalsBefore: undefined,
 				whatHappenedToLastAnimal: {
-					ranAway: false,
-					ranOver: false,
-					diedOfOldAge: false,
-					diedByAccident: false,
-					disappeared: false,
-					donatedToSomeone: false,
-					stolen: false,
-					diedFromIllness: false,
+					ranAway: undefined,
+					ranOver: undefined,
+					diedOfOldAge: undefined,
+					diedByAccident: undefined,
+					disappeared: undefined,
+					donatedToSomeone: undefined,
+					stolen: undefined,
+					diedFromIllness: undefined,
 					dateOfOccurrence: ""
 				}
 			},
 			adoptionMotivation: {
-				company: false,
-				guard_and_lookout: false,
-				gift_someone: false,
-				other: false,
+				company: undefined,
+				guard_and_lookout: undefined,
+				gift_someone: undefined,
+				other: undefined,
 				otherDescription: ""
 			},
 			animalsOfInterest: {
-				cat: false,
-				dog: false
+				cat: undefined,
+				dog: undefined
 			}
 		},
 		interest: {
 			dog: {
 				sex: {
-					female: false,
-					male: false
+					female: undefined,
+					male: undefined
 				},
 				size: {
-					small: false,
-					medium: false,
-					big: false
+					small: undefined,
+					medium: undefined,
+					big: undefined
 				},
 				ageGroup: {
-					puppy: false,
-					adult: false,
-					elderly: false
+					puppy: undefined,
+					adult: undefined,
+					elderly: undefined
 				}
 			},
 			cat: {
 				sex: {
-					female: false,
-					male: false
+					female: undefined,
+					male: undefined
 				},
 				size: {
-					small: false,
-					medium: false,
-					big: false
+					small: undefined,
+					medium: undefined,
+					big: undefined
 				},
 				ageGroup: {
-					puppy: false,
-					adult: false,
-					elderly: false
+					puppy: undefined,
+					adult: undefined,
+					elderly: undefined
 				}
 			}
 		},
@@ -244,17 +270,17 @@ export default function AdoptionForm() {
 			responsibleForCare: "",
 			responsibleForCareInCaseOfTravel: "",
 			howWillEducate: "",
-			hasPetCarrier: false,
+			hasPetCarrier: undefined,
 			dailyWalks: 0,
 			timeAlone: {
-				oneToThreeHours: false,
-				threeToSevenHours: false,
-				eightOrMoreHours: false
+				oneToThreeHours: undefined,
+				threeToSevenHours: undefined,
+				eightOrMoreHours: undefined
 			},
 			foodType: {
-				animal: false,
-				human: false,
-				other: false,
+				animal: undefined,
+				human: undefined,
+				other: undefined,
 				otherDescription: ""
 			}
 		},
@@ -268,21 +294,29 @@ export default function AdoptionForm() {
 			ifYouHaveAChild: ""
 		},
 		agreements: {
-			certaintyOfAdoption: false,
-			awareOfTheImportanceOfNeuteringTheAnimal: false,
-			agreesWithCastration: false,
-			longTermCommitment: false,
-			imageUse: false,
-			monetaryContribution: false,
-			houseVisit: false,
-			notifyBeforeDonateToSomeoneElse: false,
-			trueInformation: false,
-			videoPresentation: false
+			certaintyOfAdoption: undefined,
+			awareOfTheImportanceOfNeuteringTheAnimal: undefined,
+			agreesWithCastration: undefined,
+			longTermCommitment: undefined,
+			imageUse: undefined,
+			monetaryContribution: undefined,
+			houseVisit: undefined,
+			notifyBeforeDonateToSomeoneElse: undefined,
+			trueInformation: undefined,
+			videoPresentation: undefined
 		}
 	}
 
+	const scrollToTop = () => {
+		window.scrollTo({
+		  top: 0,
+		  behavior: 'smooth',
+		});
+	  };
+
 	const nextStep = (formikProps: FormikProps<FormData>) => {
 		console.log(formikProps);
+		scrollToTop();
 		setStep((prevStep) => prevStep + 1);
 	};
 
@@ -600,6 +634,127 @@ export default function AdoptionForm() {
 							</div>
 						</div>
 					</>
+				);
+			case 3:
+				return (
+					<div>
+						<p className="font-black font-Roboto text-xl text-primary mb-3">Características gerais</p>
+						<div className="grid gap-7">
+								<div className="flex flex-col space-y-7">
+									<YesNoRadioButton
+										value={formikProps.values.housingDetails.generalCharacteristics.pool}
+										onChange={(value) => formikProps.setFieldValue("housingDetails.generalCharacteristics.pool", value)}
+										label={"Possui piscina?"}
+										required									
+									/>
+									{formikProps.values.housingDetails.generalCharacteristics.pool && (
+										<YesNoRadioButton
+											value={formikProps.values.housingDetails.generalCharacteristics.poolWithProtection}
+											onChange={(value) => formikProps.setFieldValue("housingDetails.generalCharacteristics.poolWithProtection", value)}
+											label={"Piscina possui proteção?"}
+											required									
+										/>	
+									)}
+								</div>
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Há restrição do comdomínio/proprietário sobre ter animais?<label className="text-error"> *</label>
+									</label>
+									<RadioButton
+										label="Sim"
+										id="housingDetails.generalCharacteristics.condominiumRestriction"
+										isSelected={formikProps?.values?.housingDetails?.generalCharacteristics?.condominiumRestriction === "yes"}
+										onChange={() => formikProps.setFieldValue("housingDetails.generalCharacteristics.condominiumRestriction", "yes")}
+									/>
+									<RadioButton
+										label="Não"
+										id="housingDetails.generalCharacteristics.condominiumRestriction"
+										isSelected={formikProps?.values?.housingDetails?.generalCharacteristics?.condominiumRestriction === "no"}
+										onChange={() => formikProps.setFieldValue("housingDetails.generalCharacteristics.condominiumRestriction", "no")}
+									/>
+									<RadioButton
+										label="Não sei"
+										id="housingDetails.generalCharacteristics.condominiumRestriction"
+										isSelected={formikProps?.values?.housingDetails?.generalCharacteristics?.condominiumRestriction === "dontKnow"}
+										onChange={() => formikProps.setFieldValue("housingDetails.generalCharacteristics.condominiumRestriction", "dontKnow")}
+									/>
+								</div>
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Possui quintal?<label className="text-error"> *</label>
+									</label>
+									<RadioButton
+										label="Não"
+										id="housingDetails.generalCharacteristics.yard"
+										isSelected={formikProps?.values?.housingDetails?.generalCharacteristics?.yard === "no"}
+										onChange={() => formikProps.setFieldValue("housingDetails.generalCharacteristics.yard", "no")}
+									/>
+									<RadioButton
+										label="Sim,  pequeno"
+										id="housingDetails.generalCharacteristics.yard"
+										isSelected={formikProps?.values?.housingDetails?.generalCharacteristics?.yard === "small"}
+										onChange={() => formikProps.setFieldValue("housingDetails.generalCharacteristics.yard", "small")}
+									/>
+									<RadioButton
+										label="Sim, grande"
+										id="housingDetails.generalCharacteristics.yard"
+										isSelected={formikProps?.values?.housingDetails?.generalCharacteristics?.yard === "big"}
+										onChange={() => formikProps.setFieldValue("housingDetails.generalCharacteristics.yard", "big")}
+									/>
+								</div>
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Elementos de proteção<label className="text-error"> *</label>
+									</label>
+									<Checkbox
+										label="Cerca em frente à residência"
+										id="housingDetails.generalCharacteristics.fence"
+										isChecked={formikProps?.values?.housingDetails?.generalCharacteristics?.fence}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Muro em frente à residência"
+										id="housingDetails.generalCharacteristics.wall"
+										isChecked={formikProps?.values?.housingDetails?.generalCharacteristics?.wall}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Janelas com tela"
+										id="housingDetails.generalCharacteristics.windowsWithScreen"
+										isChecked={formikProps?.values?.housingDetails?.generalCharacteristics?.windowsWithScreen}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Sacada com tela"
+										id="housingDetails.generalCharacteristics.balconyWithScreen"
+										isChecked={formikProps?.values?.housingDetails?.generalCharacteristics?.balconyWithScreen}
+										onChange={formikProps.handleChange}
+									/>
+								</div>
+								{(!formikProps.values?.housingDetails?.generalCharacteristics?.windowsWithScreen
+									|| !formikProps.values?.housingDetails?.generalCharacteristics?.balconyWithScreen
+								) && (
+									<YesNoRadioButton
+										value={formikProps.values?.housingDetails?.generalCharacteristics?.willInstallScreens}
+										onChange={(value) => formikProps.setFieldValue("housingDetails.generalCharacteristics.willInstallScreens", value)}
+										label={"Não havendo tela nas janelas ou sacada, concorda em telar antes da adoção?"}
+										required									
+									/>	
+								)}
+								<YesNoRadioButton
+									value={formikProps.values?.housingDetails?.generalCharacteristics?.safeHouse}
+									onChange={(value) => formikProps.setFieldValue("housingDetails.generalCharacteristics.safeHouse", value)}
+									label={"Sua casa oferece segurança para o animal?"}
+									required									
+								/>	
+								<YesNoRadioButton
+									value={formikProps.values?.housingDetails?.generalCharacteristics?.flightRisk}
+									onChange={(value) => formikProps.setFieldValue("housingDetails.generalCharacteristics.flightRisk", value)}
+									label={"Há risco de fuga?"}
+									required									
+								/>	
+						</div>
+					</div>
 				);
 			default:
 				return null;

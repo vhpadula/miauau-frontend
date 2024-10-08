@@ -2,7 +2,7 @@ import { FC, InputHTMLAttributes } from "react";
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  isChecked: boolean;
+  isChecked?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id: string; 
 }

@@ -21,119 +21,118 @@ export interface FormData {
         occupation: {
             profession: string,
             occupation: {
-                working: boolean,
-                studying: boolean,
-                unemployed: boolean,
-                other: boolean,
+                working: boolean | undefined,
+                studying: boolean | undefined,
+                unemployed: boolean | undefined,
+                other: boolean | undefined,
                 otherDescription: string
             },
             rent: string
         },
         residence: {
             type: {
-                house: boolean,
-                apartment: boolean,
-                grange: boolean,
-                other: boolean,
+                house: boolean | undefined,
+                apartment: boolean | undefined,
+                grange: boolean | undefined,
+                other: boolean | undefined,
                 otherDescription: string
             },
-            own: boolean,
-            rent: boolean,
-            inherited: boolean
+            own: boolean | undefined,
+            rent: boolean | undefined,
+            inherited: boolean | undefined
         }
     },
     housingDetails: {
         generalCharacteristics: {
-            pool: boolean,
-            poolWithProtection: boolean,
-            fence: boolean,
-            wall: boolean,
-            windowsWithScreen: boolean,
-            balconyWithScreen: boolean,
-            willInstallScreens: boolean,
-            yard: boolean,
-            bigYard: boolean,
-            safeHouse: boolean,
-            flightRisk: boolean,
+            pool: boolean | undefined,
+            poolWithProtection: boolean | undefined,
+            fence: boolean | undefined,
+            wall: boolean | undefined,
+            windowsWithScreen: boolean | undefined,
+            balconyWithScreen: boolean | undefined,
+            willInstallScreens: boolean | undefined,
+            yard: string,
+            safeHouse: boolean | undefined,
+            flightRisk: boolean | undefined,
             condominiumRestriction: string
         }
     },
     coexistence: {
         generalCharacteristics: {
             animalWillStay: {
-                inside: boolean,
-                outside: boolean
+                inside: boolean | undefined,
+                outside: boolean | undefined
             },
-            possibilityOfMoving: boolean,
-            livesAlone: boolean,
+            possibilityOfMoving: boolean | undefined,
+            livesAlone: boolean | undefined,
             livesWithWho: string,
             amountOfChildrenInTheHouse: number,
-            childrensAge: boolean,
-            alergicResidents: boolean,
+            childrensAge: boolean | undefined,
+            alergicResidents: boolean | undefined,
             whatHappensInCaseOfAlergies: string,
-            allResidentsAgree: boolean,
+            allResidentsAgree: boolean | undefined,
             numberOfAnimalsCurrently: number,
-            castrated: boolean
+            castrated: boolean | undefined
         }
     },
     animals: {
         previous: {
-            hadAnimalsBefore: boolean,
+            hadAnimalsBefore: boolean | undefined,
             whatHappenedToLastAnimal: {
-                ranAway: boolean,
-                ranOver: boolean,
-                diedOfOldAge: boolean,
-                diedByAccident: boolean,
-                disappeared: boolean,
-                donatedToSomeone: boolean,
-                stolen: boolean,
-                diedFromIllness: boolean,
+                ranAway: boolean | undefined,
+                ranOver: boolean | undefined,
+                diedOfOldAge: boolean | undefined,
+                diedByAccident: boolean | undefined,
+                disappeared: boolean | undefined,
+                donatedToSomeone: boolean | undefined,
+                stolen: boolean | undefined,
+                diedFromIllness: boolean | undefined,
                 dateOfOccurrence: string
             }
         },
         adoptionMotivation: {
-            company: boolean,
-            guard_and_lookout: boolean,
-            gift_someone: boolean,
-            other: boolean,
+            company: boolean | undefined,
+            guard_and_lookout: boolean | undefined,
+            gift_someone: boolean | undefined,
+            other: boolean | undefined,
             otherDescription: string
         },
         animalsOfInterest: {
-            cat: boolean,
-            dog: boolean
+            cat: boolean | undefined,
+            dog: boolean | undefined
         }
     },
     interest: {
         dog: {
             sex: {
-                female: boolean,
-                male: boolean
+                female: boolean | undefined,
+                male: boolean | undefined
             },
             size: {
-                small: boolean,
-                medium: boolean,
-                big: boolean
+                small: boolean | undefined,
+                medium: boolean | undefined,
+                big: boolean | undefined
             },
             ageGroup: {
-                puppy: boolean,
-                adult: boolean,
-                elderly: boolean
+                puppy: boolean | undefined,
+                adult: boolean | undefined,
+                elderly: boolean | undefined
             }
         },
         cat: {
             sex: {
-                female: boolean,
-                male: boolean
+                female: boolean | undefined,
+                male: boolean | undefined
             },
             size: {
-                small: boolean,
-                medium: boolean,
-                big: boolean
+                small: boolean | undefined,
+                medium: boolean | undefined,
+                big: boolean | undefined
             },
             ageGroup: {
-                puppy: boolean,
-                adult: boolean,
-                elderly: boolean
+                puppy: boolean | undefined,
+                adult: boolean | undefined,
+                elderly: boolean | undefined
             }
         }
     },
@@ -141,17 +140,17 @@ export interface FormData {
         responsibleForCare: string,
         responsibleForCareInCaseOfTravel: string,
         howWillEducate: string,
-        hasPetCarrier: boolean,
+        hasPetCarrier: boolean | undefined,
         dailyWalks: number,
         timeAlone: {
-            oneToThreeHours: boolean,
-            threeToSevenHours: boolean,
-            eightOrMoreHours: boolean
+            oneToThreeHours: boolean | undefined,
+            threeToSevenHours: boolean | undefined,
+            eightOrMoreHours: boolean | undefined
         },
         foodType: {
-            animal: boolean,
-            human: boolean,
-            other: boolean,
+            animal: boolean | undefined,
+            human: boolean | undefined,
+            other: boolean | undefined,
             otherDescription: string
         }
     },
@@ -165,15 +164,15 @@ export interface FormData {
         ifYouHaveAChild: string
     },
     agreements: {
-        certaintyOfAdoption: boolean,
-        awareOfTheImportanceOfNeuteringTheAnimal: boolean,
-        agreesWithCastration: boolean,
-        longTermCommitment: boolean,
-        imageUse: boolean,
-        monetaryContribution: boolean,
-        houseVisit: boolean,
-        notifyBeforeDonateToSomeoneElse: boolean,
-        trueInformation: boolean,
-        videoPresentation: boolean
+        certaintyOfAdoption: boolean | undefined,
+        awareOfTheImportanceOfNeuteringTheAnimal: boolean | undefined,
+        agreesWithCastration: boolean | undefined,
+        longTermCommitment: boolean | undefined,
+        imageUse: boolean | undefined,
+        monetaryContribution: boolean | undefined,
+        houseVisit: boolean | undefined,
+        notifyBeforeDonateToSomeoneElse: boolean | undefined,
+        trueInformation: boolean | undefined,
+        videoPresentation: boolean | undefined
     }
 }
