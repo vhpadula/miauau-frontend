@@ -16,61 +16,61 @@ import * as Yup from "yup";
 const defaultError = 'Preenchimento obrigatório';
 
 const validationSchema  = Yup.object().shape({
-    personalInformation: Yup.object().shape({
-        identification: Yup.object().shape({
-            name: Yup.string().required('Nome completo é obrigatório'),
-            cpf: Yup.string().required('CPF é obrigatório'),
-            rg: Yup.string().required('RG é obrigatório'),
-            birthDate: Yup.date()
-                .required('Data de Nascimento é obrigatória'),
-            phone: Yup.string().required('Celular é obrigatório'),
-            landline: Yup.string(),
-            email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
-        }),
-		address: Yup.object({
-		  zipcode: Yup.string().required('CEP é obrigatório'),
-		  street: Yup.string().required('Rua é obrigatória'),
-		  number: Yup.string().required('Número é obrigatório'),
-		  complement: Yup.string(),
-		  neighborhood: Yup.string().required('Bairro é obrigatório'),
-		}),
-    }),
-    socioeconomicProfile: Yup.object({
-		occupation: Yup.object({
-		  profession: Yup.string().required('Profissão é obrigatória'),
-		  occupation: Yup.object({
-			working: Yup.boolean(),
-			studying: Yup.boolean(),
-			unemployed: Yup.boolean(),
-			other: Yup.boolean(),
-            otherDescription: Yup.string().when('other', (other) => {
-				if (other && other[0]) {
-					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
-				} 
-				return Yup.string().nullable()
+		personalInformation: Yup.object().shape({
+			identification: Yup.object().shape({
+				name: Yup.string().required('Nome completo é obrigatório'),
+				cpf: Yup.string().required('CPF é obrigatório'),
+				rg: Yup.string().required('RG é obrigatório'),
+				birthDate: Yup.date()
+					.required('Data de Nascimento é obrigatória'),
+				phone: Yup.string().required('Celular é obrigatório'),
+				landline: Yup.string(),
+				email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
 			}),
-		  }),
-		  rent: Yup.string().required(defaultError),
-		}),
-		residence: Yup.object({
-		  type: Yup.object({
-			house: Yup.boolean(),
-			apartment: Yup.boolean(),
-			grange: Yup.boolean(),
-			other: Yup.boolean(),
-            otherDescription: Yup.string().when('other', (other) => {
-				if (other && other[0]) {
-					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
-				} 
-				return Yup.string().nullable()
+			address: Yup.object({
+			zipcode: Yup.string().required('CEP é obrigatório'),
+			street: Yup.string().required('Rua é obrigatória'),
+			number: Yup.string().required('Número é obrigatório'),
+			complement: Yup.string(),
+			neighborhood: Yup.string().required('Bairro é obrigatório'),
 			}),
-		  }),
-		  own: Yup.boolean(),
-		  rent: Yup.boolean(),
-		  inherited: Yup.boolean(),
 		}),
-	  }),
-	  	housingDetails: Yup.object().shape({
+		socioeconomicProfile: Yup.object({
+			occupation: Yup.object({
+			profession: Yup.string().required('Profissão é obrigatória'),
+			occupation: Yup.object({
+				working: Yup.boolean(),
+				studying: Yup.boolean(),
+				unemployed: Yup.boolean(),
+				other: Yup.boolean(),
+				otherDescription: Yup.string().when('other', (other) => {
+					if (other && other[0]) {
+						return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
+					} 
+					return Yup.string().nullable()
+				}),
+			}),
+			rent: Yup.string().required(defaultError),
+			}),
+			residence: Yup.object({
+			type: Yup.object({
+				house: Yup.boolean(),
+				apartment: Yup.boolean(),
+				grange: Yup.boolean(),
+				other: Yup.boolean(),
+				otherDescription: Yup.string().when('other', (other) => {
+					if (other && other[0]) {
+						return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
+					} 
+					return Yup.string().nullable()
+				}),
+			}),
+			own: Yup.boolean(),
+			rent: Yup.boolean(),
+			inherited: Yup.boolean(),
+			}),
+		}),
+		housingDetails: Yup.object().shape({
 			generalCharacteristics: Yup.object().shape({
 				pool: Yup.boolean().required(defaultError),
 				poolWithProtection: Yup.string().when('pool', (pool) => {
@@ -94,7 +94,54 @@ const validationSchema  = Yup.object().shape({
 				flightRisk: Yup.boolean().required(defaultError),
 				condominiumRestriction: Yup.string().required(defaultError),
 			}),
-    	}),
+		}),
+		coexistence: Yup.object().shape({
+			generalCharacteristics: Yup.object().shape({
+				animalWillStay: Yup.string().required(defaultError),
+				possibilityOfMoving: Yup.string().required(defaultError),
+				livesAlone: Yup.boolean().required(defaultError),
+				livesWithWho: Yup.string().when('livesAlone', (livesAlone) => {
+					if (livesAlone && !livesAlone[0]) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
+				}),
+				amountOfChildrenInTheHouse: Yup.string().when('livesAlone', (livesAlone) => {
+					if (livesAlone && !livesAlone[0]) {
+						return Yup.number().required(defaultError)
+					} 
+					return Yup.number().nullable()
+				}),
+				childrensAge: Yup.string().when('amountOfChildrenInTheHouse', (amountOfChildrenInTheHouse) => {
+					if (amountOfChildrenInTheHouse && amountOfChildrenInTheHouse[0] != 0) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
+				}),
+				alergicResidents: Yup.boolean().required(defaultError),
+				whatHappensInCaseOfAlergies: Yup.string().when('alergicResidents', (alergicResidents) => {
+					if (alergicResidents && alergicResidents[0]) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
+				}),
+				allResidentsAgree: Yup.boolean().required(defaultError),
+				hasOtherAnimals: Yup.boolean().required(defaultError),
+				numberOfAnimalsCurrently: Yup.string().when('hasOtherAnimals', (hasOtherAnimals) => {
+					if (hasOtherAnimals && hasOtherAnimals[0]) {
+						return Yup.number().required(defaultError)
+					} 
+					return Yup.number().nullable()
+				}),
+				castrated: Yup.string().when('hasOtherAnimals', (hasOtherAnimals) => {
+					if (hasOtherAnimals && hasOtherAnimals[0]) {
+						return Yup.boolean().required(defaultError)
+					} 
+					return Yup.boolean().nullable()
+				}),
+				
+			}),
+		}),
 	})
 	;
 
@@ -189,18 +236,16 @@ export default function AdoptionForm() {
 		},
 		coexistence: {
 			generalCharacteristics: {
-				animalWillStay: {
-					inside: undefined,
-					outside: undefined
-				},
-				possibilityOfMoving: undefined,
+				animalWillStay: "",
+				possibilityOfMoving: "",
 				livesAlone: undefined,
 				livesWithWho: "",
 				amountOfChildrenInTheHouse: 0,
-				childrensAge: undefined,
+				childrensAge: "",
 				alergicResidents: undefined,
 				whatHappensInCaseOfAlergies: "",
 				allResidentsAgree: undefined,
+				hasOtherAnimals: undefined,
 				numberOfAnimalsCurrently: 0,
 				castrated: undefined
 			}
@@ -753,6 +798,149 @@ export default function AdoptionForm() {
 									label={"Há risco de fuga?"}
 									required									
 								/>	
+						</div>
+					</div>
+				);
+			case 4:
+				return (
+					<div>
+						<p className="font-black font-Roboto text-xl text-primary mb-3">Características gerais</p>
+						<div className="grid gap-7">
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+										Onde o animal ficará?<label className="text-error"> *</label>
+									</label>
+									<RadioButton
+										label="Dentro de casa"
+										id="coexistence.generalCharacteristics.animalWillStay"
+										isSelected={formikProps?.values?.coexistence?.generalCharacteristics?.animalWillStay === "inside"}
+										onChange={() => formikProps.setFieldValue("coexistence.generalCharacteristics.animalWillStay", "inside")}
+									/>
+									<RadioButton
+										label="Do lado de fora"
+										id="coexistence.generalCharacteristics.animalWillStay"
+										isSelected={formikProps?.values?.coexistence?.generalCharacteristics?.animalWillStay === "outside"}
+										onChange={() => formikProps.setFieldValue("coexistence.generalCharacteristics.animalWillStay", "outside")}
+									/>
+								</div>
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black">
+									Se morar em CASA, há a possibilidade de você mudar para apartamento?<label className="text-error"> *</label>
+									</label>
+									<RadioButton
+										label="Sim"
+										id="coexistence.generalCharacteristics.possibilityOfMoving"
+										isSelected={formikProps?.values?.coexistence?.generalCharacteristics?.possibilityOfMoving === "yes"}
+										onChange={() => formikProps.setFieldValue("coexistence.generalCharacteristics.possibilityOfMoving", "yes")}
+									/>
+									<RadioButton
+										label="Não"
+										id="coexistence.generalCharacteristics.possibilityOfMoving"
+										isSelected={formikProps?.values?.coexistence?.generalCharacteristics?.possibilityOfMoving === "no"}
+										onChange={() => formikProps.setFieldValue("coexistence.generalCharacteristics.possibilityOfMoving", "no")}
+									/>
+									<RadioButton
+										label="Talvez"
+										id="coexistence.generalCharacteristics.possibilityOfMoving"
+										isSelected={formikProps?.values?.coexistence?.generalCharacteristics?.possibilityOfMoving === "maybe"}
+										onChange={() => formikProps.setFieldValue("coexistence.generalCharacteristics.possibilityOfMoving", "maybe")}
+									/>
+								</div>
+								<YesNoRadioButton
+									value={formikProps?.values?.coexistence?.generalCharacteristics?.livesAlone}
+									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.livesAlone", value)}
+									label={"Você mora sozinho?"}
+									required									
+								/>	
+								{!formikProps?.values?.coexistence?.generalCharacteristics?.livesAlone && (
+									<div className="flex flex-col space-y-7">
+										<Input
+											label="Com quem mora?"
+											name="coexistence.generalCharacteristics.livesWithWho"
+											value={formikProps?.values?.coexistence?.generalCharacteristics?.livesWithWho}
+											onChange={formikProps.handleChange}
+											placeholder="ex: pai, mãe, filhos, sobrinhos, etc"
+											className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+											variant="form"
+											type="textarea"
+											required
+										/>
+										<Input
+											label="Quantidade de crianças na casa"
+											name="coexistence.generalCharacteristics.amountOfChildrenInTheHouse"
+											value={formikProps?.values?.coexistence?.generalCharacteristics?.amountOfChildrenInTheHouse}
+											onChange={formikProps.handleChange}
+											placeholder="ex: 3"
+											className="text-black"
+											variant="form"
+											type="number"
+											required
+										/>
+										{formikProps?.values?.coexistence?.generalCharacteristics?.amountOfChildrenInTheHouse != 0 && (
+											<Input
+												label="Idade das crianças"
+												name="coexistence.generalCharacteristics.livesWithWho"
+												value={formikProps?.values?.coexistence?.generalCharacteristics?.livesWithWho}
+												onChange={formikProps.handleChange}
+												placeholder="ex: 2, 4 e 7 anos"
+												className="text-black"
+												variant="form"
+												required
+											/>
+										)}
+									</div>
+								)}
+								<YesNoRadioButton
+									value={formikProps.values?.coexistence?.generalCharacteristics?.alergicResidents}
+									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.alergicResidents", value)}
+									label={"Alguém na sua casa é alérgico a animais?"}
+									required									
+								/>	
+								{formikProps.values?.coexistence?.generalCharacteristics?.alergicResidents && (
+									<Input
+										label="Como lidará com a alergia?"
+										name="coexistence.generalCharacteristics.whatHappensInCaseOfAlergies"
+										value={formikProps?.values?.coexistence?.generalCharacteristics?.whatHappensInCaseOfAlergies}
+										onChange={formikProps.handleChange}
+										className="text-black"
+										variant="form"
+										type="textarea"
+										required
+									/>
+								)}
+								<YesNoRadioButton
+									value={formikProps.values?.coexistence?.generalCharacteristics?.allResidentsAgree}
+									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.allResidentsAgree", value)}
+									label={"Todos na residência concordam com a adoção?"}
+									required									
+								/>	
+								<YesNoRadioButton
+									value={formikProps.values?.coexistence?.generalCharacteristics?.hasOtherAnimals}
+									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.hasOtherAnimals", value)}
+									label={"Há outros animais na casa?"}
+									required									
+								/>	
+								{formikProps.values?.coexistence?.generalCharacteristics?.hasOtherAnimals && (
+									<div className="flex flex-col space-y-7">
+										<Input
+											label="Quantidade de animais na casa"
+											name="coexistence.generalCharacteristics.numberOfAnimalsCurrently"
+											value={formikProps?.values?.coexistence?.generalCharacteristics?.numberOfAnimalsCurrently}
+											onChange={formikProps.handleChange}
+											placeholder="ex: 3"
+											className="text-black"
+											variant="form"
+											type="number"
+											required
+										/>
+										<YesNoRadioButton
+											value={formikProps.values?.coexistence?.generalCharacteristics?.castrated}
+											onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.castrated", value)}
+											label={"Todos os animais estão castrados?"}
+											required									
+										/>	
+									</div>
+								)}
 						</div>
 					</div>
 				);

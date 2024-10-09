@@ -1,4 +1,4 @@
-import { FC, InputHTMLAttributes } from "react";
+import { FC, InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import Image from "next/image";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -11,7 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     helperText?: string;
 }
 
-const Input: FC<InputProps> = ({
+const Input: FC<InputProps & TextareaHTMLAttributes<HTMLTextAreaElement>> = ({
     labelIconSrc,
     label,
     variant = "form",
@@ -44,12 +44,24 @@ const Input: FC<InputProps> = ({
                     </label>
                 )}
             </div>
-            <input
-                className={`p-2 border rounded-md outline-none transition focus:ring-2 focus:ring-blue-400 focus:border-transparent ${className} ${
-                error ? "border-error" : "border-gray-300"
-                }`}
-                {...props}
-            />
+            {props.type === "textarea" ?
+            (
+                <textarea
+                    className={`p-2 border rounded-md outline-none transition focus:ring-2 focus:ring-blue-400 focus:border-transparent ${className} ${
+                    error ? "border-error" : "border-gray-300"
+                    }`}
+                    {...props}
+                />
+            ) : (
+                <input
+                    className={`p-2 border rounded-md outline-none transition focus:ring-2 focus:ring-blue-400 focus:border-transparent ${className} ${
+                    error ? "border-error" : "border-gray-300"
+                    }`}
+                    {...props}
+                />
+            )
+            }
+            
             {helperText && <p className="text-sm text-gray-700">{helperText}</p>}
             {error && <p className="mt-1 text-sm text-error">{error}</p>}
         </div>
