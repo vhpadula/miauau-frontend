@@ -1100,8 +1100,153 @@ export default function AdoptionForm() {
 							</div>
 					</div>
 				);
-				default:
-				return null;
+			case 6:
+				return (
+					<div>
+						{formikProps?.values?.animals?.animalsOfInterest?.dog && (
+							<>
+								<p className="font-black font-Roboto text-xl text-primary mb-3">Cachorros de interesse</p>
+								<div className="grid gap-7">
+									<div className="flex flex-col">
+										<label className="font-Roboto text-base text-black">
+											Sexo do cachorro<label className="text-error"> *</label>
+										</label>
+										<Checkbox
+											label="Macho"
+											id="interest.dog.sex.male"
+											isChecked={formikProps?.values?.interest?.dog?.sex?.male}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Fêmea"
+											id="interest.dog.sex.female"
+											isChecked={formikProps?.values?.interest?.dog?.sex?.female}
+											onChange={formikProps.handleChange}
+										/>
+									</div>
+									<div className="flex flex-col">
+										<label className="font-Roboto text-base text-black">
+											Porte do cachorro<label className="text-error"> *</label>
+										</label>
+										<Checkbox
+											label="Pequeno"
+											id="interest.dog.size.small"
+											isChecked={formikProps?.values?.interest?.dog?.size?.small}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Médio"
+											id="interest.dog.size.small"
+											isChecked={formikProps?.values?.interest?.dog?.size?.medium}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Grande"
+											id="interest.dog.size.small"
+											isChecked={formikProps?.values?.interest?.dog?.size?.big}
+											onChange={formikProps.handleChange}
+										/>
+									</div>
+									<div className="flex flex-col">
+										<label className="font-Roboto text-base text-black">
+											Faixa etária do cachorro<label className="text-error"> *</label>
+										</label>
+										<Checkbox
+											label="Filhote"
+											id="interest.dog.ageGroup.puppy"
+											isChecked={formikProps?.values?.interest?.dog?.ageGroup?.puppy}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Adulto"
+											id="interest.dog.ageGroup.adult"
+											isChecked={formikProps?.values?.interest?.dog?.ageGroup?.adult}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Idoso"
+											id="interest.dog.ageGroup.elderly"
+											isChecked={formikProps?.values?.interest?.dog?.ageGroup?.elderly}
+											onChange={formikProps.handleChange}
+										/>
+									</div>
+								</div>
+							</>
+						)}
+						{formikProps?.values?.animals?.animalsOfInterest?.cat && (
+							<>
+								<p className="font-black font-Roboto text-xl text-primary mb-3 mt-11">Gatos de interesse</p>
+								<div className="grid gap-7">
+									<div className="flex flex-col">
+										<label className="font-Roboto text-base text-black">
+											Sexo do gato<label className="text-error"> *</label>
+										</label>
+										<Checkbox
+											label="Macho"
+											id="interest.cat.sex.male"
+											isChecked={formikProps?.values?.interest?.cat?.sex?.male}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Fêmea"
+											id="interest.cat.sex.female"
+											isChecked={formikProps?.values?.interest?.cat?.sex?.female}
+											onChange={formikProps.handleChange}
+										/>
+									</div>
+									<div className="flex flex-col">
+										<label className="font-Roboto text-base text-black">
+											Porte do gato<label className="text-error"> *</label>
+										</label>
+										<Checkbox
+											label="Pequeno"
+											id="interest.cat.size.small"
+											isChecked={formikProps?.values?.interest?.cat?.size?.small}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Médio"
+											id="interest.cat.size.small"
+											isChecked={formikProps?.values?.interest?.cat?.size?.medium}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Grande"
+											id="interest.cat.size.small"
+											isChecked={formikProps?.values?.interest?.cat?.size?.big}
+											onChange={formikProps.handleChange}
+										/>
+									</div>
+									<div className="flex flex-col">
+										<label className="font-Roboto text-base text-black">
+											Faixa etária do gato<label className="text-error"> *</label>
+										</label>
+										<Checkbox
+											label="Filhote"
+											id="interest.cat.ageGroup.puppy"
+											isChecked={formikProps?.values?.interest?.cat?.ageGroup?.puppy}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Adulto"
+											id="interest.cat.ageGroup.adult"
+											isChecked={formikProps?.values?.interest?.cat?.ageGroup?.adult}
+											onChange={formikProps.handleChange}
+										/>
+										<Checkbox
+											label="Idoso"
+											id="interest.cat.ageGroup.elderly"
+											isChecked={formikProps?.values?.interest?.cat?.ageGroup?.elderly}
+											onChange={formikProps.handleChange}
+										/>
+									</div>
+								</div>
+							</>
+						)}
+					</div>
+				);
+			default:
+			return null;
 		}
 	};
 
