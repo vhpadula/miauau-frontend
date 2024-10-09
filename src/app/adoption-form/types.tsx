@@ -59,18 +59,16 @@ export interface FormData {
     },
     coexistence: {
         generalCharacteristics: {
-            animalWillStay: {
-                inside: boolean | undefined,
-                outside: boolean | undefined
-            },
-            possibilityOfMoving: boolean | undefined,
+            animalWillStay: string,
+            possibilityOfMoving: string,
             livesAlone: boolean | undefined,
             livesWithWho: string,
             amountOfChildrenInTheHouse: number,
-            childrensAge: boolean | undefined,
+            childrensAge: string,
             alergicResidents: boolean | undefined,
             whatHappensInCaseOfAlergies: string,
             allResidentsAgree: boolean | undefined,
+            hasOtherAnimals: boolean | undefined,
             numberOfAnimalsCurrently: number,
             castrated: boolean | undefined
         }
