@@ -4,10 +4,11 @@ interface YesNoRadioButtonProps {
   label: string;
   value?: boolean;
   onChange: (value: boolean) => void;
-  required: boolean
+  required: boolean;
+  helperText?: string;
 }
 
-const YesNoRadioButton: FC<YesNoRadioButtonProps> = ({ label, value, onChange, required, ...props }) => {
+const YesNoRadioButton: FC<YesNoRadioButtonProps> = ({ label, value, onChange, required,helperText, ...props }) => {
   return (
     <div className="flex flex-col space-y-2">
         {label && (<label className="font-Roboto text-base text-black">
@@ -42,6 +43,7 @@ const YesNoRadioButton: FC<YesNoRadioButtonProps> = ({ label, value, onChange, r
             />
             <label className="pl-2.5 text-black cursor-pointer">Não</label>
         </div>
+        {helperText && <p className="text-sm text-gray-700">{helperText}</p>}
     </div>
   );
 };

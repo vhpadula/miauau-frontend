@@ -76,25 +76,11 @@ export interface FormData {
     animals: {
         previous: {
             hadAnimalsBefore: boolean | undefined,
-            whatHappenedToLastAnimal: {
-                ranAway: boolean | undefined,
-                ranOver: boolean | undefined,
-                diedOfOldAge: boolean | undefined,
-                diedByAccident: boolean | undefined,
-                disappeared: boolean | undefined,
-                donatedToSomeone: boolean | undefined,
-                stolen: boolean | undefined,
-                diedFromIllness: boolean | undefined,
-                dateOfOccurrence: string
-            }
+            whatHappenedToLastAnimal: string,
+            dateOfOccurrence: string
         },
-        adoptionMotivation: {
-            company: boolean | undefined,
-            guard_and_lookout: boolean | undefined,
-            gift_someone: boolean | undefined,
-            other: boolean | undefined,
-            otherDescription: string
-        },
+        adoptionMotivation: string,
+        adoptionMotivationDescription: string,
         animalsOfInterest: {
             cat: boolean | undefined,
             dog: boolean | undefined

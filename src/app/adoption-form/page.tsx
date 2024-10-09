@@ -139,11 +139,37 @@ const validationSchema  = Yup.object().shape({
 					} 
 					return Yup.boolean().nullable()
 				}),
-				
 			}),
 		}),
-	})
-	;
+		animals: Yup.object().shape({
+			previous: Yup.object().shape({
+				hadAnimalsBefore: Yup.boolean().required(defaultError),
+				whatHappenedToLastAnimal: Yup.string().when('hadAnimalsBefore', (hadAnimalsBefore) => {
+					if (hadAnimalsBefore && hadAnimalsBefore[0]) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
+				}),
+				dateOfOccurrence: Yup.string().when('hadAnimalsBefore', (hadAnimalsBefore) => {
+					if (hadAnimalsBefore && hadAnimalsBefore[0]) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
+				}),
+			}),
+			adoptionMotivation: Yup.string().required(defaultError),
+			adoptionMotivationDescription: Yup.string().when('adoptionMotivation', (adoptionMotivation) => {
+				if (adoptionMotivation && adoptionMotivation[0]) {
+					return Yup.string().required(defaultError)
+				} 
+				return Yup.string().nullable()
+			}),
+			animalsOfInterest: Yup.object().shape({
+				cat: Yup.boolean(),
+				dog: Yup.boolean()
+			}),
+		}),
+	});
 
 export default function AdoptionForm() {
 	const router = useRouter();
@@ -253,25 +279,11 @@ export default function AdoptionForm() {
 		animals: {
 			previous: {
 				hadAnimalsBefore: undefined,
-				whatHappenedToLastAnimal: {
-					ranAway: undefined,
-					ranOver: undefined,
-					diedOfOldAge: undefined,
-					diedByAccident: undefined,
-					disappeared: undefined,
-					donatedToSomeone: undefined,
-					stolen: undefined,
-					diedFromIllness: undefined,
-					dateOfOccurrence: ""
-				}
+				whatHappenedToLastAnimal: "",
+				dateOfOccurrence: ""
 			},
-			adoptionMotivation: {
-				company: undefined,
-				guard_and_lookout: undefined,
-				gift_someone: undefined,
-				other: undefined,
-				otherDescription: ""
-			},
+			adoptionMotivation: "",
+			adoptionMotivationDescription: "",
 			animalsOfInterest: {
 				cat: undefined,
 				dog: undefined
@@ -944,7 +956,151 @@ export default function AdoptionForm() {
 						</div>
 					</div>
 				);
-			default:
+			case 5:
+				return (
+					<div>
+						<p className="font-black font-Roboto text-xl text-primary mb-3">Animais anteriores</p>
+						<div className="grid gap-7">
+							<YesNoRadioButton
+								value={formikProps?.values?.animals?.previous?.hadAnimalsBefore}
+								onChange={(value) => formikProps.setFieldValue("animals.previous.hadAnimalsBefore", value)}
+								label={"Já teve algum outro animal antes?"}
+								helperText="Responda 'sim' se você já teve algum animal que não tem mais por qualquer motivo."
+								required									
+							/>	
+							{formikProps?.values?.animals?.previous?.hadAnimalsBefore && (
+								<div className="flex flex-col">
+								<label className="font-Roboto text-base text-black">
+									O que aconteceu com o último animal que você teve?<label className="text-error"> *</label>
+								</label>
+								<RadioButton
+									label="Morreu por velhice"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "diedOfOldAge"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "diedOfOldAge")}
+								/>
+								<RadioButton
+									label="Atropelado"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "ranOver"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "ranOver")}
+								/>
+								<RadioButton
+									label="Fugiu"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "ranAway"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "ranAway")}
+								/>
+								<RadioButton
+									label="Morreu por acidente"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "diedByAccident"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "diedByAccident")}
+								/>
+								<RadioButton
+									label="Sumiu"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "disappeared"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "disappeared")}
+								/>
+								<RadioButton
+									label="Doado para outra pessoa"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "donatedToSomeone"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "donatedToSomeone")}
+								/>
+								<RadioButton
+									label="Roubado"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "stolen"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "stolen")}
+								/>
+								<RadioButton
+									label="Morreu por doença"
+									id="animals.previous.whatHappenedToLastAnimal"
+									isSelected={formikProps?.values?.animals?.previous?.whatHappenedToLastAnimal === "diedFromIllness"}
+									onChange={() => formikProps.setFieldValue("animals.previous.whatHappenedToLastAnimal", "diedFromIllness")}
+								/>
+								<div className="mt-7">
+									<Input
+										label="Data da ocorrência"
+										name="animals.previous.dateOfOccurrence"
+										value={formikProps?.values?.animals?.previous?.dateOfOccurrence}
+										onChange={formikProps.handleChange}
+										className="text-black"
+										variant="form"
+										type="date"
+										helperText="Informe uma data aproximada."
+										required
+									/>
+								</div>
+							</div>)}
+						</div>
+						<p className="font-black font-Roboto text-xl text-primary mb-3 mt-11">Motivação da adoção</p>
+						<div className="grid gap-7">
+							<div className="flex flex-col">
+								<label className="font-Roboto text-base text-black">
+									Por que quer adotar um animal?<label className="text-error"> *</label>
+								</label>
+								<RadioButton
+									label="Compania"
+									id="animals.adoptionMotivation"
+									isSelected={formikProps?.values?.animals?.adoptionMotivation === "company"}
+									onChange={() => formikProps.setFieldValue("animals.adoptionMotivation", "company")}
+								/>
+								<RadioButton
+									label="Guarda/vigia"
+									id="animals.adoptionMotivation"
+									isSelected={formikProps?.values?.animals?.adoptionMotivation === "guard_and_lookout"}
+									onChange={() => formikProps.setFieldValue("animals.adoptionMotivation", "guard_and_lookout")}
+								/>
+								<RadioButton
+									label="Presentear alguém"
+									id="animals.adoptionMotivation"
+									isSelected={formikProps?.values?.animals?.adoptionMotivation === "gift_someone"}
+									onChange={() => formikProps.setFieldValue("animals.adoptionMotivation", "gift_someone")}
+								/>
+								<RadioButton
+									label="Outro"
+									id="animals.adoptionMotivation"
+									isSelected={formikProps?.values?.animals?.adoptionMotivation === "other"}
+									onChange={() => formikProps.setFieldValue("animals.adoptionMotivation", "other")}
+								/>
+								{formikProps?.values?.animals?.adoptionMotivation === "other" && (
+									<Input
+										name="animals.adoptionMotivationDescription"
+										value={formikProps?.values?.animals?.adoptionMotivationDescription}
+										onChange={formikProps.handleChange}
+										placeholder="descreva aqui a sua motivação"
+										className="text-black"
+										variant="form"
+										required
+									/>
+								)}
+							</div>
+						</div>
+						<p className="font-black font-Roboto text-xl text-primary mt-11">Animais de interesse</p>
+						<p className="text-sm text-gray-700 mb-3">Selecione todas as opções do seu interesse</p>
+							<div className="flex flex-col">
+								<label className="font-Roboto text-base text-black">
+									Animais que deseja adotar<label className="text-error"> *</label>
+								</label>
+								<Checkbox
+									label="Gato"
+									id="animals.animalsOfInterest.cat"
+									isChecked={formikProps?.values?.animals?.animalsOfInterest?.cat}
+									onChange={formikProps.handleChange}
+								/>
+								<Checkbox
+									label="Cachorro"
+									id="animals.animalsOfInterest.dog"
+									isChecked={formikProps?.values?.animals?.animalsOfInterest?.dog}
+									onChange={formikProps.handleChange}
+								/>
+							</div>
+					</div>
+				);
+				default:
 				return null;
 		}
 	};
