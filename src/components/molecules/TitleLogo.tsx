@@ -14,7 +14,7 @@ const TitleLogo: React.FC<TitleLogoProps> = ({ size, className }) => {
                 <div className={`flex items-center ${className}`}>
                     <div className={`relative w-24 p-12 `}>
                         <Image
-                            src="/earth-icon.svg"
+                            src="/icons/earth-icon.svg"
                             alt="Earth Icon"
                             fill={true}
                         />
@@ -27,7 +27,7 @@ const TitleLogo: React.FC<TitleLogoProps> = ({ size, className }) => {
                 <div className={`flex items-center ${className}`}>
                     <div className={`relative w-8 p-6`}>
                         <Image
-                            src="/earth-icon.svg"
+                            src="/icons/earth-icon.svg"
                             alt="Earth Icon"
                             fill={true}
                         />

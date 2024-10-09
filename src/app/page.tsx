@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { TitleLogo, Footer, OutlineBtn } from "@/components";
+import Link from "next/link";
 export default function Home() {
     return (
         <>
             <div className="absolute top-0 left-0 right-0 h-[30vw] min-h-[70%] z-[-1]">
                 <Image
-                    src="/background.svg"
+                    src="/images/background.svg"
                     alt="Background"
                     layout="fill"
                     objectFit="cover"
@@ -18,9 +19,15 @@ export default function Home() {
                     <OutlineBtn width="36" height="12" className="mr-2 my-1">
                         Sobre Nós
                     </OutlineBtn>
-                    <OutlineBtn width="36" height="12" className="mr-2 my-1">
-                        Login
-                    </OutlineBtn>
+                    <Link href="/animals">
+                        <OutlineBtn
+                            width="36"
+                            height="12"
+                            className="mr-2 my-1"
+                        >
+                            Login
+                        </OutlineBtn>
+                    </Link>
                 </div>
                 <TitleLogo size="l" />
 
@@ -32,12 +39,11 @@ export default function Home() {
 
                 <div className="relative min-h-60 px-[40%] py-[15%]">
                     <Image
-                        src="./window.svg"
+                        src="/images/window.svg"
                         alt="Window Example"
                         fill={true}
                     />
                 </div>
-
                 <Footer />
             </main>
         </>

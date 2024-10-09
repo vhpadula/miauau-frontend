@@ -5,14 +5,36 @@ import {
     DisclosurePanel,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
 const navigation = [
-    { name: "Animais", href: "#Animais" },
-    { name: "Voluntários", href: "#Voluntários" },
-    { name: "Finanças", href: "#Finanças" },
-    { name: "Eventos", href: "#Eventos" },
-    { name: "Configurações", href: "#Configurações" },
+    { 
+        name: "Animais", 
+        href: "animals", 
+        iconPath: "/icons/animal.svg" 
+    },
+    {
+        name: "Voluntários",
+        href: "volunteers",
+        iconPath: "/icons/users.svg",
+    },
+    { 
+        name: "Finanças", 
+        href: "finance", 
+        iconPath: "/icons/money.svg" 
+    },
+    { 
+        name: "Eventos", 
+        href: "events", 
+        iconPath: "/icons/calendar.svg" 
+    },
+    {
+        name: "Configurações",
+        href: "config",
+        iconPath: "/icons/config.svg",
+    },
 ];
 
 function classNames(...classes: string[]) {
@@ -20,77 +42,121 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavBar() {
-    const pathname = usePathname();
+    const [currentUrl, setCurrentUrl] = useState("");
 
+    useEffect(() => {
+        setCurrentUrl(window.location.pathname.split("/").pop() || "animals");
+    }, []);
+    
     return (
-        <Disclosure as="nav" className="bg-gray text-primary">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
-                    {/* Mobile menu button */}
-                    <div className="-ml-2 flex md:hidden">
-                        <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <span className="absolute -inset-0.5" />
-                            <span className="sr-only">Open main menu</span>
-                            <Bars3Icon
-                                aria-hidden="true"
-                                className="block h-6 w-6 group-data-[open]:hidden"
-                            />
-                            <XMarkIcon
-                                aria-hidden="true"
-                                className="hidden h-6 w-6 group-data-[open]:block"
-                            />
-                        </DisclosureButton>
-                    </div>
-                    <div className="flex items-center">
-                        <div className="hidden md:block">
-                            <div className="ml-10 flex items-baseline space-x-4">
-                                {navigation.map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        aria-current={
-                                            pathname === item.href
-                                                ? "page"
-                                                : undefined
-                                        }
-                                        className={classNames(
-                                            pathname === item.href
-                                                ? "bg-gray-900 text-primary"
-                                                : "text-gray-300 hover:bg-gray-700 hover:text-primary",
-                                            "rounded-md px-3 py-2 text-sm font-medium"
-                                        )}
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
+        <>
+            <Disclosure
+                as="nav"
+                className="bg-gray text-primary absolute inset-y-0 left-0 w-52 hidden md:flex"
+            >
+                <div className="mx-auto max-w-7xl  ">
+                    <div className="flex h-16 items-center justify-between">
+                        <div className="flex items-center">
+                            <div className="hidden md:block">
+                                <div className="pt-128 flex flex-col items-baseline space-y-4">
+                                    {navigation.map((item) => (
+                                        <div
+                                            key={item.name}
+                                            className={classNames(
+                                                currentUrl.includes(item.href)
+                                                    ? "text-primary bg-accent  hover:text-secondary"
+                                                    : "bg-gray text-primary",
+                                                "rounded-md px-6 py-2 text-md font-medium flex items-center"
+                                            )}
+                                            onClick={() => {
+                                                <Link href={item.href}/>
+                                                setCurrentUrl(item.href);
+                                            }}
+                                        >
+                                            <Image
+                                                src={item.iconPath}
+                                                alt={item.name}
+                                                width={20}
+                                                height={20}
+                                                className="mr-2"
+                                            />
+                                            <Link
+                                                key={item.name}
+                                                href={item.href}
+                                                aria-current={
+                                                    currentUrl.includes(item.href)
+                                                        ? "page"
+                                                        : undefined
+                                                }
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            {/* Mobile menu */}
-            <DisclosurePanel className="md:hidden">
-                <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                    {navigation.map((item) => (
-                        <DisclosureButton
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            aria-current={
-                                pathname === item.href ? "page" : undefined
-                            }
-                            className={classNames(
-                                pathname === item.href
-                                    ? "bg-gray-900 text-white"
-                                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                "block rounded-md px-3 py-2 text-base font-medium"
-                            )}
-                        >
-                            {item.name}
-                        </DisclosureButton>
-                    ))}
+            </Disclosure>
+
+            <Disclosure as="nav" className="md:hidden">
+                {/* Mobile menu button */}
+                <div className="-ml-2 flex md:hidden absolute">
+                    <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md  p-2   hover:text-white ">
+                        <span className="absolute -inset-0.5" />
+                        <span className="sr-only">Open main menu</span>
+                        <Bars3Icon
+                            aria-hidden="true"
+                            className="block h-6 w-6 group-data-[open]:hidden text-primary mt-24 ml-2"
+                        />
+                        <XMarkIcon
+                            aria-hidden="true"
+                            className="hidden h-6 w-6 group-data-[open]:block text-primary "
+                        />
+                    </DisclosureButton>
                 </div>
-            </DisclosurePanel>
-        </Disclosure>
+                {/* Mobile menu */}
+                <DisclosurePanel className="md:hidden mt-20 ml-5 bg-white">
+                    <div className="space-y-1 px-2 pb-3 pt-6 sm:px-3">
+                        {navigation.map((item) => (
+                            <div
+                                key={item.name}
+                                className={classNames(
+                                    currentUrl.includes(item.href)
+                                        ? "text-primary bg-accent  hover:text-secondary"
+                                        : " text-primary",
+                                    "rounded-md px-6 py-2 text-md font-medium flex items-center"
+                                )}
+                                onClick={() => {
+                                    <Link href={item.href}/>
+                                    setCurrentUrl(item.href);
+                                }}
+                            >
+                                <Image
+                                    src={item.iconPath}
+                                    alt={item.name}
+                                    width={20}
+                                    height={20}
+                                    className="mr-2"
+                                />
+                                <DisclosureButton
+                                    as="a"
+                                    key={item.name}
+                                    href={item.href}
+                                    aria-current={
+                                        currentUrl.includes(item.href)
+                                            ? "page"
+                                            : undefined
+                                    }
+                                >
+                                    {item.name}
+                                </DisclosureButton>
+                            </div>
+                        ))}
+                    </div>
+                </DisclosurePanel>
+            </Disclosure>
+        </>
     );
 }
