@@ -23,24 +23,26 @@ const HeaderGroup: React.FC<HeaderGroupProps> = ({
                 <p className="text-white font-medium  text-2xl md:text-3xl justify-center md:fixed ml-auto mr-auto">
                     {username}
                 </p>
-                {imageSrc && (
-                    <Image
-                        src={imageSrc}
-                        alt="user"
-                        className="rounded-full ml-auto mx-2"
-                        width={64}
-                        height={64}
-                    />
-                )}
-                {!imageSrc && (
-                    <Image
-                        src={"/images/user_placeholder.png"}
-                        alt="user"
-                        className="rounded-full ml-auto mx-2"
-                        width={64}
-                        height={64}
-                    />
-                )}
+                {username && <>
+                    {imageSrc && (
+                        <Image
+                            src={imageSrc}
+                            alt="user"
+                            className="rounded-full ml-auto mx-2"
+                            width={64}
+                            height={64}
+                        />
+                    )}
+                    {!imageSrc && (
+                        <Image
+                            src={"/images/user_placeholder.png"}
+                            alt="user"
+                            className="rounded-full ml-auto mx-2"
+                            width={64}
+                            height={64}
+                        />
+                    )}
+                </>}
             </div>
         </>
     );

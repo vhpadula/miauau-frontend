@@ -6,10 +6,7 @@ interface HeaderProps {
     imageSrc?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({
-    username,
-    imageSrc,
-}) => {
+const Header: React.FC<HeaderProps> = ({ username, imageSrc }) => {
     return (
         <div className="fixed w-screen h-screen">
             <HeaderGroup
@@ -17,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({
                 username={username}
                 imageSrc={imageSrc}
             />
-            <NavBar/>
+            {username && <NavBar />}
         </div>
     );
 };

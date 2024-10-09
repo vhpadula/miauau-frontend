@@ -19,7 +19,7 @@ export default function Home() {
                     <OutlineBtn width="36" height="12" className="mr-2 my-1">
                         Sobre Nós
                     </OutlineBtn>
-                    <Link href="/animals">
+                    <Link href="/login">
                         <OutlineBtn
                             width="36"
                             height="12"
