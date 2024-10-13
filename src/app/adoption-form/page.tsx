@@ -1563,13 +1563,20 @@ export default function AdoptionForm() {
 									className="mr-4"
 								/>
 							)}
-							<Button
+							{step < 9 && (<Button
 								label="Próxima"
 								variant="outline"
 								type="button"
 								disabled={Object.keys(formikProps.errors[schemaTitle[step]] || {}).length > 0}
 								onClick={() => formikProps.validateForm().then(() => nextStep(formikProps))}
-							/>
+							/>)}
+							{step == 9 && (<Button
+								label="Enviar"
+								variant="outline"
+								type="button"
+								disabled={Object.keys(formikProps.errors[schemaTitle[step]] || {}).length > 0}
+								onClick={() => formikProps.validateForm().then(() => nextStep(formikProps))}
+							/>)}
 						</div>
 					</Form>
 				)}
