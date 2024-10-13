@@ -159,7 +159,7 @@ const validationSchema  = Yup.object().shape({
 			}),
 			adoptionMotivation: Yup.string().required(defaultError),
 			adoptionMotivationDescription: Yup.string().when('adoptionMotivation', (adoptionMotivation) => {
-				if (adoptionMotivation && adoptionMotivation[0]) {
+				if (adoptionMotivation && adoptionMotivation[0]=='other') {
 					return Yup.string().required(defaultError)
 				} 
 				return Yup.string().nullable()
@@ -168,6 +168,44 @@ const validationSchema  = Yup.object().shape({
 				cat: Yup.boolean(),
 				dog: Yup.boolean()
 			}),
+			dailyCare: Yup.object().shape({
+				responsibleForCare: Yup.string().required(),
+				responsibleForCareInCaseOfTravel: Yup.string().required(),
+				howWillEducate: Yup.string().required(),
+				timeAlone: Yup.string().required(),
+				foodType: Yup.object().shape({
+					animal: Yup.boolean(),
+					human: Yup.boolean(),
+					other: Yup.boolean(),
+					otherDescription: Yup.string().when('other', (other) => {
+						if (other && other[0]) {
+							return Yup.string().required(defaultError)
+						} 
+						return Yup.string().nullable()
+					})
+				})
+			}),
+			attitudesTowardsTheAnimal: Yup.object().shape({
+				getsLost: Yup.string().required(),
+				getsSickOrAccident: Yup.string().required(),
+				hurtsYourChild: Yup.string().required(),
+				damagesValuableObject: Yup.string().required(),
+				peesOrPoopsInInappropriatePlace: Yup.string().required(),
+				doesThingsYouDontWant: Yup.string().required(),
+				ifYouHaveAChild: Yup.string().required()
+			}),
+			agreements: Yup.object().shape({
+				certaintyOfAdoption: Yup.boolean().required(),
+				awareOfTheImportanceOfNeuteringTheAnimal: Yup.boolean().required(),
+				agreesWithCastration: Yup.boolean().required(),
+				longTermCommitment: Yup.boolean().required(),
+				imageUse: Yup.boolean().required(),
+				monetaryContribution: Yup.boolean().required(),
+				notifyBeforeDonateToSomeoneElse: Yup.boolean().required(),
+				houseVisit: Yup.boolean().required(),
+				trueInformation: Yup.boolean().required(),
+				videoPresentation: Yup.boolean().required()
+			})
 		}),
 	});
 
@@ -329,11 +367,7 @@ export default function AdoptionForm() {
 			howWillEducate: "",
 			hasPetCarrier: undefined,
 			dailyWalks: 0,
-			timeAlone: {
-				oneToThreeHours: undefined,
-				threeToSevenHours: undefined,
-				eightOrMoreHours: undefined
-			},
+			timeAlone: "",
 			foodType: {
 				animal: undefined,
 				human: undefined,
@@ -373,8 +407,8 @@ export default function AdoptionForm() {
 
 	const nextStep = (formikProps: FormikProps<FormData>) => {
 		console.log(formikProps);
-		scrollToTop();
 		setStep((prevStep) => prevStep + 1);
+		scrollToTop();
 	};
 
 	const prevStep = () => {
@@ -1245,6 +1279,255 @@ export default function AdoptionForm() {
 						)}
 					</div>
 				);
+			case 7:
+				return (
+					<>
+						<p className="font-black font-Roboto text-xl text-primary mb-3">Responsável</p>
+						<div className="grid gap-7">
+							<Input
+								label="Principal responsável pelos cuidados com o animal"
+								name="dailyCare.responsibleForCare"
+								value={formikProps?.values?.dailyCare?.responsibleForCare}
+								onChange={formikProps.handleChange}
+								placeholder="Ana da Silva"
+								className="text-black"
+								variant="form"
+								required
+							/>
+							<Input
+								label="Principal responsável pelos cuidados com o animal em caso de viagens"
+								name="dailyCare.responsibleForCareInCaseOfTravel"
+								value={formikProps?.values?.dailyCare?.responsibleForCareInCaseOfTravel}
+								onChange={formikProps.handleChange}
+								placeholder="Bruna da Silva"
+								className="text-black"
+								variant="form"
+								required
+							/>
+						</div>
+						<p className="font-black font-Roboto text-xl text-primary mb-3 mt-11">Educação</p>
+						<div className="grid gap-7">
+							<Input
+								label="Como irá educar o animal?"
+								name="dailyCare.howWillEducate"
+								value={formikProps?.values?.dailyCare?.howWillEducate}
+								onChange={formikProps.handleChange}
+								placeholder="Ana da Silva"
+								className="text-black"
+								variant="form"
+								type="textarea"
+								required
+							/>
+						</div>
+						<p className="font-black font-Roboto text-xl text-primary mb-3 mt-11">Rotina</p>
+						<div className="grid gap-2">
+							<label className="font-Roboto text-base text-black">
+								Quanto tempo por dia o animal ficará sozinho em casa?<label className="text-error"> *</label>
+							</label>
+							<RadioButton
+								label="De 1 a 3 horas por dia"
+								id="dailyCare.timeAlone"
+								isSelected={formikProps?.values?.dailyCare?.timeAlone === "oneToThreeHours"}
+								onChange={() => formikProps.setFieldValue("dailyCare.timeAlone", "oneToThreeHours")}
+							/>
+							<RadioButton
+								label="De 4 a 7 horas por dia"
+								id="dailyCare.timeAlone"
+								isSelected={formikProps?.values?.dailyCare?.timeAlone === "fourToSevenHours"}
+								onChange={() => formikProps.setFieldValue("dailyCare.timeAlone", "fourToSevenHours")}
+							/>
+							<RadioButton
+								label="8 ou mais horas por dia"
+								id="dailyCare.timeAlone"
+								isSelected={formikProps?.values?.dailyCare?.timeAlone === "eightOrMoreHours"}
+								onChange={() => formikProps.setFieldValue("dailyCare.timeAlone", "eightOrMoreHours")}
+							/>
+							{formikProps?.values?.animals?.animalsOfInterest?.dog && (
+								<div className="mt-7">
+									<Input
+										label="Quantas vezes você levará o cachorro para passear?"
+										name="dailyCare.dailyWalks"
+										value={formikProps?.values?.dailyCare?.dailyWalks}
+										onChange={formikProps.handleChange}
+										className="text-black"
+										variant="form"
+										type="number"
+										required
+									/>
+								</div>
+							)}
+							{formikProps?.values?.animals.animalsOfInterest.cat &&(
+							<YesNoRadioButton
+								className="mt-7"
+								value={formikProps?.values?.dailyCare?.hasPetCarrier}
+								onChange={(value) => formikProps.setFieldValue("dailyCare.hasPetCarrier", value)}
+								label={"Possui caixa de transporte apropriada para levar o animal? "}
+								required									
+							/>)}
+						</div>
+					</>
+				);
+			case 8:
+				return (
+					<>
+						<p className="text-sm text-gray-700 mb-7">Descreva em detalhes o que você faria em cada uma das seguintes situações:</p>
+						<div className="grid gap-7">
+							<Input
+								label="Se o animal se perdesse"
+								name="attitudesTowardsTheAnimal.getsLost"
+								value={formikProps?.values?.attitudesTowardsTheAnimal?.getsLost}
+								onChange={formikProps.handleChange}
+								placeholder="descreva o que você faria caso isso acontecesse"
+								className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+								variant="form"
+								type="textarea"
+								required
+							/>
+							<Input
+								label="Se o animal ficasse doente ou sofresse um acidente"
+								name="attitudesTowardsTheAnimal.getsSickOrAccident"
+								value={formikProps?.values?.attitudesTowardsTheAnimal?.getsSickOrAccident}
+								onChange={formikProps.handleChange}
+								placeholder="descreva o que você faria caso isso acontecesse"
+								className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+								variant="form"
+								type="textarea"
+								required
+							/>
+							<Input
+								label="Se o animal machucasse o seu filho ou uma criança próxima"
+								name="attitudesTowardsTheAnimal.hurtsYourChild"
+								value={formikProps?.values?.attitudesTowardsTheAnimal?.hurtsYourChild}
+								onChange={formikProps.handleChange}
+								placeholder="descreva o que você faria caso isso acontecesse"
+								className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+								variant="form"
+								type="textarea"
+								required
+							/>
+							<Input
+								label="Se o animal danificasse um objeto de valor"
+								name="attitudesTowardsTheAnimal.damagesValuableObject"
+								value={formikProps?.values?.attitudesTowardsTheAnimal?.damagesValuableObject}
+								onChange={formikProps.handleChange}
+								placeholder="descreva o que você faria caso isso acontecesse"
+								className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+								variant="form"
+								type="textarea"
+								required
+							/>
+							<Input
+								label="Se o animal fizer suas necessidades em local inadequado"
+								name="attitudesTowardsTheAnimal.peesOrPoopsInInappropriatePlace"
+								value={formikProps?.values?.attitudesTowardsTheAnimal?.peesOrPoopsInInappropriatePlace}
+								onChange={formikProps.handleChange}
+								placeholder="descreva o que você faria caso isso acontecesse"
+								className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+								variant="form"
+								type="textarea"
+								required
+							/>
+							<Input
+								label="Se o animal fizer algo que você não quer ou que você não goste"
+								name="attitudesTowardsTheAnimal.doesThingsYouDontWant"
+								value={formikProps?.values?.attitudesTowardsTheAnimal?.doesThingsYouDontWant}
+								onChange={formikProps.handleChange}
+								placeholder="descreva o que você faria caso isso acontecesse"
+								className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+								variant="form"
+								type="textarea"
+								required
+							/>
+							<Input
+								label="O que fará com o animal se você tiver um filho?"
+								name="attitudesTowardsTheAnimal.ifYouHaveAChild"
+								value={formikProps?.values?.attitudesTowardsTheAnimal?.ifYouHaveAChild}
+								onChange={formikProps.handleChange}
+								placeholder="descreva o que você faria caso isso acontecesse"
+								className="text-black h-20 break-words resize-none text-left align-top overflow-y-auto"
+								variant="form"
+								type="textarea"
+								required
+							/>
+						</div>
+					</>
+				);
+				case 9:
+					return (
+						<>
+							<p className="font-black font-Roboto text-xl text-primary mb-3">Termos de consentimento</p>
+							<div className="grid gap-7">
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.certaintyOfAdoption}
+									onChange={(value) => formikProps.setFieldValue("agreements.certaintyOfAdoption", value)}
+									label={"Você está certo da adocção?"}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.awareOfTheImportanceOfNeuteringTheAnimal}
+									onChange={(value) => formikProps.setFieldValue("agreements.awareOfTheImportanceOfNeuteringTheAnimal", value)}
+									label={"Você tem consciência da importância da castração?"}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.agreesWithCastration}
+									onChange={(value) => formikProps.setFieldValue("agreements.agreesWithCastration", value)}
+									label={"Está ciente e de acordo com a esterilização? "}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.longTermCommitment}
+									onChange={(value) => formikProps.setFieldValue("agreements.longTermCommitment", value)}
+									label={"O tempo médio de vida de um animal doméstico é de 12 a 16 anos. Você está preparado para este compromisso duradouro?"}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.imageUse}
+									onChange={(value) => formikProps.setFieldValue("agreements.imageUse", value)}
+									label={"Você concorda com o uso da imagem?"}
+									sublabel="Marque 'Sim' caso AUTORIZE o uso de sua imagem em fotos ou filme, sem finalidade comercial, para ser utilizada no(s) trabalho(s) de divulgação e voluntariado da Ong Anjos na Terra em Ação.  A presente autorização é concedida a título gratuito, abrangendo o uso da imagem acima mencionada em todo território nacional e no exterior, em todas as suas modalidades e, em destaque, das seguintes formas: (I) home page; (II) cartazes; (III) Redes Sociais (IV); divulgação em geral. Por esta ser a expressão da sua vontade declara que autoriza o uso acima descrito sem que nada haja a ser reclamado a título de direitos conexos à sua imagem ou a qualquer outro."
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.monetaryContribution}
+									onChange={(value) => formikProps.setFieldValue("agreements.monetaryContribution", value)}
+									label={"Concorda com a contribuição?"}
+									sublabel="Cada gato resgatado custa para a ONG em média R$400. Sendo R$200 de castração, R$100 de vacina, R$80 de antipulgas e R$10 de vermífugo."
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.houseVisit}
+									onChange={(value) => formikProps.setFieldValue("agreements.houseVisit", value)}
+									label={"Você e sua família concordam com a visita do protetor (a) em sua casa, para verificar como o animal está sendo cuidado?"}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.longTermCommitment}
+									onChange={(value) => formikProps.setFieldValue("agreements.longTermCommitment", value)}
+									label={"O tempo médio de vida de um animal doméstico é de 12 a 16 anos. Você está preparado para este compromisso duradouro?"}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.notifyBeforeDonateToSomeoneElse}
+									onChange={(value) => formikProps.setFieldValue("agreements.notifyBeforeDonateToSomeoneElse", value)}
+									label={"Você está ciente que em caso de doar o animal para outra pessoa, deverá comunicar antes a protetora responsável?"}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.trueInformation}
+									onChange={(value) => formikProps.setFieldValue("agreements.trueInformation", value)}
+									label={"Você concorda que todas as informações são verdadeiras e que assume total responsabilidade pelo aqui respondido?"}
+									required									
+								/>
+								<YesNoRadioButton
+									value={formikProps?.values?.agreements?.videoPresentation}
+									onChange={(value) => formikProps.setFieldValue("agreements.videoPresentation", value)}
+									label={"Para candidatos indicados em feiras, solicitamos uma breve apresentação em vídeo, apenas para garantir o melhor tutor ao animal!"}
+									required									
+								/>
+							</div>
+						</>
+					);
 			default:
 			return null;
 		}

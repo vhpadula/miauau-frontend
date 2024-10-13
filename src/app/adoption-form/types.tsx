@@ -126,11 +126,7 @@ export interface FormData {
         howWillEducate: string,
         hasPetCarrier: boolean | undefined,
         dailyWalks: number,
-        timeAlone: {
-            oneToThreeHours: boolean | undefined,
-            threeToSevenHours: boolean | undefined,
-            eightOrMoreHours: boolean | undefined
-        },
+        timeAlone: string,
         foodType: {
             animal: boolean | undefined,
             human: boolean | undefined,
