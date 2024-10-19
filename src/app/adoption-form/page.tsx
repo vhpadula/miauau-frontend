@@ -168,44 +168,44 @@ const validationSchema  = Yup.object().shape({
 				cat: Yup.boolean(),
 				dog: Yup.boolean()
 			}),
-			dailyCare: Yup.object().shape({
-				responsibleForCare: Yup.string().required(),
-				responsibleForCareInCaseOfTravel: Yup.string().required(),
-				howWillEducate: Yup.string().required(),
-				timeAlone: Yup.string().required(),
-				foodType: Yup.object().shape({
-					animal: Yup.boolean(),
-					human: Yup.boolean(),
-					other: Yup.boolean(),
-					otherDescription: Yup.string().when('other', (other) => {
-						if (other && other[0]) {
-							return Yup.string().required(defaultError)
-						} 
-						return Yup.string().nullable()
-					})
+		}),
+		dailyCare: Yup.object().shape({
+			responsibleForCare: Yup.string().required(),
+			responsibleForCareInCaseOfTravel: Yup.string().required(),
+			howWillEducate: Yup.string().required(),
+			timeAlone: Yup.string().required(),
+			foodType: Yup.object().shape({
+				animal: Yup.boolean(),
+				human: Yup.boolean(),
+				other: Yup.boolean(),
+				otherDescription: Yup.string().when('other', (other) => {
+					if (other && other[0]) {
+						return Yup.string().required(defaultError)
+					} 
+					return Yup.string().nullable()
 				})
-			}),
-			attitudesTowardsTheAnimal: Yup.object().shape({
-				getsLost: Yup.string().required(),
-				getsSickOrAccident: Yup.string().required(),
-				hurtsYourChild: Yup.string().required(),
-				damagesValuableObject: Yup.string().required(),
-				peesOrPoopsInInappropriatePlace: Yup.string().required(),
-				doesThingsYouDontWant: Yup.string().required(),
-				ifYouHaveAChild: Yup.string().required()
-			}),
-			agreements: Yup.object().shape({
-				certaintyOfAdoption: Yup.boolean().required(),
-				awareOfTheImportanceOfNeuteringTheAnimal: Yup.boolean().required(),
-				agreesWithCastration: Yup.boolean().required(),
-				longTermCommitment: Yup.boolean().required(),
-				imageUse: Yup.boolean().required(),
-				monetaryContribution: Yup.boolean().required(),
-				notifyBeforeDonateToSomeoneElse: Yup.boolean().required(),
-				houseVisit: Yup.boolean().required(),
-				trueInformation: Yup.boolean().required(),
-				videoPresentation: Yup.boolean().required()
 			})
+		}),
+		attitudesTowardsTheAnimal: Yup.object().shape({
+			getsLost: Yup.string().required(),
+			getsSickOrAccident: Yup.string().required(),
+			hurtsYourChild: Yup.string().required(),
+			damagesValuableObject: Yup.string().required(),
+			peesOrPoopsInInappropriatePlace: Yup.string().required(),
+			doesThingsYouDontWant: Yup.string().required(),
+			ifYouHaveAChild: Yup.string().required()
+		}),
+		agreements: Yup.object().shape({
+			certaintyOfAdoption: Yup.boolean().required(),
+			awareOfTheImportanceOfNeuteringTheAnimal: Yup.boolean().required(),
+			agreesWithCastration: Yup.boolean().required(),
+			longTermCommitment: Yup.boolean().required(),
+			imageUse: Yup.boolean().required(),
+			monetaryContribution: Yup.boolean().required(),
+			notifyBeforeDonateToSomeoneElse: Yup.boolean().required(),
+			houseVisit: Yup.boolean().required(),
+			trueInformation: Yup.boolean().required(),
+			videoPresentation: Yup.boolean().required()
 		}),
 	});
 
@@ -1170,13 +1170,13 @@ export default function AdoptionForm() {
 										/>
 										<Checkbox
 											label="Médio"
-											id="interest.dog.size.small"
+											id="interest.dog.size.medium"
 											isChecked={formikProps?.values?.interest?.dog?.size?.medium}
 											onChange={formikProps.handleChange}
 										/>
 										<Checkbox
 											label="Grande"
-											id="interest.dog.size.small"
+											id="interest.dog.size.big"
 											isChecked={formikProps?.values?.interest?.dog?.size?.big}
 											onChange={formikProps.handleChange}
 										/>
@@ -1240,13 +1240,13 @@ export default function AdoptionForm() {
 										/>
 										<Checkbox
 											label="Médio"
-											id="interest.cat.size.small"
+											id="interest.cat.size.medium"
 											isChecked={formikProps?.values?.interest?.cat?.size?.medium}
 											onChange={formikProps.handleChange}
 										/>
 										<Checkbox
 											label="Grande"
-											id="interest.cat.size.small"
+											id="interest.cat.size.big"
 											isChecked={formikProps?.values?.interest?.cat?.size?.big}
 											onChange={formikProps.handleChange}
 										/>
@@ -1452,82 +1452,76 @@ export default function AdoptionForm() {
 						</div>
 					</>
 				);
-				case 9:
-					return (
-						<>
-							<p className="font-black font-Roboto text-xl text-primary mb-3">Termos de consentimento</p>
-							<div className="grid gap-7">
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.certaintyOfAdoption}
-									onChange={(value) => formikProps.setFieldValue("agreements.certaintyOfAdoption", value)}
-									label={"Você está certo da adocção?"}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.awareOfTheImportanceOfNeuteringTheAnimal}
-									onChange={(value) => formikProps.setFieldValue("agreements.awareOfTheImportanceOfNeuteringTheAnimal", value)}
-									label={"Você tem consciência da importância da castração?"}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.agreesWithCastration}
-									onChange={(value) => formikProps.setFieldValue("agreements.agreesWithCastration", value)}
-									label={"Está ciente e de acordo com a esterilização? "}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.longTermCommitment}
-									onChange={(value) => formikProps.setFieldValue("agreements.longTermCommitment", value)}
-									label={"O tempo médio de vida de um animal doméstico é de 12 a 16 anos. Você está preparado para este compromisso duradouro?"}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.imageUse}
-									onChange={(value) => formikProps.setFieldValue("agreements.imageUse", value)}
-									label={"Você concorda com o uso da imagem?"}
-									sublabel="Marque 'Sim' caso AUTORIZE o uso de sua imagem em fotos ou filme, sem finalidade comercial, para ser utilizada no(s) trabalho(s) de divulgação e voluntariado da Ong Anjos na Terra em Ação.  A presente autorização é concedida a título gratuito, abrangendo o uso da imagem acima mencionada em todo território nacional e no exterior, em todas as suas modalidades e, em destaque, das seguintes formas: (I) home page; (II) cartazes; (III) Redes Sociais (IV); divulgação em geral. Por esta ser a expressão da sua vontade declara que autoriza o uso acima descrito sem que nada haja a ser reclamado a título de direitos conexos à sua imagem ou a qualquer outro."
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.monetaryContribution}
-									onChange={(value) => formikProps.setFieldValue("agreements.monetaryContribution", value)}
-									label={"Concorda com a contribuição?"}
-									sublabel="Cada gato resgatado custa para a ONG em média R$400. Sendo R$200 de castração, R$100 de vacina, R$80 de antipulgas e R$10 de vermífugo."
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.houseVisit}
-									onChange={(value) => formikProps.setFieldValue("agreements.houseVisit", value)}
-									label={"Você e sua família concordam com a visita do protetor (a) em sua casa, para verificar como o animal está sendo cuidado?"}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.longTermCommitment}
-									onChange={(value) => formikProps.setFieldValue("agreements.longTermCommitment", value)}
-									label={"O tempo médio de vida de um animal doméstico é de 12 a 16 anos. Você está preparado para este compromisso duradouro?"}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.notifyBeforeDonateToSomeoneElse}
-									onChange={(value) => formikProps.setFieldValue("agreements.notifyBeforeDonateToSomeoneElse", value)}
-									label={"Você está ciente que em caso de doar o animal para outra pessoa, deverá comunicar antes a protetora responsável?"}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.trueInformation}
-									onChange={(value) => formikProps.setFieldValue("agreements.trueInformation", value)}
-									label={"Você concorda que todas as informações são verdadeiras e que assume total responsabilidade pelo aqui respondido?"}
-									required									
-								/>
-								<YesNoRadioButton
-									value={formikProps?.values?.agreements?.videoPresentation}
-									onChange={(value) => formikProps.setFieldValue("agreements.videoPresentation", value)}
-									label={"Para candidatos indicados em feiras, solicitamos uma breve apresentação em vídeo, apenas para garantir o melhor tutor ao animal!"}
-									required									
-								/>
-							</div>
-						</>
-					);
+			case 9:
+				return (
+					<>
+						<p className="font-black font-Roboto text-xl text-primary mb-3">Termos de consentimento</p>
+						<div className="grid gap-7">
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.certaintyOfAdoption}
+								onChange={(value) => formikProps.setFieldValue("agreements.certaintyOfAdoption", value)}
+								label={"Você está certo da adocção?"}
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.awareOfTheImportanceOfNeuteringTheAnimal}
+								onChange={(value) => formikProps.setFieldValue("agreements.awareOfTheImportanceOfNeuteringTheAnimal", value)}
+								label={"Você tem consciência da importância da castração?"}
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.agreesWithCastration}
+								onChange={(value) => formikProps.setFieldValue("agreements.agreesWithCastration", value)}
+								label={"Está ciente e de acordo com a esterilização? "}
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.longTermCommitment}
+								onChange={(value) => formikProps.setFieldValue("agreements.longTermCommitment", value)}
+								label={"O tempo médio de vida de um animal doméstico é de 12 a 16 anos. Você está preparado para este compromisso duradouro?"}
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.imageUse}
+								onChange={(value) => formikProps.setFieldValue("agreements.imageUse", value)}
+								label={"Você concorda com o uso da imagem?"}
+								sublabel="Marque 'Sim' caso AUTORIZE o uso de sua imagem em fotos ou filme, sem finalidade comercial, para ser utilizada no(s) trabalho(s) de divulgação e voluntariado da Ong Anjos na Terra em Ação.  A presente autorização é concedida a título gratuito, abrangendo o uso da imagem acima mencionada em todo território nacional e no exterior, em todas as suas modalidades e, em destaque, das seguintes formas: (I) home page; (II) cartazes; (III) Redes Sociais (IV); divulgação em geral. Por esta ser a expressão da sua vontade declara que autoriza o uso acima descrito sem que nada haja a ser reclamado a título de direitos conexos à sua imagem ou a qualquer outro."
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.monetaryContribution}
+								onChange={(value) => formikProps.setFieldValue("agreements.monetaryContribution", value)}
+								label={"Concorda com a contribuição?"}
+								sublabel="Cada gato resgatado custa para a ONG em média R$400. Sendo R$200 de castração, R$100 de vacina, R$80 de antipulgas e R$10 de vermífugo."
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.houseVisit}
+								onChange={(value) => formikProps.setFieldValue("agreements.houseVisit", value)}
+								label={"Você e sua família concordam com a visita do protetor (a) em sua casa, para verificar como o animal está sendo cuidado?"}
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.notifyBeforeDonateToSomeoneElse}
+								onChange={(value) => formikProps.setFieldValue("agreements.notifyBeforeDonateToSomeoneElse", value)}
+								label={"Você está ciente que em caso de doar o animal para outra pessoa, deverá comunicar antes a protetora responsável?"}
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.trueInformation}
+								onChange={(value) => formikProps.setFieldValue("agreements.trueInformation", value)}
+								label={"Você concorda que todas as informações são verdadeiras e que assume total responsabilidade pelo aqui respondido?"}
+								required									
+							/>
+							<YesNoRadioButton
+								value={formikProps?.values?.agreements?.videoPresentation}
+								onChange={(value) => formikProps.setFieldValue("agreements.videoPresentation", value)}
+								label={"Para candidatos indicados em feiras, solicitamos uma breve apresentação em vídeo, apenas para garantir o melhor tutor ao animal!"}
+								required									
+							/>
+						</div>
+					</>
+				);
 			default:
 			return null;
 		}
@@ -1575,7 +1569,7 @@ export default function AdoptionForm() {
 								variant="outline"
 								type="button"
 								disabled={Object.keys(formikProps.errors[schemaTitle[step]] || {}).length > 0}
-								onClick={() => formikProps.validateForm().then(() => nextStep(formikProps))}
+								onClick={() => formikProps.validateForm().then(() => console.log(formikProps.values))}
 							/>)}
 						</div>
 					</Form>
