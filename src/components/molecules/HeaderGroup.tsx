@@ -20,29 +20,6 @@ const HeaderGroup: React.FC<HeaderGroupProps> = ({
                 <Link href={"/"} className="mx-2">
                     <TitleLogo size="sm" />
                 </Link>
-                <p className="text-white font-medium  text-2xl md:text-3xl justify-center md:fixed ml-auto mr-auto">
-                    {username}
-                </p>
-                {username && <>
-                    {imageSrc && (
-                        <Image
-                            src={imageSrc}
-                            alt="user"
-                            className="rounded-full ml-auto mx-2"
-                            width={64}
-                            height={64}
-                        />
-                    )}
-                    {!imageSrc && (
-                        <Image
-                            src={"/images/user_placeholder.png"}
-                            alt="user"
-                            className="rounded-full ml-auto mx-2"
-                            width={64}
-                            height={64}
-                        />
-                    )}
-                </>}
             </div>
         </>
     );

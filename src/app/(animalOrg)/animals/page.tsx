@@ -81,8 +81,8 @@ export default function Animals () {
     ];
 
     return (
-        <div className="flex flex-col items-center justify-center pl-52 pt-20 h-screen">
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-2 max-h-screen">
+        <div className="flex flex-col items-center h-screen pt-20">
+            <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 m-2 w-full p-5 max-h-screen">
                 {animals.map((animal) => (
                     <AnimalCard
                         key={animal.id}
