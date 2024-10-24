@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import AnimalCard from "@/components/molecules/AnimalCard";
-
-
+import { Button, Input } from "@/components";
+import Image from "next/image";
 
 export default function Animals () {
+    const [searchTerm, setSearchTerm] = useState("");
     const animals = [
         {
             id: "1",
@@ -80,21 +81,58 @@ export default function Animals () {
         },
     ];
 
+    const handleSearchChange = (event: any) => {
+        setSearchTerm(event.target.value.toLowerCase());
+    };
+
+    const filteredAnimals = animals.filter((animal) =>
+        animal.name.toLowerCase().includes(searchTerm)
+    );
+
     return (
-        <div className="flex flex-col items-center h-screen pt-20">
-            <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 m-2 w-full p-5 max-h-screen">
-                {animals.map((animal) => (
-                    <AnimalCard
-                        key={animal.id}
-                        id={animal.id}
-                        imageSrc={animal.imageSrc}
-                        name={animal.name}
-                        species={animal.species}
-                        size={animal.size}
-                        age={animal.age}
-                        location={animal.location}
+        <div className="flex flex-col items-center h-screen">
+            <div className="sticky top-20 mt-[76px] flex items-center bg-white justify-center w-full p-5 mb-4 z-1 shadow-[0px_4px_4px_rgba(0,0,0,0.1)]">
+                <div className="flex-grow md:flex-grow-0 lg:flex-grow-0 lg:w-2/3 md:w-1/2">
+                    <Input
+                        type="text"
+                        placeholder="Buscar animal"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        className="w-full px-4 border border-gray-300 rounded-l-md focus:outline-none text-black"
                     />
-                ))}
+                </div>
+                <Button
+                    icon={
+                        <Image
+                            src="/icons/filter.svg"
+                            alt="filter"
+                            width={25}
+                            height={20}
+                            className="mx-0.5"
+                        />
+                    }
+                    variant="outline"
+                    type="button"
+                    className="px-1.5 ml-2 h-full"
+                />
+            </div>
+            <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 m-2 w-full p-5 max-h-screen">
+                {filteredAnimals.length > 0 ? (
+                    filteredAnimals.map((animal) => (
+                        <AnimalCard
+                            key={animal.id}
+                            id={animal.id}
+                            imageSrc={animal.imageSrc}
+                            name={animal.name}
+                            species={animal.species}
+                            size={animal.size}
+                            age={animal.age}
+                            location={animal.location}
+                        />
+                    ))
+                ) : (
+                    <p className="text-center text-gray-500">Nenhum animal encontrado.</p>
+                )}
             </div>
         </div>
     );

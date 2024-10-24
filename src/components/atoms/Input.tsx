@@ -28,22 +28,24 @@ const Input: FC<InputProps & TextareaHTMLAttributes<HTMLTextAreaElement>> = ({
 	};
     return (
         <div className={`flex flex-col ${containerClass}`}>
-            <div className="flex mb-2 ">
-                {labelIconSrc && (
-                    <Image
-                        src={labelIconSrc}
-                        alt="icon"
-                        width={24}
-                        height={24}
-                        className="mr-2.5"
-                    />
-                )}
-                {label && (
-                    <label htmlFor={props.id} className={`${variantStyles[variant]}`}>
-                        {label}{props.required && <label className="text-error"> *</label>}
-                    </label>
-                )}
-            </div>
+            {(label || labelIconSrc) && (
+                <div className="flex mb-2 ">
+                    {labelIconSrc && (
+                        <Image
+                            src={labelIconSrc}
+                            alt="icon"
+                            width={24}
+                            height={24}
+                            className="mr-2.5"
+                        />
+                    )}
+                    {label && (
+                        <label htmlFor={props.id} className={`${variantStyles[variant]}`}>
+                            {label}{props.required && <label className="text-error"> *</label>}
+                        </label>
+                    )}
+                </div>
+            )}
             {props.type === "textarea" ?
             (
                 <textarea
