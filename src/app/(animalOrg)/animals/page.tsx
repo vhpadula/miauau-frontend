@@ -4,14 +4,17 @@ import AnimalCard from "@/components/molecules/AnimalCard";
 import { Button, Input } from "@/components";
 import Image from "next/image";
 
-export default function Animals () {
+export default function Animals() {
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedSpecies, setSelectedSpecies] = useState("");
+    const [showFilterPopup, setShowFilterPopup] = useState(false);
+
     const animals = [
         {
             id: "1",
             imageSrc: "/images/dog1.png",
             name: "Rex",
-            species: "Canino",
+            species: "Cachorro",
             size: "Pequeno",
             age: "2 anos",
             location: "São Paulo",
@@ -20,7 +23,7 @@ export default function Animals () {
             id: "2",
             imageSrc: "/images/cat1.png",
             name: "Mimi",
-            species: "Felino",
+            species: "Gato",
             size: "Médio",
             age: "3 anos",
             location: "Rio de Janeiro",
@@ -29,7 +32,7 @@ export default function Animals () {
             id: "3",
             imageSrc: "/images/dog2.png",
             name: "Buddy",
-            species: "Canino",
+            species: "Cachorro",
             size: "Grande",
             age: "4 anos",
             location: "Curitiba",
@@ -38,7 +41,7 @@ export default function Animals () {
             id: "4",
             imageSrc: "/images/cat2.png",
             name: "Luna",
-            species: "Felino",
+            species: "Gato",
             size: "Pequeno",
             age: "1 ano",
             location: "Porto Alegre",
@@ -47,7 +50,7 @@ export default function Animals () {
             id: "5",
             imageSrc: "/images/dog3.png",
             name: "Max",
-            species: "Canino",
+            species: "Cachorro",
             size: "Médio",
             age: "5 anos",
             location: "Belo Horizonte",
@@ -56,7 +59,7 @@ export default function Animals () {
             id: "6",
             imageSrc: "/images/cat3.png",
             name: "Bella",
-            species: "Felino",
+            species: "Gato",
             size: "Grande",
             age: "2 anos",
             location: "Salvador",
@@ -65,7 +68,7 @@ export default function Animals () {
             id: "7",
             imageSrc: "/images/dog4.png",
             name: "Charlie",
-            species: "Canino",
+            species: "Cachorro",
             size: "Pequeno",
             age: "3 anos",
             location: "Fortaleza",
@@ -74,7 +77,7 @@ export default function Animals () {
             id: "8",
             imageSrc: "/images/cat4.png",
             name: "Simba",
-            species: "Felino",
+            species: "Gato",
             size: "Médio",
             age: "4 anos",
             location: "Brasília",
@@ -85,9 +88,16 @@ export default function Animals () {
         setSearchTerm(event.target.value.toLowerCase());
     };
 
-    const filteredAnimals = animals.filter((animal) =>
-        animal.name.toLowerCase().includes(searchTerm)
-    );
+    const handleSpeciesSelect = (species: string) => {
+        setSelectedSpecies(species);
+        setShowFilterPopup(false);
+    };
+
+    const filteredAnimals = animals.filter((animal) => {
+        const matchesSearchTerm = animal.name.toLowerCase().includes(searchTerm);
+        const matchesSpecies = selectedSpecies ? animal.species === selectedSpecies : true;
+        return matchesSearchTerm && matchesSpecies;
+    });
 
     return (
         <div className="flex flex-col items-center h-screen">
@@ -101,20 +111,48 @@ export default function Animals () {
                         className="w-full px-4 border border-gray-300 rounded-l-md focus:outline-none text-black"
                     />
                 </div>
-                <Button
-                    icon={
-                        <Image
-                            src="/icons/filter.svg"
-                            alt="filter"
-                            width={25}
-                            height={20}
-                            className="mx-0.5"
-                        />
-                    }
-                    variant="outline"
-                    type="button"
-                    className="px-1.5 ml-2 h-full"
-                />
+                <div className="relative">
+                    <Button
+                        icon={
+                            <Image
+                                src="/icons/filter.svg"
+                                alt="filter"
+                                width={25}
+                                height={20}
+                                className="mx-0.5"
+                            />
+                        }
+                        variant="outline"
+                        type="button"
+                        className="px-1.5 ml-2 h-full"
+                        onClick={() => setShowFilterPopup(!showFilterPopup)}
+                    />
+                    {showFilterPopup && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-3 z-20">
+                            <p className="font-bold text-primary mb-2">Filtrar por espécie</p>
+                            <div className="space-y-2">
+                                <button
+                                    onClick={() => handleSpeciesSelect("")}
+                                    className={`w-full text-black text-left px-2 py-1 rounded ${selectedSpecies === "" ?  "bg-accent" : ""}`}
+                                >
+                                    Todos
+                                </button>
+                                <button
+                                    onClick={() => handleSpeciesSelect("Cachorro")}
+                                    className={`w-full text-black text-left px-2 py-1 rounded ${selectedSpecies === "Cachorro" ?  "bg-accent" : ""}`}
+                                >
+                                    Cachorro
+                                </button>
+                                <button
+                                    onClick={() => handleSpeciesSelect("Gato")}
+                                    className={`w-full text-black text-left px-2 py-1 rounded ${selectedSpecies === "Gato" ?  "bg-accent" : ""}`}
+                                >
+                                    Gato
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
             <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 m-2 w-full p-5 max-h-screen">
                 {filteredAnimals.length > 0 ? (
@@ -136,5 +174,4 @@ export default function Animals () {
             </div>
         </div>
     );
-};
-
+}
