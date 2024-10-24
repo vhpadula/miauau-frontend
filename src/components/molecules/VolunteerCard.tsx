@@ -5,18 +5,18 @@ type VolunteerCardProps = {
     id: string;
     imageSrc: string;
     name: string;
-    phone: string;
     profession: string;
-    email: string;
+    age: number;
+    contribution: string;
 };
 
 const VolunteerCard: React.FC<VolunteerCardProps> = ({
     id,
     imageSrc,
     name,
-    phone,
+    age,
     profession,
-    email
+    contribution
 }) => {
     function formatPhoneNumber(phoneNumberString: string) {
         const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
@@ -28,14 +28,25 @@ const VolunteerCard: React.FC<VolunteerCardProps> = ({
     }
 
     return (
-        <div id={id} className="flex flex-col items-center justify-center bg-accent rounded-md w-56 h-72" >
-            <div>
-                <Image src={imageSrc} alt="Voluntários" width={125} height={125} />
-                <p className="font-bold text-primary my-1">{name}</p>
-                <p className="text-primary text-sm font-bold">{profession}</p>
-                <p className="text-primary text-sm font-bold">{formatPhoneNumber(phone)}</p>
-                <p className="text-primary text-sm font-bold">{email}</p>
+        <div
+            id={id}
+            className="flex items-center justify-between bg-white shadow-md rounded-lg w-full h-24"
+        >
+            <div className="flex items-center">
+                <Image src={imageSrc} alt="Animais" width={70} height={70} className="rounded-full m-3"/>
+                <div>
+                    <p className="font-bold text-gray-700 text-base mb-1">{name}</p>
+                    <p className="text-gray-700 text-xs font-medium mb-0.5">{age} anos | {profession}</p>
+                    <p className="text-gray-700 text-xs font-medium">{contribution}</p>
+                </div>
             </div>
+            <Image
+                src="/icons/edit-gray.svg"
+                alt="edit"
+                width={20}
+                height={20}
+                className="mr-7"
+            />
         </div>
     );
 };
