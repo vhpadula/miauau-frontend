@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import AnimalCard from "@/components/molecules/AnimalCard";
-import { Button, Input } from "@/components";
+import { Button, Filter, Input } from "@/components";
 import Image from "next/image";
 
 export default function Animals() {
@@ -89,9 +89,13 @@ export default function Animals() {
     };
 
     const handleSpeciesSelect = (species: string) => {
-        setSelectedSpecies(species);
+        if (species === "Todos") {
+          setSelectedSpecies("");
+        } else {
+          setSelectedSpecies(species);
+        }
         setShowFilterPopup(false);
-    };
+      };
 
     const filteredAnimals = animals.filter((animal) => {
         const matchesSearchTerm = animal.name.toLowerCase().includes(searchTerm);
@@ -129,27 +133,12 @@ export default function Animals() {
                     />
                     {showFilterPopup && (
                         <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-3 z-20">
-                            <p className="font-bold text-primary mb-2">Filtrar por espécie</p>
-                            <div className="space-y-2">
-                                <button
-                                    onClick={() => handleSpeciesSelect("")}
-                                    className={`w-full text-black text-left px-2 py-1 rounded ${selectedSpecies === "" ?  "bg-accent" : ""}`}
-                                >
-                                    Todos
-                                </button>
-                                <button
-                                    onClick={() => handleSpeciesSelect("Cachorro")}
-                                    className={`w-full text-black text-left px-2 py-1 rounded ${selectedSpecies === "Cachorro" ?  "bg-accent" : ""}`}
-                                >
-                                    Cachorro
-                                </button>
-                                <button
-                                    onClick={() => handleSpeciesSelect("Gato")}
-                                    className={`w-full text-black text-left px-2 py-1 rounded ${selectedSpecies === "Gato" ?  "bg-accent" : ""}`}
-                                >
-                                    Gato
-                                </button>
-                            </div>
+                            <Filter 
+                                filterLabel="Filtrar por espécie"
+                                options={['Todos', 'Gato', 'Cachorro']} 
+                                selectedOption={selectedSpecies} 
+                                onClick={handleSpeciesSelect}
+                            />
                         </div>
                     )}
                 </div>
