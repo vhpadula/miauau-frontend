@@ -252,3 +252,176 @@ export const candidates = [
         occupation: "Trabalha"
     },
 ];
+
+export interface IFinanceRecord { // isso aqui provavelmente tem que ir pra outro lugar, tipo um model ou sla
+    id: string;
+    label: string;
+    type: 'Entrada' | 'Saída';
+    incomeType?: string;
+    outcomeType?: string;
+    date: string;
+    value: number;
+}
+
+export const financeRecords: IFinanceRecord[] = [
+    {
+        id: "1",
+        label: "Doação de João Silva",
+        type: "Entrada",
+        incomeType: "Doação",
+        date: "2024-01-15",
+        value: 500.00
+    },
+    {
+        id: "2",
+        label: "Compra de ração",
+        type: "Saída",
+        outcomeType: "Alimentação",
+        date: "2024-01-18",
+        value: 300.00
+    },
+    {
+        id: "3",
+        label: "Doação de Maria Oliveira",
+        type: "Entrada",
+        incomeType: "Doação",
+        date: "2024-02-02",
+        value: 1000.00
+    },
+    {
+        id: "4",
+        label: "Serviço de veterinário",
+        type: "Saída",
+        outcomeType: "Serviços",
+        date: "2024-02-10",
+        value: 450.00
+    },
+    {
+        id: "5",
+        label: "Venda de produtos",
+        type: "Entrada",
+        incomeType: "Venda",
+        date: "2024-02-15",
+        value: 250.00
+    },
+    {
+        id: "6",
+        label: "Compra de medicamentos",
+        type: "Saída",
+        outcomeType: "Medicamentos",
+        date: "2024-02-18",
+        value: 120.00
+    },
+    {
+        id: "7",
+        label: "Doação anônima",
+        type: "Entrada",
+        incomeType: "Doação",
+        date: "2024-03-01",
+        value: 200.00
+    },
+    {
+        id: "8",
+        label: "Pagamento de aluguel",
+        type: "Saída",
+        outcomeType: "Infraestrutura",
+        date: "2024-03-05",
+        value: 900.00
+    },
+    {
+        id: "9",
+        label: "Evento de arrecadação",
+        type: "Entrada",
+        incomeType: "Evento",
+        date: "2024-03-10",
+        value: 1500.00
+    },
+    {
+        id: "10",
+        label: "Manutenção do abrigo",
+        type: "Saída",
+        outcomeType: "Infraestrutura",
+        date: "2024-03-12",
+        value: 400.00
+    },
+    {
+        id: "11",
+        label: "Doação de Pedro Santos",
+        type: "Entrada",
+        incomeType: "Doação",
+        date: "2024-03-15",
+        value: 600.00
+    },
+    {
+        id: "12",
+        label: "Compra de brinquedos para animais",
+        type: "Saída",
+        outcomeType: "Equipamentos",
+        date: "2024-03-18",
+        value: 150.00
+    },
+    {
+        id: "13",
+        label: "Venda de produtos",
+        type: "Entrada",
+        incomeType: "Venda",
+        date: "2024-04-02",
+        value: 300.00
+    },
+    {
+        id: "14",
+        label: "Compra de produtos de limpeza",
+        type: "Saída",
+        outcomeType: "Higiene",
+        date: "2024-04-04",
+        value: 80.00
+    },
+    {
+        id: "15",
+        label: "Doação de empresa XYZ",
+        type: "Entrada",
+        incomeType: "Doação",
+        date: "2024-04-10",
+        value: 2000.00
+    },
+    {
+        id: "16",
+        label: "Pagamento de conta de luz",
+        type: "Saída",
+        outcomeType: "Infraestrutura",
+        date: "2024-04-12",
+        value: 300.00
+    },
+    {
+        id: "17",
+        label: "Venda de rifas",
+        type: "Entrada",
+        incomeType: "Venda",
+        date: "2024-04-18",
+        value: 500.00
+    },
+    {
+        id: "18",
+        label: "Compra de camas para animais",
+        type: "Saída",
+        outcomeType: "Equipamentos",
+        date: "2024-04-20",
+        value: 250.00
+    },
+    {
+        id: "19",
+        label: "Doação de Ana Paula",
+        type: "Entrada",
+        incomeType: "Doação",
+        date: "2024-04-25",
+        value: 700.00
+    },
+    {
+        id: "20",
+        label: "Serviço de transporte",
+        type: "Saída",
+        outcomeType: "Serviços",
+        date: "2024-04-28",
+        value: 350.00
+    }
+];
