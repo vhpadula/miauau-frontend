@@ -131,7 +131,7 @@ export default function Animals () {
                         />
                     ))
                 ) : (
-                    <p className="text-center text-gray-500">Nenhum animal encontrado.</p>
+                    <p className="text-center text-gray-700">Nenhum animal encontrado.</p>
                 )}
             </div>
         </div>
