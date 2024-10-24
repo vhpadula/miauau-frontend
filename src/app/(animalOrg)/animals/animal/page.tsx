@@ -1,78 +1,14 @@
 "use client";
 import React from "react";
-import AnimalCard from "@/components/molecules/AnimalCard";
 import Image from "next/image";
 import { AdoptionCandidateCard, Button } from "@/components";
+import { candidates as mockCandidates, animals as mockAnimals } from '../../../../__mocks__/dataMock';
 
 
 export default function Animal () {
-    const candidates = [
-        {
-            id: "1",
-            name: "Rex",
-            age: "2 anos",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-        {
-            id: "2",
-            name: "Mimi",
-            age: "3 anos",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-        {
-            id: "3",
-            name: "Buddy",
-            age: "4 anos",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-        {
-            id: "4",
-            name: "Luna",
-            age: "1 ano",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-        {
-            id: "5",
-            name: "Max",
-            age: "5 anos",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-        {
-            id: "6",
-            name: "Bella",
-            age: "2 anos",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-        {
-            id: "7",
-            name: "Charlie",
-            age: "3 anos",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-        {
-            id: "8",
-            name: "Simba",
-            age: "4 anos",
-            livesAlone: false,
-            occupation: "Trabalha"
-        },
-    ];
-    const animal = {
-        id: "2",
-        imageSrc: "/images/cat1.png",
-        name: "Mimi",
-        species: "Felino",
-        size: "Médio",
-        age: "3 anos",
-        location: "Rio de Janeiro",
-    };
+    
+    const candidates = mockCandidates;
+    const animal = mockAnimals[1];
 
     return (
         <>

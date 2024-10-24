@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { get } from "@/services/baseServices";
 import VolunteerCard from "@/components/molecules/VolunteerCard";
+import { volunteers as mockVolunteers } from '../../../__mocks__/dataMock';
+import { error } from "console";
 
 type VolunteerProps = {
     id: string;
@@ -33,6 +35,9 @@ export default function VolunteersList () {
         get("person/volunteers")
         .then((response) => {
             setVolunteers(response);
+        })
+        .catch((error) => {
+            setVolunteers(mockVolunteers);
         });
     }, []);
 

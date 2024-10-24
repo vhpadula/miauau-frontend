@@ -3,86 +3,14 @@ import React, { useState } from "react";
 import AnimalCard from "@/components/molecules/AnimalCard";
 import { Button, Filter, Input } from "@/components";
 import Image from "next/image";
+import { animals as mockAnimals } from '../../../__mocks__/dataMock';
 
 export default function Animals() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showFilterPopup, setShowFilterPopup] = useState(false);
 
-    const animals = [
-        {
-            id: "1",
-            imageSrc: "/images/dog1.png",
-            name: "Rex",
-            species: "Cachorro",
-            size: "Pequeno",
-            age: "2 anos",
-            location: "São Paulo",
-        },
-        {
-            id: "2",
-            imageSrc: "/images/cat1.png",
-            name: "Mimi",
-            species: "Gato",
-            size: "Médio",
-            age: "3 anos",
-            location: "Rio de Janeiro",
-        },
-        {
-            id: "3",
-            imageSrc: "/images/dog2.png",
-            name: "Buddy",
-            species: "Cachorro",
-            size: "Grande",
-            age: "4 anos",
-            location: "Curitiba",
-        },
-        {
-            id: "4",
-            imageSrc: "/images/cat2.png",
-            name: "Luna",
-            species: "Gato",
-            size: "Pequeno",
-            age: "1 ano",
-            location: "Porto Alegre",
-        },
-        {
-            id: "5",
-            imageSrc: "/images/dog3.png",
-            name: "Max",
-            species: "Cachorro",
-            size: "Médio",
-            age: "5 anos",
-            location: "Belo Horizonte",
-        },
-        {
-            id: "6",
-            imageSrc: "/images/cat3.png",
-            name: "Bella",
-            species: "Gato",
-            size: "Grande",
-            age: "2 anos",
-            location: "Salvador",
-        },
-        {
-            id: "7",
-            imageSrc: "/images/dog4.png",
-            name: "Charlie",
-            species: "Cachorro",
-            size: "Pequeno",
-            age: "3 anos",
-            location: "Fortaleza",
-        },
-        {
-            id: "8",
-            imageSrc: "/images/cat4.png",
-            name: "Simba",
-            species: "Gato",
-            size: "Médio",
-            age: "4 anos",
-            location: "Brasília",
-        },
-    ];
+    const animals = mockAnimals;
 
     const handleSearchChange = (event: any) => {
         setSearchTerm(event.target.value.toLowerCase());
