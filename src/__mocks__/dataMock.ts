@@ -256,11 +256,11 @@ export const candidates = [
 export interface IFinanceRecord { // isso aqui provavelmente tem que ir pra outro lugar, tipo um model ou sla
     id: string;
     label: string;
-    type: 'Entrada' | 'Saída';
+    type: 'Entrada' | 'Saída' | '';
     incomeType?: string;
     outcomeType?: string;
     date: string;
-    value: number;
+    value: string;
 }
 
 export const financeRecords: IFinanceRecord[] = [
@@ -270,7 +270,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Doação",
         date: "2024-01-15",
-        value: 500.00
+        value: "R$500.00"
     },
     {
         id: "2",
@@ -278,7 +278,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Alimentação",
         date: "2024-01-18",
-        value: 300.00
+        value: "R$300.00"
     },
     {
         id: "3",
@@ -286,7 +286,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Doação",
         date: "2024-02-02",
-        value: 1000.00
+        value: "R$1000.00"
     },
     {
         id: "4",
@@ -294,7 +294,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Serviços",
         date: "2024-02-10",
-        value: 450.00
+        value: "R$450.00"
     },
     {
         id: "5",
@@ -302,7 +302,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Venda",
         date: "2024-02-15",
-        value: 250.00
+        value: "R$250.00"
     },
     {
         id: "6",
@@ -310,7 +310,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Medicamentos",
         date: "2024-02-18",
-        value: 120.00
+        value: "R$120.00"
     },
     {
         id: "7",
@@ -318,7 +318,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Doação",
         date: "2024-03-01",
-        value: 200.00
+        value: "R$200.00"
     },
     {
         id: "8",
@@ -326,7 +326,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Infraestrutura",
         date: "2024-03-05",
-        value: 900.00
+        value: "R$900.00"
     },
     {
         id: "9",
@@ -334,7 +334,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Evento",
         date: "2024-03-10",
-        value: 1500.00
+        value: "R$1500.00"
     },
     {
         id: "10",
@@ -342,7 +342,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Infraestrutura",
         date: "2024-03-12",
-        value: 400.00
+        value: "R$400.00"
     },
     {
         id: "11",
@@ -350,7 +350,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Doação",
         date: "2024-03-15",
-        value: 600.00
+        value: "R$600.00"
     },
     {
         id: "12",
@@ -358,7 +358,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Equipamentos",
         date: "2024-03-18",
-        value: 150.00
+        value: "R$150.00"
     },
     {
         id: "13",
@@ -366,7 +366,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Venda",
         date: "2024-04-02",
-        value: 300.00
+        value: "R$300.00"
     },
     {
         id: "14",
@@ -374,7 +374,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Higiene",
         date: "2024-04-04",
-        value: 80.00
+        value: "R$80.00"
     },
     {
         id: "15",
@@ -382,7 +382,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Doação",
         date: "2024-04-10",
-        value: 2000.00
+        value: "R$2000.00"
     },
     {
         id: "16",
@@ -390,7 +390,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Infraestrutura",
         date: "2024-04-12",
-        value: 300.00
+        value: "R$300.00"
     },
     {
         id: "17",
@@ -398,7 +398,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Venda",
         date: "2024-04-18",
-        value: 500.00
+        value: "R$500.00"
     },
     {
         id: "18",
@@ -406,7 +406,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Equipamentos",
         date: "2024-04-20",
-        value: 250.00
+        value: "R$250.00"
     },
     {
         id: "19",
@@ -414,7 +414,7 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Entrada",
         incomeType: "Doação",
         date: "2024-04-25",
-        value: 700.00
+        value: "R$700.00"
     },
     {
         id: "20",
@@ -422,6 +422,6 @@ export const financeRecords: IFinanceRecord[] = [
         type: "Saída",
         outcomeType: "Serviços",
         date: "2024-04-28",
-        value: 350.00
+        value: "R$350.00"
     }
 ];

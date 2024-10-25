@@ -1532,7 +1532,7 @@ export default function AdoptionForm() {
 		<HeaderGroup
 			className="fixed z-10"
 		/>
-		<div className="flex flex-col justify-center items-center pt-20">
+		<div className="flex flex-col justify-center items-center pt-20 bg-white">
 			<div className="border-b border-solid border-1 border-gray-400 pb-9">
 				<div className="flex flex-col items-center justify-center pt-9 mx-10">
 					<p className="font-black font-Roboto text-2xl text-primary text-center mb-3">{stepTitle[step]}</p>

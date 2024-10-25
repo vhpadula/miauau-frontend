@@ -8,7 +8,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ username, imageSrc }) => {
     return (
-        <div className="fixed w-screen h-screen">
+        <div className="fixed w-screen">
             <HeaderGroup
                 className="fixed z-10"
                 username={username}
