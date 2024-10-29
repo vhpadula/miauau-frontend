@@ -20,7 +20,7 @@ const OutlineBtn: React.FC<OutlineBtnProps> = ({
 
     return (
         <button
-            className={`${widthClass} ${heightClass} ${baseClasses} ${className}`}
+            className={`${widthClass} ${heightClass} ${baseClasses} ${className} hover:text-white hover:bg-primary hover:bg-slate-50`}
         >
             {children}
         </button>
