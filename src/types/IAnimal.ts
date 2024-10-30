@@ -5,11 +5,11 @@ export interface IAnimal {
     ageGroup: 'Filhote' | 'Adulto' | 'Idoso' | '';
     sex: 'Fêmea' | 'Macho' | '';
     pregnant: 'Sim' | 'Não' | 'Sem definição' | '';
-    castrated: boolean;
+    castrated: boolean | undefined;
     color: 'Preto' | 'Branco' | 'Amarelo' | 'Cinza' | 'Mesclado' | 'Tricolor' | 'Frajola' | 'Sialata' | 'Escaminha' | '';
     approximateAge: 'Recém-nascido' | '3 meses a 1 ano' | '1 a 2 anos' | '2 a 5 anos' | 'Acima de 5 anos' | 'Impossível definir' | '';
-    fiv: boolean;
-    felv: boolean;
+    fiv: boolean | undefined;
+    felv: boolean | undefined;
     healthSituation: {
         healthy: boolean;
         dirty: boolean;
@@ -22,11 +22,7 @@ export interface IAnimal {
         other: boolean;
         otherDescription: string;
     }
-    needsCare: {
-        basicVeterinarian: boolean;
-        urgency: boolean;
-        justBath: boolean;
-    }
+    needsCare: 'Não' | 'Veterinário básico' | 'Urgência' | 'Apenas banho' | '';
     vaccinated: 'Sim' | 'Não' | 'Não sei informar' | '';
     vaccinationDate: string;
     dewormed: 'Sim' | 'Não' | 'Não sei informar' | '';
