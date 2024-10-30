@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { get } from "@/services/baseServices";
 import FinanceRecordCard from "@/components/molecules/FinanceRecordCard";
-import { financeRecords as mockRecords, IFinanceRecord } from '../../../../__mocks__/dataMock';
-import { error } from "console";
+import { financeRecords as mockRecords } from '../../../../__mocks__/dataMock';
 import { Button, Filter, Input } from "@/components";
+import { IFinanceRecord } from "@/types";
 
 export default function FinanceRecordsList () {
 

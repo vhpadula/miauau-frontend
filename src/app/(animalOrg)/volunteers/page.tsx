@@ -3,9 +3,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { get } from "@/services/baseServices";
 import VolunteerCard from "@/components/molecules/VolunteerCard";
-import { volunteers as mockVolunteers, IVolunteer } from '../../../__mocks__/dataMock';
+import { volunteers as mockVolunteers} from '../../../__mocks__/dataMock';
 import { error } from "console";
 import { Button, Filter, Input } from "@/components";
+import { IVolunteer } from "@/types";
 
 export default function VolunteersList () {
 

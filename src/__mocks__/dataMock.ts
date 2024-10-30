@@ -1,12 +1,4 @@
-export interface IVolunteer { // isso aqui provavelmente tem que ir pra outro lugar, tipo um model ou sla
-    id: string;
-    name: string;
-    phone: string;
-    profession: string;
-    email: string;
-    age: number;
-    contribution: string;
-}
+import { IFinanceRecord, IVolunteer } from "@/types";
 
 export const volunteers: IVolunteer[] = [
     {
@@ -252,16 +244,6 @@ export const candidates = [
         occupation: "Trabalha"
     },
 ];
-
-export interface IFinanceRecord { // isso aqui provavelmente tem que ir pra outro lugar, tipo um model ou sla
-    id: string;
-    label: string;
-    type: 'Entrada' | 'Saída' | '';
-    incomeType?: string;
-    outcomeType?: string;
-    date: string;
-    value: string;
-}
 
 export const financeRecords: IFinanceRecord[] = [
     {

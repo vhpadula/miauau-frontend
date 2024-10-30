@@ -7,7 +7,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
-import { IFinanceRecord } from "@/__mocks__/dataMock";
+import { IFinanceRecord } from "@/types";
 
 const defaultError = 'Preenchimento obrigatório';
 
