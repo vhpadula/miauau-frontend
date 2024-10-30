@@ -4,11 +4,13 @@ import AnimalCard from "@/components/molecules/AnimalCard";
 import { Button, Filter, Input } from "@/components";
 import Image from "next/image";
 import { animals as mockAnimals } from '../../../__mocks__/dataMock';
+import { useRouter } from "next/navigation";
 
 export default function Animals() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showFilterPopup, setShowFilterPopup] = useState(false);
+    const router = useRouter();
 
     const animals = mockAnimals;
 
@@ -34,6 +36,23 @@ export default function Animals() {
     return (
         <div className="flex flex-col items-center h-screen">
             <div className="sticky top-20 mt-20 flex items-center bg-white justify-center w-full p-5 mb-4 shadow-[0px_4px_4px_rgba(0,0,0,0.1)]">
+                <div>
+                    <Button
+                        icon={
+                            <Image
+                                src="/icons/new-form.svg"
+                                alt="new-form"
+                                width={25}
+                                height={20}
+                                className="mx-0.5"
+                            />
+                        }
+                        variant="primary"
+                        type="button"
+                        className="px-1.5 mr-2 h-full"
+                        onClick={() => router.push('/animals/new')}
+                    />
+                </div>
                 <div className="flex-grow md:flex-grow-0 lg:flex-grow-0 lg:w-2/3 md:w-1/2">
                     <Input
                         type="text"

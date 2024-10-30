@@ -40,7 +40,7 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function SideMenu ({closeSideMenu}: SideMenuProps) {
+const SideMenu:React.FC<SideMenuProps> =  ({ closeSideMenu }) =>{
     const [currentUrl, setCurrentUrl] = useState("");
 
     return (
@@ -90,3 +90,5 @@ export default function SideMenu ({closeSideMenu}: SideMenuProps) {
         </motion.div>
     );
 };
+
+export default SideMenu;
