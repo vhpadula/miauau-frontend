@@ -33,7 +33,7 @@ export default function Animals() {
 
     return (
         <div className="flex flex-col items-center h-screen">
-            <div className="sticky top-20 mt-[76px] flex items-center bg-white justify-center w-full p-5 mb-4 z-1 shadow-[0px_4px_4px_rgba(0,0,0,0.1)]">
+            <div className="sticky top-20 mt-20 flex items-center bg-white justify-center w-full p-5 mb-4 shadow-[0px_4px_4px_rgba(0,0,0,0.1)]">
                 <div className="flex-grow md:flex-grow-0 lg:flex-grow-0 lg:w-2/3 md:w-1/2">
                     <Input
                         type="text"
@@ -43,7 +43,7 @@ export default function Animals() {
                         className="w-full px-4 border border-gray-300 rounded-l-md focus:outline-none text-black"
                     />
                 </div>
-                <div className="relative">
+                <div>
                     <Button
                         icon={
                             <Image
