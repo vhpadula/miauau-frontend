@@ -574,27 +574,27 @@ export default function AnimalForm() {
 											required
 										/>
 									)}
-                                    <Input
-                                        label="Nome do responsável pelo resgate"
-                                        name="rescue.responsible.name"
-                                        value={formikProps?.values?.rescue?.responsible?.name}
-                                        onChange={formikProps.handleChange}
-                                        placeholder="Ana da Silva"
-                                        className="text-black"
-                                        variant="form"
-                                        required
-                                    />
-                                    <Input
-                                        label="Telefone do responsável pelo resgate"
-                                        name="rescue.responsible.name"
-                                        value={formikProps?.values?.rescue?.responsible?.phone}
-                                        onChange={formikProps.handleChange}
-                                        placeholder="(XX) XXXXX - XXXX"
-                                        className="text-black"
-                                        variant="form"
-                                        required
-                                    />
                                 </div>
+                                <Input
+                                    label="Nome do responsável pelo resgate"
+                                    name="rescue.responsible.name"
+                                    value={formikProps?.values?.rescue?.responsible?.name}
+                                    onChange={formikProps.handleChange}
+                                    placeholder="Ana da Silva"
+                                    className="text-black"
+                                    variant="form"
+                                    required
+                                />
+                                <Input
+                                    label="Telefone do responsável pelo resgate"
+                                    name="rescue.responsible.name"
+                                    value={formikProps?.values?.rescue?.responsible?.phone}
+                                    onChange={formikProps.handleChange}
+                                    placeholder="(XX) XXXXX - XXXX"
+                                    className="text-black"
+                                    variant="form"
+                                    required
+                                />
                                 <div>
                                     <label className="font-Roboto text-base text-black">
 										O responsável pelo resgate fez alguma doação à ONG?<label className="text-error"> *</label>
