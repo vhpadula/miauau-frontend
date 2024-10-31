@@ -17,6 +17,100 @@ const defaultError = 'Preenchimento obrigatório';
 
 const validationSchema  = Yup.object().shape({
         name: Yup.string().required(),
+		image: Yup.mixed()
+				.required("A imagem é obrigatória")
+				.test("fileFormat", "A imagem deve ser um arquivo válido", (value) => {
+					return value instanceof File;
+				}),
+		type: Yup.string().required(),
+		ageGroup: Yup.string().required(),
+		sex: Yup.string().required(),
+		pregnant: Yup.string().when('sex', (sex) => {
+			if (sex && sex[0] === 'Fêmea') {
+				return Yup.string().required(defaultError)
+			} 
+			return Yup.string().nullable()
+		}),
+		castrated: Yup.boolean().required(),
+		color: Yup.string().required(),
+		approximateAge: Yup.string().required(),
+		fiv: Yup.string().when('type', (type) => {
+			if (type && type[0] === 'Gato') {
+				return Yup.string().required(defaultError)
+			} 
+			return Yup.string().nullable()
+		}),
+		felv: Yup.string().when('type', (type) => {
+			if (type && type[0] === 'Gato') {
+				return Yup.string().required(defaultError)
+			} 
+			return Yup.string().nullable()
+		}),
+		healthSituation: Yup.object().shape({
+			healthy: Yup.boolean().required(),
+            dirty: Yup.boolean().required(),
+            hurt: Yup.boolean().required(),
+            mange: Yup.boolean().required(),
+            fleas: Yup.boolean().required(),
+            ticks: Yup.boolean().required(),
+            vomiting: Yup.boolean().required(),
+            limping: Yup.boolean().required(),
+            other: Yup.boolean().required(),
+            otherDescription: Yup.string().when('other', (other) => {
+				if (other && other[0]) {
+					return Yup.string().required(defaultError)
+				} 
+				return Yup.string().nullable()
+			}),
+		}),
+		needsCare: Yup.string().required(),
+		vaccinated: Yup.string().required(),
+		vaccinationDate: Yup.date().when('vaccinated', (vaccinated) => {
+			if (vaccinated && vaccinated[0] === 'Sim') {
+				return Yup.string().required(defaultError)
+			} 
+			return Yup.string().nullable()
+		}),
+		dewormed: Yup.string().required(),
+		dewormingDate: Yup.date().when('dewormed', (dewormed) => {
+			if (dewormed && dewormed[0] === 'Sim') {
+				return Yup.string().required(defaultError)
+			} 
+			return Yup.string().nullable()
+		}),
+		antiFleas: Yup.string().required(),
+		antiFleasApplicationDate: Yup.date().when('antiFleas', (antiFleas) => {
+			if (antiFleas && antiFleas[0] === 'Sim') {
+				return Yup.string().required(defaultError)
+			} 
+			return Yup.string().nullable()
+		}),
+		rescue: Yup.object().shape({
+			howDidItArrive: Yup.string().required(),
+            description: Yup.string().when('howDidItArrive', (howDidItArrive) => {
+				if (howDidItArrive && howDidItArrive[0] === 'Outro') {
+					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
+				} 
+				return Yup.string().nullable()
+			}),
+            responsible: Yup.object().shape({
+                name: Yup.string().required(),
+                phone: Yup.string().required(),
+                donnation: Yup.object().shape({
+                    money: Yup.boolean().required(),
+                    food: Yup.boolean().required(),
+                    antiFleas: Yup.boolean().required(),
+                    timeToHelp: Yup.boolean().required(),
+                    other: Yup.boolean().required(),
+                    otherDescription: Yup.string().when('other', (other) => {
+						if (other && other[0]) {
+							return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
+						} 
+						return Yup.string().nullable()
+					}),
+                })
+            })
+		})
 	});
 
 
@@ -312,7 +406,7 @@ export default function AnimalForm() {
                                     required									
                                 />
                                 {formikProps.values?.type === "Gato" && (
-                                    <div>
+                                    <div className="grid gap-7">
                                         <YesNoRadioButton
                                             value={formikProps.values.fiv}
                                             onChange={(value) => formikProps.setFieldValue("fiv", value)}
@@ -587,7 +681,7 @@ export default function AnimalForm() {
                                 />
                                 <Input
                                     label="Telefone do responsável pelo resgate"
-                                    name="rescue.responsible.name"
+                                    name="rescue.responsible.phone"
                                     value={formikProps?.values?.rescue?.responsible?.phone}
                                     onChange={formikProps.handleChange}
                                     placeholder="(XX) XXXXX - XXXX"
