@@ -1,7 +1,7 @@
 
 export interface IAnimal {
     name: string;
-    image: string;
+    image: File | undefined;
     type: 'Gato' | 'Cachorro' | '';
     ageGroup: 'Filhote' | 'Adulto' | 'Idoso' | '';
     sex: 'Fêmea' | 'Macho' | '';

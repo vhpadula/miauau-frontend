@@ -11,7 +11,7 @@ import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
 import { IAnimal } from "@/types";
 import FileInput from "@/components/molecules/FileInput";
-import { post } from "@/services/baseServices";
+import { post, uploadFile } from "@/services/baseServices";
 
 const defaultError = 'Preenchimento obrigatório';
 
@@ -25,7 +25,7 @@ export default function AnimalForm() {
 
 	const initialValues: IAnimal = {
         name: "",
-		image: "",
+		image: undefined,
         type: "",
         ageGroup: "",
         sex: "",
@@ -73,14 +73,18 @@ export default function AnimalForm() {
     }
 
 	const handleSubmit = async (values: any) => {
-		post('/api/v1/animals', values)
-		.then((response) => {
-			console.log(response);
-		});
+		try {
+			const response = await post('/api/v1/animals', values);
 
-		// // if (response.ok) {
-		// // 	router.push('/animals');
-		// // }
+			const formData = new FormData();
+			formData.append('id', response.id);
+			formData.append('file', values.image);
+
+			uploadFile('/api/v1/animals/files/upload', response.id, values.image);
+			router.push('/animals');
+		} catch (error) {
+			console.error("Error submitting form:", error);
+		}
 	};
 
 	return (
@@ -104,7 +108,7 @@ export default function AnimalForm() {
                                 <p className="font-black font-Roboto text-xl text-primary mb-3">Identificação</p>
                                 <FileInput 
 									onChange={
-										(image) => formikProps.setFieldValue('image', image)
+										(file) => formikProps.setFieldValue('image', file)
 									} 
 								/>
                                 <Input
