@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
 import { IAnimal } from "@/types";
+import FileInput from "@/components/molecules/FileInput";
+import { post } from "@/services/baseServices";
 
 const defaultError = 'Preenchimento obrigatório';
 
@@ -23,6 +25,7 @@ export default function AnimalForm() {
 
 	const initialValues: IAnimal = {
         name: "",
+		image: "",
         type: "",
         ageGroup: "",
         sex: "",
@@ -69,17 +72,15 @@ export default function AnimalForm() {
         }
     }
 
-	// Função para submeter o formulário ao final
 	const handleSubmit = async (values: any) => {
-		console.log(values);
-		// const response = await fetch('/api/animal/new', {
-		// 	method: 'POST',
-		// 	body: JSON.stringify(values),
-		// });
+		post('/api/v1/animals', values)
+		.then((response) => {
+			console.log(response);
+		});
 
-		// if (response.ok) {
-		// 	router.push('/animals');
-		// }
+		// // if (response.ok) {
+		// // 	router.push('/animals');
+		// // }
 	};
 
 	return (
@@ -101,7 +102,11 @@ export default function AnimalForm() {
 						<div>
                             <div className="grid gap-7">
                                 <p className="font-black font-Roboto text-xl text-primary mb-3">Identificação</p>
-                                {/* colocar aqui o upload de arquivo */}
+                                <FileInput 
+									onChange={
+										(image) => formikProps.setFieldValue('image', image)
+									} 
+								/>
                                 <Input
                                     label="Nome"
                                     name="name"
@@ -640,7 +645,7 @@ export default function AnimalForm() {
 								variant="outline"
 								type="button"
 								disabled={Object.keys(formikProps.errors || {}).length > 0}
-								onClick={() => formikProps.validateForm().then(() => console.log(formikProps.values))}
+								onClick={() => formikProps.validateForm().then(() => handleSubmit(formikProps.values))}
 							/>
 						</div>
 					</Form>
