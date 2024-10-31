@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ username, imageSrc }) => {
             <div className="header-container fixed w-screen h-20 bg-primary flex items-center justify-between z-20">
                 <div className="flex items-center">
                     <Image 
-                        src={"icons/menu.svg"} 
+                        src={"/icons/menu.svg"} 
                         alt="Menu icon"
                         width={25}
                         height={25}
