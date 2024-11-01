@@ -1,37 +1,52 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AnimalCard from "@/components/molecules/AnimalCard";
 import { Button, Filter, Input } from "@/components";
 import Image from "next/image";
-import { animals as mockAnimals } from '../../../__mocks__/dataMock';
 import { useRouter } from "next/navigation";
+import { get } from "@/services/baseServices";
+import Animal from "./[animalId]/page";
+
+type Animal = {
+    id: string;
+    name: string;
+    imagePath: string;
+    species: string;
+    ageGroup: string;
+};
 
 export default function Animals() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showFilterPopup, setShowFilterPopup] = useState(false);
+    const [animals, setAnimals] = useState<Animal[]>([]);
     const router = useRouter();
 
-    const animals = mockAnimals;
 
     const handleSearchChange = (event: any) => {
         setSearchTerm(event.target.value.toLowerCase());
     };
 
     const handleSpeciesSelect = (species: string) => {
-        if (species === "Todos") {
-          setSelectedSpecies("");
-        } else {
-          setSelectedSpecies(species);
-        }
+        setSelectedSpecies(species === "Todos" ? "" : species);
         setShowFilterPopup(false);
-      };
+    };
 
     const filteredAnimals = animals.filter((animal) => {
-        const matchesSearchTerm = animal.name.toLowerCase().includes(searchTerm);
+        const matchesSearchTerm = searchTerm ? animal.name.toLowerCase().includes(searchTerm) : true;
         const matchesSpecies = selectedSpecies ? animal.species === selectedSpecies : true;
         return matchesSearchTerm && matchesSpecies;
     });
+
+    useEffect(() => {
+        get("/api/v1/animals")
+            .then((response) => {
+                setAnimals(response);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch animals:", error);
+            });
+    }, []);
 
     return (
         <div className="flex flex-col items-center h-screen">
@@ -96,12 +111,10 @@ export default function Animals() {
                         <AnimalCard
                             key={animal.id}
                             id={animal.id}
-                            imageSrc={animal.imageSrc}
+                            imageSrc={animal.imagePath}
                             name={animal.name}
                             species={animal.species}
-                            size={animal.size}
-                            age={animal.age}
-                            location={animal.location}
+                            age={animal.ageGroup}
                         />
                     ))
                 ) : (
