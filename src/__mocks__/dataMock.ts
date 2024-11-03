@@ -189,59 +189,59 @@ export const animals = [
 export const candidates = [
     {
         id: "1",
-        name: "Rex",
-        age: "2 anos",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "João",
+        age: "35 anos",
+        livesAlone: true,
+        occupation: "Veterinário"
     },
     {
         id: "2",
-        name: "Mimi",
-        age: "3 anos",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "Maria",
+        age: "29 anos",
+        livesAlone: true,
+        occupation: "Engenheira Ambiental"
     },
     {
         id: "3",
-        name: "Buddy",
-        age: "4 anos",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "Carlos",
+        age: "42 anos",
+        livesAlone: true,
+        occupation: "Administrador"
     },
     {
         id: "4",
-        name: "Luna",
-        age: "1 ano",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "Ana Paula",
+        age: "27 anos",
+        livesAlone: true,
+        occupation: "Bióloga"
     },
     {
         id: "5",
-        name: "Max",
-        age: "5 anos",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "Lucas",
+        age: "30 anos",
+        livesAlone: true,
+        occupation: "Designer Gráfico"
     },
     {
         id: "6",
-        name: "Bella",
-        age: "2 anos",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "Patrícia",
+        age: "38 anos",
+        livesAlone: true,
+        occupation: "Assistente Social"
     },
     {
         id: "7",
-        name: "Charlie",
-        age: "3 anos",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "Roberto",
+        age: "45 anos",
+        livesAlone: true,
+        occupation: "Advogado"
     },
     {
         id: "8",
-        name: "Simba",
-        age: "4 anos",
-        livesAlone: false,
-        occupation: "Trabalha"
+        name: "Juliana",
+        age: "31 anos",
+        livesAlone: true,
+        occupation: "Veterinária"
     },
 ];
 

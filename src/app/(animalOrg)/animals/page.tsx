@@ -6,12 +6,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { get } from "@/services/baseServices";
 import Animal from "./[animalId]/page";
+import Link from "next/link";
 
 type Animal = {
     id: string;
     name: string;
     imagePath: string;
-    species: string;
+    type: string;
     ageGroup: string;
 };
 
@@ -34,7 +35,7 @@ export default function Animals() {
 
     const filteredAnimals = animals.filter((animal) => {
         const matchesSearchTerm = searchTerm ? animal.name.toLowerCase().includes(searchTerm) : true;
-        const matchesSpecies = selectedSpecies ? animal.species === selectedSpecies : true;
+        const matchesSpecies = selectedSpecies ? animal.type === selectedSpecies : true;
         return matchesSearchTerm && matchesSpecies;
     });
 
@@ -108,14 +109,16 @@ export default function Animals() {
             <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 m-2 w-full p-5 max-h-screen">
                 {filteredAnimals.length > 0 ? (
                     filteredAnimals.map((animal) => (
-                        <AnimalCard
-                            key={animal.id}
-                            id={animal.id}
-                            imageSrc={animal.imagePath}
-                            name={animal.name}
-                            species={animal.species}
-                            age={animal.ageGroup}
-                        />
+                        <Link href={`/animals/${animal.id}`}>
+                            <AnimalCard
+                                key={animal.id}
+                                id={animal.id}
+                                imageSrc={animal.imagePath}
+                                name={animal.name}
+                                type={animal.type}
+                                age={animal.ageGroup}
+                            />
+                        </Link>
                     ))
                 ) : (
                     <p className="text-center text-gray-700">Nenhum animal encontrado.</p>

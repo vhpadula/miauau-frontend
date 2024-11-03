@@ -1,24 +1,52 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { AdoptionCandidateCard, Button } from "@/components";
 import { candidates as mockCandidates, animals as mockAnimals } from '../../../../__mocks__/dataMock';
+import { get } from "@/services/baseServices";
+import { useRouter } from "next/router";
 
+type Animal = {
+    id: string;
+    name: string;
+    imagePath: string;
+    type: string;
+    ageGroup: string;
+};
 
-export default function Animal () {
+export default function Animal ({params}: {
+    params: { animalId: string }
+}) {
+
+    const emptyAnimal: Animal = {
+        id: "",
+        name: "",
+        imagePath: "",
+        type: "",
+        ageGroup: "",
+    };
     
+    const [ animal, setAnimal ] = useState<Animal>(emptyAnimal);
     const candidates = mockCandidates;
-    const animal = mockAnimals[1];
+
+    useEffect(() => {
+        get(`/api/v1/animals/${params.animalId}`)
+        .then((response) => {
+            setAnimal(response);
+        }
+        ).catch((error) => {
+            console.error("Failed to fetch animal:", error);
+        });
+    }, []);
 
     return (
         <>
             <div className="flex flex-col items-center pt-20">
                 <div className="bg-secondary w-full flex flex-row items-center px-5 pt-2 pb-20">
-                    <Image src={animal.imageSrc} alt="Animais" width={100} height={100} className="border-[3px] border-white rounded-full my-6"/>
+                    <Image src={animal.imagePath} alt="Animais" width={100} height={100} className="border-[3px] border-white rounded-full my-6"/>
                     <div className="ml-3 flex-grow">
                         <p className="font-bold text-white text-xl">{animal.name}</p>
-                        <p className="text-white text-xs font-light">{animal.species.toUpperCase()} | PORTE {animal.size.toUpperCase()} | {animal.age.toUpperCase()}</p>
-                        <p className="text-white text-xs font-light">{animal.location}</p>
+                        <p className="text-white text-xs font-light">{animal.type.toUpperCase()} | {animal.ageGroup.toUpperCase()}</p>
                         <Button
                             label="Levar para a feira de adoção"
                             className="text-xs w-full mt-2"

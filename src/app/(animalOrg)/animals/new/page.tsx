@@ -80,8 +80,10 @@ export default function AnimalForm() {
 			formData.append('id', response.id);
 			formData.append('file', values.image);
 
-			uploadFile('/api/v1/animals/files/upload', response.id, values.image);
-			router.push('/animals');
+			uploadFile('/api/v1/animals/blob/upload', response.id, values.image);
+			setTimeout(() => {
+				router.push('/animals');
+			}, 1000);
 		} catch (error) {
 			console.error("Error submitting form:", error);
 		}
