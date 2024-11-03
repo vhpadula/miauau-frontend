@@ -4,7 +4,7 @@ import Image from "next/image";
 import { AdoptionCandidateCard, Button } from "@/components";
 import { candidates as mockCandidates, animals as mockAnimals } from '../../../../__mocks__/dataMock';
 import { get } from "@/services/baseServices";
-import { useRouter } from "next/router";
+import QRCode from 'qrcode';
 
 type Animal = {
     id: string;
@@ -17,7 +17,7 @@ type Animal = {
 export default function Animal ({params}: {
     params: { animalId: string }
 }) {
-
+    const qrCodeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/public/animals/${params.animalId}`;
     const emptyAnimal: Animal = {
         id: "",
         name: "",
@@ -27,12 +27,14 @@ export default function Animal ({params}: {
     };
     
     const [ animal, setAnimal ] = useState<Animal>(emptyAnimal);
+    const [ qrcode, setQrcode ] = useState<string>("");
     const candidates = mockCandidates;
 
     useEffect(() => {
         get(`/api/v1/animals/${params.animalId}`)
         .then((response) => {
             setAnimal(response);
+            QRCode.toDataURL(qrCodeUrl).then(setQrcode)
         }
         ).catch((error) => {
             console.error("Failed to fetch animal:", error);
@@ -52,6 +54,16 @@ export default function Animal ({params}: {
                             className="text-xs w-full mt-2"
                             variant="primary"
                             type="submit"
+                        />
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <Image src={qrcode} alt="QRCode" width={100} height={100} className="border-[3px] border-white rounded-lg"/>
+                        <Button
+                            label="Exportar"
+                            className="text-xs w-full mt-2"
+                            variant="primary"
+                            type="submit"
+                            onClick={() => console.log(qrCodeUrl)}
                         />
                     </div>
                 </div>
