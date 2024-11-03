@@ -11,27 +11,27 @@ interface SideMenuProps {
 const navigation = [
     { 
         name: "Animais", 
-        href: "animals", 
+        href: "/animals", 
         iconPath: "/icons/animal.svg" 
     },
     {
         name: "Voluntários",
-        href: "volunteers",
+        href: "/volunteers",
         iconPath: "/icons/users.svg",
     },
     { 
         name: "Finanças", 
-        href: "finance", 
+        href: "/finance", 
         iconPath: "/icons/money.svg" 
     },
     { 
         name: "Eventos", 
-        href: "events", 
+        href: "/events", 
         iconPath: "/icons/calendar.svg" 
     },
     {
         name: "Configurações",
-        href: "config",
+        href: "/config",
         iconPath: "/icons/config.svg",
     },
 ];
