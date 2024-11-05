@@ -11,7 +11,8 @@ import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
 import { IAnimal } from "@/types";
 import FileInput from "@/components/molecules/FileInput";
-import { post, uploadFile } from "@/services/baseServices";
+import { get, post, put, uploadFile } from "@/services/baseServices";
+import { useEffect, useState } from "react";
 
 const defaultError = 'Preenchimento obrigatório';
 
@@ -114,12 +115,14 @@ const validationSchema  = Yup.object().shape({
 	});
 
 
-export default function AnimalForm() {
-	const initialValues: IAnimal = {
+export default function AnimalEditForm({params}: {
+    params: { animalId: string }
+}) {
+    const emptyInitialValues: IAnimal = {
         name: "",
-		image: undefined,
+        image: undefined,
         imagePath: "",
-		type: "",
+        type: "",
         ageGroup: "",
         sex: "",
         pregnant: "",
@@ -166,16 +169,22 @@ export default function AnimalForm() {
     };
 
 	const router = useRouter();
+    const [initialValues, setInitialValues] = useState<IAnimal>(emptyInitialValues);
+
 
 	const handleSubmit = async (values: any) => {
 		try {
-			const response = await post('/api/v1/animals', values);
+			const response = await put(`/api/v1/animals/${params.animalId}`, values);
+            console.log(values.image);
 
-			const formData = new FormData();
-			formData.append('id', response.id);
-			formData.append('file', values.image);
-
-			uploadFile('/api/v1/animals/blob/upload', response.id, values.image);
+            if (values.image) {
+                const formData = new FormData();
+                formData.append('id', params.animalId);
+                formData.append('file', values.image);
+    
+                // TODO: criar endpoint de replace
+                uploadFile('/api/v1/animals/blob/upload', params.animalId, values.image);
+            }
 			setTimeout(() => {
 				router.push('/animals');
 			}, 1000);
@@ -184,19 +193,29 @@ export default function AnimalForm() {
 		}
 	};
 
+    useEffect(() => {
+        get(`/api/v1/animals/${params.animalId}`)
+        .then((response) => {
+            setInitialValues(response);
+        })
+        .catch((error) => {
+            console.error("Failed to fetch animal data:", error);
+        });
+    }, [params.animalId]);
+
 	return (
 	<div className="bg-primary h-full">
 		<div className="flex flex-col justify-center items-center pt-20 bg-white">
-			<div className="border-b border-solid border-1 border-gray-400 pb-9">
+			<div className="border-b border-solid border-1 border-gray-400">
 				<div className="flex flex-col items-center justify-center pt-9 mx-10">
-					<p className="font-black font-Roboto text-2xl text-primary text-center mb-3">Novo animal</p>
-					<p className="font-Roboto text-sm text-gray-700 text-center">Este formulário serve para o controle de identificação e entrada dos animais resgatados da ONG Anjos na Terra em Ação.</p>
+					<p className="font-black font-Roboto text-2xl text-primary text-center mb-3">Editar animal</p>
 				</div>
 			</div>
 			<Formik<IAnimal>
 				initialValues={initialValues}
 				validationSchema={validationSchema}
 				onSubmit={handleSubmit}
+                enableReinitialize
 			>
 				{(formikProps: FormikProps<IAnimal>) => (
 					<Form className="w-full justify-center lg:w-2/3 px-10 py-11 h-fit bg-white">
@@ -204,6 +223,7 @@ export default function AnimalForm() {
                             <div className="grid gap-7">
                                 <p className="font-black font-Roboto text-xl text-primary mb-3">Identificação</p>
                                 <FileInput 
+                                    imagePath={formikProps?.values?.imagePath}
 									onChange={
 										(file) => formikProps.setFieldValue('image', file)
 									} 

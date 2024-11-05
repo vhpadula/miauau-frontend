@@ -1,13 +1,19 @@
 "use client";
 
-import React, { useState } from 'react';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
 interface FileInputProps {
+  imagePath?: string;
   onChange: (file: File | null) => void;
 }
 
-const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
-  const [preview, setPreview] = useState<string | null>(null);
+const FileInput: React.FC<FileInputProps> = ({ imagePath, onChange }) => {
+  const [preview, setPreview] = useState<string | undefined>(imagePath);
+
+  useEffect(() => {
+    setPreview(imagePath);
+  }, [imagePath]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -18,7 +24,7 @@ const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
         onChange(file);
       } else {
         alert('Please select a valid image file (png, jpeg, jpg)');
-        setPreview(null);
+        setPreview(undefined);
         onChange(null);
       }
     }
@@ -26,7 +32,7 @@ const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      {preview && <img src={preview} alt="Preview" className="mb-2 max-w-xs" />}
+      {preview && <Image src={preview} alt="Preview" width={345} height={200} className="mb-2 rounded-full" />}
       <input
         type="file"
         accept="image/png, image/jpeg, image/jpg"
@@ -35,7 +41,7 @@ const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
         id="file-input"
       />
       <label htmlFor="file-input" className="cursor-pointer bg-primary p-2 rounded">
-        {preview ? 'Mudar Imagem' : 'Inserir Imagem'}
+      {preview ? 'Mudar Imagem' : 'Inserir Imagem'}
       </label>
     </div>
   );

@@ -5,6 +5,7 @@ import { AdoptionCandidateCard, Button } from "@/components";
 import { candidates as mockCandidates, animals as mockAnimals } from '../../../../__mocks__/dataMock';
 import { get } from "@/services/baseServices";
 import QRCode from 'qrcode';
+import { useRouter } from "next/navigation";
 
 type Animal = {
     id: string;
@@ -28,6 +29,7 @@ export default function Animal ({params}: {
     
     const [ animal, setAnimal ] = useState<Animal>(emptyAnimal);
     const [ qrcode, setQrcode ] = useState<string>("");
+    const router = useRouter();
     const candidates = mockCandidates;
 
     useEffect(() => {
@@ -46,7 +48,7 @@ export default function Animal ({params}: {
             <div className="flex flex-col items-center pt-20">
                 <div className="bg-secondary w-full flex flex-row items-center px-5 pt-2 pb-20">
                     <Image src={animal.imagePath} alt="Animais" width={100} height={100} className="border-[3px] border-white rounded-full my-6"/>
-                    <div className="ml-3 flex-grow">
+                    <div className="mx-3 flex-grow">
                         <p className="font-bold text-white text-xl">{animal.name}</p>
                         <p className="text-white text-xs font-light">{animal.type.toUpperCase()} | {animal.ageGroup.toUpperCase()}</p>
                         <Button
@@ -57,7 +59,7 @@ export default function Animal ({params}: {
                         />
                     </div>
                     <div className="flex flex-col items-center">
-                        <Image src={qrcode} alt="QRCode" width={100} height={100} className="border-[3px] border-white rounded-lg"/>
+                        <Image src={qrcode} alt="QRCode" width={60} height={60} className="rounded-lg"/>
                         <Button
                             label="Exportar"
                             className="text-xs w-full mt-2"
@@ -89,7 +91,13 @@ export default function Animal ({params}: {
                                 <p>sim</p>
                             </div>
                         </div>
-                    <Image src="/icons/edit-primary.svg" alt="Animais" width={20} height={20} className="m-5"/>
+                    <Image 
+                        src="/icons/edit-primary.svg" 
+                        alt="Animais" 
+                        width={20} 
+                        height={20} 
+                        className="m-5 cursor-pointer" 
+                        onClick={() => router.push(`/animals/${params.animalId}/edit`)}/>
                     </div>
                 </div>
             </div>
