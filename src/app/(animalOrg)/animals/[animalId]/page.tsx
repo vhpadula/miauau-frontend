@@ -32,6 +32,15 @@ export default function Animal ({params}: {
     const router = useRouter();
     const candidates = mockCandidates;
 
+    const handleExport = () => {
+        const link = document.createElement('a');
+        link.href = qrcode;
+        link.download = `${animal.name}_QRCode.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     useEffect(() => {
         get(`/api/v1/animals/${params.animalId}`)
         .then((response) => {
@@ -65,7 +74,7 @@ export default function Animal ({params}: {
                             className="text-xs w-full mt-2"
                             variant="primary"
                             type="submit"
-                            onClick={() => console.log(qrCodeUrl)}
+                            onClick={handleExport}
                         />
                     </div>
                 </div>
