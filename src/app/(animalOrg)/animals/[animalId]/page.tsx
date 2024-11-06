@@ -110,19 +110,19 @@ export default function Animal ({params}: {
                     </div>
                 </div>
             </div>
-                <p className="text-secondary font-bold text-xl mt-12 mx-5 pb-5">Candidatos à adoção</p>
-                <div className="grid grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 mx-5  max-h-screen">
-                    {candidates.map((candidate) => (
-                        <AdoptionCandidateCard
-                            key={candidate.id}
-                            id={candidate.id}
-                            name={candidate.name}
-                            occupation={candidate.occupation}
-                            livesAlone={candidate.livesAlone}
-                            age={candidate.age}
-                        />
-                    ))}
-                </div>
+            <p className="text-secondary font-bold text-xl mt-12 mx-5 pb-5">Candidatos à adoção</p>
+            <div className="grid grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 mx-5  max-h-screen">
+                {candidates.map((candidate) => (
+                    <AdoptionCandidateCard
+                        key={candidate.id}
+                        id={candidate.id}
+                        name={candidate.name}
+                        occupation={candidate.occupation}
+                        livesAlone={candidate.livesAlone}
+                        age={candidate.age}
+                    />
+                ))}
+            </div>
         </>
     );
 };
