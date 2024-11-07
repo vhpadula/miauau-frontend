@@ -18,11 +18,6 @@ const defaultError = 'Preenchimento obrigatório';
 
 const validationSchema  = Yup.object().shape({
         name: Yup.string().required(),
-		image: Yup.mixed()
-				.required("A imagem é obrigatória")
-				.test("fileFormat", "A imagem deve ser um arquivo válido", (value) => {
-					return value instanceof File;
-				}),
 		type: Yup.string().required(),
 		ageGroup: Yup.string().required(),
 		sex: Yup.string().required(),
@@ -175,7 +170,6 @@ export default function AnimalEditForm({params}: {
 	const handleSubmit = async (values: any) => {
 		try {
 			const response = await put(`/api/v1/animals/${params.animalId}`, values);
-            console.log(values.image);
 
             if (values.image) {
                 const formData = new FormData();
@@ -186,7 +180,7 @@ export default function AnimalEditForm({params}: {
                 uploadFile('/api/v1/animals/blob/upload', params.animalId, values.image);
             }
 			setTimeout(() => {
-				router.push('/animals');
+				router.push(`/animals/${params.animalId}`);
 			}, 1000);
 		} catch (error) {
 			console.error("Error submitting form:", error);

@@ -13,7 +13,13 @@ type Animal = {
     imagePath: string;
     type: string;
     ageGroup: string;
+    castrated: string;
+    felv: boolean;
+    fiv: boolean;
+    dewormed: string;
+    vaccinated: string;
 };
+
 
 export default function Animal ({params}: {
     params: { animalId: string }
@@ -25,6 +31,11 @@ export default function Animal ({params}: {
         imagePath: "",
         type: "",
         ageGroup: "",
+        castrated: "",
+        felv: false,
+        fiv: false,
+        dewormed: "",
+        vaccinated: "",
     };
     
     const [ animal, setAnimal ] = useState<Animal>(emptyAnimal);
@@ -39,6 +50,10 @@ export default function Animal ({params}: {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    };
+
+    const hasFivOrFelv = (animal: Animal): boolean => {
+        return animal.fiv || animal.felv;
     };
 
     useEffect(() => {
@@ -88,16 +103,16 @@ export default function Animal ({params}: {
                             </div>
                             <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-gray-700 text-xs font-medium flex-grow">
                                 <p>Vacinas:</p>
-                                <p>3 de 4</p>
+                                <p>{animal.vaccinated}</p>
 
                                 <p>FIV/FELV:</p>
-                                <p>negativo</p>
+                                <p>{hasFivOrFelv(animal) ? "Positivo" : "Negativo"}</p>
 
                                 <p>Castrado:</p>
-                                <p>sim</p>
+                                <p>{animal.castrated ? "Sim" : "Não"}</p>
 
                                 <p>Vermifugado:</p>
-                                <p>sim</p>
+                                <p>{animal.dewormed ? "Sim" : "Não"}</p>
                             </div>
                         </div>
                     <Image 
