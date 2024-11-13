@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import { FormData } from "./types";
+import { post } from "@/services/baseServices";
 import * as Yup from "yup";
 
 const defaultError = 'Preenchimento obrigatório';
@@ -117,9 +118,9 @@ const validationSchema  = Yup.object().shape({
 					} 
 					return Yup.string().nullable()
 				}),
-				alergicResidents: Yup.boolean().required(defaultError),
-				whatHappensInCaseOfAlergies: Yup.string().when('alergicResidents', (alergicResidents) => {
-					if (alergicResidents && alergicResidents[0]) {
+				allergicResidents: Yup.boolean().required(defaultError),
+				whatHappensInCaseOfAllergies: Yup.string().when('allergicResidents', (allergicResidents) => {
+					if (allergicResidents && allergicResidents[0]) {
 						return Yup.string().required(defaultError)
 					} 
 					return Yup.string().nullable()
@@ -305,8 +306,8 @@ export default function AdoptionForm() {
 				livesWithWho: "",
 				amountOfChildrenInTheHouse: 0,
 				childrensAge: "",
-				alergicResidents: undefined,
-				whatHappensInCaseOfAlergies: "",
+				allergicResidents: undefined,
+				whatHappensInCaseOfAllergies: "",
 				allResidentsAgree: undefined,
 				hasOtherAnimals: undefined,
 				numberOfAnimalsCurrently: 0,
@@ -414,17 +415,14 @@ export default function AdoptionForm() {
 		setStep((prevStep) => prevStep - 1);
 	};
 
-	// Função para submeter o formulário ao final
 	const handleSubmit = async (values: any) => {
-		console.log(values);
-		// const response = await fetch('/api/adoption', {
-		// 	method: 'POST',
-		// 	body: JSON.stringify(values),
-		// });
-
-		// if (response.ok) {
-		// 	router.push('/adoption-success');
-		// }
+		try {
+			const response = await post('/api/v1/adoptions', values);
+			console.log(response);
+			// router.push('/public/animals');
+		} catch (error) {
+			console.error("Error submitting form:", error);
+		}
 	};
 
 	const renderStep = (formikProps: FormikProps<FormData>) => {
@@ -936,16 +934,16 @@ export default function AdoptionForm() {
 									</div>
 								)}
 								<YesNoRadioButton
-									value={formikProps.values?.coexistence?.generalCharacteristics?.alergicResidents}
-									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.alergicResidents", value)}
+									value={formikProps.values?.coexistence?.generalCharacteristics?.allergicResidents}
+									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.allergicResidents", value)}
 									label={"Alguém na sua casa é alérgico a animais?"}
 									required									
 								/>	
-								{formikProps.values?.coexistence?.generalCharacteristics?.alergicResidents && (
+								{formikProps.values?.coexistence?.generalCharacteristics?.allergicResidents && (
 									<Input
 										label="Como lidará com a alergia?"
-										name="coexistence.generalCharacteristics.whatHappensInCaseOfAlergies"
-										value={formikProps?.values?.coexistence?.generalCharacteristics?.whatHappensInCaseOfAlergies}
+										name="coexistence.generalCharacteristics.whatHappensInCaseOfAllergies"
+										value={formikProps?.values?.coexistence?.generalCharacteristics?.whatHappensInCaseOfAllergies}
 										onChange={formikProps.handleChange}
 										className="text-black"
 										variant="form"
@@ -1076,7 +1074,7 @@ export default function AdoptionForm() {
 									Por que quer adotar um animal?<label className="text-error"> *</label>
 								</label>
 								<RadioButton
-									label="Compania"
+									label="Companhia"
 									id="animals.adoptionMotivation"
 									isSelected={formikProps?.values?.animals?.adoptionMotivation === "company"}
 									onChange={() => formikProps.setFieldValue("animals.adoptionMotivation", "company")}
@@ -1565,7 +1563,7 @@ export default function AdoptionForm() {
 								variant="outline"
 								type="button"
 								disabled={Object.keys(formikProps.errors[schemaTitle[step]] || {}).length > 0}
-								onClick={() => formikProps.validateForm().then(() => console.log(formikProps.values))}
+								onClick={() => formikProps.validateForm().then(() => handleSubmit(formikProps.values))}
 							/>)}
 						</div>
 					</Form>
