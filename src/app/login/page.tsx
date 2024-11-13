@@ -1,6 +1,5 @@
 "use client";
 import {
-    HeaderGroup,
     TitleLogo,
 	Input,
 	Button
@@ -69,10 +68,6 @@ export default function Login() {
 
     return (
         <>
-            <HeaderGroup
-                className="fixed z-10"
-            />
-
             <main className="h-screen">
                 <div
                     className="flex flex-col items-center h-screen bg-gray-100 pt-24"
