@@ -20,3 +20,17 @@ export const remove = async (url: string) => {
     return response.data;
 };
 
+export const uploadFile = async (url: string, id: string, file: File) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('file', file);
+
+    const response = await api.post(url, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+
+    return response.data;
+};
+

@@ -2,20 +2,19 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { get } from "@/services/baseServices";
-import VolunteerCard from "@/components/molecules/VolunteerCard";
-import { volunteers as mockVolunteers} from '../../../__mocks__/dataMock';
-import { error } from "console";
+import FinanceRecordCard from "@/components/molecules/FinanceRecordCard";
+import { financeRecords as mockRecords } from '../../../../__mocks__/dataMock';
 import { Button, Filter, Input } from "@/components";
-import { IVolunteer } from "@/types";
+import { IFinanceRecord } from "@/types";
 
-export default function VolunteersList () {
+export default function FinanceRecordsList () {
 
     const imageSrc = "/images/default.png";
     const [currentPage, setCurrentPage] = useState(1);
-    const [volunteersPerPage] = useState(8);
-    const [volunteers, setVolunteers] = useState<IVolunteer[]>([]);
+    const [recordsPerPage] = useState(8);
+    const [records, setRecords] = useState<IFinanceRecord[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedContribution, setSelectedContribution] = useState("");
+    const [selectedRecordType, setSelectedRecordType] = useState("");
     const [showFilterPopup, setShowFilterPopup] = useState(false);
 
     const handlePageChange = (pageNumber: number) => {
@@ -23,12 +22,12 @@ export default function VolunteersList () {
     };
 
     useEffect( () => {
-        get("person/volunteers")
+        get("finance/records")
         .then((response) => {
-            setVolunteers(response);
+            setRecords(response);
         })
         .catch((error) => {
-            setVolunteers(mockVolunteers);
+            setRecords(mockRecords);
         });
     }, []);
 
@@ -38,25 +37,25 @@ export default function VolunteersList () {
         setSearchTerm(event.target.value.toLowerCase());
     };
 
-    const handleContributionSelect = (contribution: string) => {
+    const handleRecordTypeSelect = (contribution: string) => {
         if (contribution === "Todos") {
-            setSelectedContribution("");
+            setSelectedRecordType("");
         } else {
-            setSelectedContribution(contribution);
+            setSelectedRecordType(contribution);
         }
         setShowFilterPopup(false);
     };
 
-    const filteredVolunteers = volunteers.filter((volunteer) => {
-        const matchesSearchTerm = volunteer.name.toLowerCase().includes(searchTerm);
-        const matchesSpecies = selectedContribution ? volunteer.contribution === selectedContribution : true;
-        return matchesSearchTerm && matchesSpecies;
+    const filteredRecords = records.filter((records) => {
+        const matchesSearchTerm = records.label.toLowerCase().includes(searchTerm);
+        const matchesRecordType = selectedRecordType ? records.type === selectedRecordType : true;
+        return matchesSearchTerm && matchesRecordType;
     });
     
-    const indexOfLastVolunteer = currentPage * volunteersPerPage;
-    const indexOfFirstVolunteer = indexOfLastVolunteer - volunteersPerPage;
-    const currentVolunteers = filteredVolunteers.slice(indexOfFirstVolunteer, indexOfLastVolunteer);
-    const totalPages = Math.ceil(filteredVolunteers.length / volunteersPerPage);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = filteredRecords.slice(indexOfFirstRecord, indexOfLastRecord);
+    const totalPages = Math.ceil(filteredRecords.length / recordsPerPage);
 
     return (
         <div className="flex flex-col items-center h-screen">
@@ -64,7 +63,7 @@ export default function VolunteersList () {
                 <div className="flex-grow md:flex-grow-0 lg:flex-grow-0 lg:w-2/3 md:w-1/2">
                     <Input
                         type="text"
-                        placeholder="Buscar voluntário"
+                        placeholder="Buscar registro"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         className="w-full px-4 border border-gray-300 rounded-l-md focus:outline-none text-black"
@@ -89,25 +88,26 @@ export default function VolunteersList () {
                     {showFilterPopup && (
                         <div className="absolute right-0 mt-2 w-fit bg-white shadow-lg rounded-lg p-3 z-20">
                             <Filter 
-                                filterLabel="Filtrar por contribuição"
-                                options={['Todos', 'Material', 'Financeiro', 'Tempo']} 
-                                selectedOption={selectedContribution} 
-                                onClick={handleContributionSelect}
+                                filterLabel="Filtrar por movimentação"
+                                options={['Todos', 'Entrada', 'Saída']} 
+                                selectedOption={selectedRecordType} 
+                                onClick={handleRecordTypeSelect}
                             />
                         </div>
                     )}
                 </div>
             </div>
             <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 w-full p-5 max-h-screen">
-                {currentVolunteers.map((volunteer: IVolunteer) => (
-                    <VolunteerCard
-                        key={volunteer.id}
-                        id={volunteer.id}
-                        imageSrc={imageSrc}
-                        name={volunteer.name}
-                        age={volunteer.age}
-                        profession={volunteer.profession}
-                        contribution={volunteer.contribution}
+                {currentRecords.map((record: IFinanceRecord) => (
+                    <FinanceRecordCard
+                        key={record.id}
+                        id={record.id}
+                        label={record.label}
+                        type={record.type}
+                        incomeType={record.incomeType}
+                        outcomeType={record.outcomeType}
+                        date={record.date}
+                        value={record.value}
                     />
                 ))}
             </div>

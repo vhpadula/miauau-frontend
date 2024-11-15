@@ -14,14 +14,17 @@
         "@heroicons/react": "^2.1.5",
         "axios": "^1.7.7",
         "formik": "^2.4.6",
+        "framer-motion": "^11.11.10",
         "next": "^14.2.13",
         "punycode": "^2.3.1",
+        "qrcode": "^1.5.4",
         "react": "^18",
         "react-dom": "^18",
         "yup": "^1.4.0"
     },
     "devDependencies": {
         "@types/node": "^20",
+        "@types/qrcode": "^1.5.5",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "eslint": "^8",

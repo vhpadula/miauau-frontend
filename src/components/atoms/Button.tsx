@@ -1,12 +1,14 @@
-import { FC, ButtonHTMLAttributes } from "react";
+import { FC, ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  	label: string;
+  	label?: string;
 	variant?: "primary" | "secondary" | "outline" | "link"; 
 	isLoading?: boolean; 
 	loadingText?: string;
 	className?: string;
 	disabled?: boolean;
+	icon?: ReactNode;
+	iconPosition?: "left" | "right";
 }
 
 const Button: FC<ButtonProps> = ({
@@ -16,10 +18,12 @@ const Button: FC<ButtonProps> = ({
 	loadingText = "Carregando...",
 	className = "",
 	disabled = false,
+	icon,
+	iconPosition = "left",
 	...props
 }) => {
 
-	const baseStyles = "px-4 py-2 rounded-md text-center font-medium transition";
+	const baseStyles = "px-4 py-2 rounded-md text-center font-medium transition inline-flex items-center justify-center";
 	const variantStyles = {
 		primary: "bg-primary text-white hover:bg-blue-700 focus:ring-blue-400",
 		secondary: "bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-400",
@@ -35,7 +39,19 @@ const Button: FC<ButtonProps> = ({
 			disabled={disabled || isLoading}
 			{...props}
 		>
-			{isLoading ? loadingText : label}
+			{isLoading ? (
+				loadingText
+			) : (
+				<>
+					{icon && iconPosition === "left" && (
+						<span>{icon}</span>
+					)}
+					{label}
+					{icon && iconPosition === "right" && (
+						<span>{icon}</span>
+					)}
+				</>
+			)}
 		</button>
 	);
 };
