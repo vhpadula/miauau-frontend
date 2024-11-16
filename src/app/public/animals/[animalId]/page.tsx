@@ -44,7 +44,7 @@ export default function AnimalPublic ({params}: {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center min-h-screen bg-secondary">
+            <div className="flex flex-col pt-20 items-center justify-center min-h-screen bg-secondary">
                 <div className="flex flex-col items-center px-5 pt-2 pb-20">
                     <Image
                         src={animal.imagePath}
