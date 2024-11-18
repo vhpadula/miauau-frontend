@@ -4,13 +4,16 @@ import {
 	Input,
 	Checkbox,
 	RadioButton,
-	YesNoRadioButton
+	YesNoRadioButton,
+	ComboBox
 } from "@/components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import { FormData } from "./types";
+import { get, post } from "@/services/baseServices";
 import * as Yup from "yup";
+import { IAnimalSimple, IOng } from "@/types";
 
 const defaultError = 'Preenchimento obrigatório';
 
@@ -52,21 +55,14 @@ const validationSchema  = Yup.object().shape({
 			rent: Yup.string().required(defaultError),
 			}),
 			residence: Yup.object({
-			type: Yup.object({
-				house: Yup.boolean(),
-				apartment: Yup.boolean(),
-				grange: Yup.boolean(),
-				other: Yup.boolean(),
-				otherDescription: Yup.string().when('other', (other) => {
-					if (other && other[0]) {
+				type: Yup.string().required(defaultError),
+				otherDescription: Yup.string().when('type', (type) => {
+					if (type && type[0] === "other") {
 						return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
 					} 
 					return Yup.string().nullable()
 				}),
-			}),
-			own: Yup.boolean(),
-			rent: Yup.boolean(),
-			inherited: Yup.boolean(),
+				situation: Yup.string().required(defaultError),
 			}),
 		}),
 		housingDetails: Yup.object().shape({
@@ -117,9 +113,9 @@ const validationSchema  = Yup.object().shape({
 					} 
 					return Yup.string().nullable()
 				}),
-				alergicResidents: Yup.boolean().required(defaultError),
-				whatHappensInCaseOfAlergies: Yup.string().when('alergicResidents', (alergicResidents) => {
-					if (alergicResidents && alergicResidents[0]) {
+				allergicResidents: Yup.boolean().required(defaultError),
+				whatHappensInCaseOfAllergies: Yup.string().when('allergicResidents', (allergicResidents) => {
+					if (allergicResidents && allergicResidents[0]) {
 						return Yup.string().required(defaultError)
 					} 
 					return Yup.string().nullable()
@@ -163,6 +159,13 @@ const validationSchema  = Yup.object().shape({
 				} 
 				return Yup.string().nullable()
 			}),
+			wantSpecificAnimal: Yup.boolean().required(defaultError),
+			specificAnimal: Yup.string().when('wantSpecificAnimal', (wantSpecificAnimal) => {
+				if (wantSpecificAnimal && wantSpecificAnimal[0]) {
+					return Yup.string().required(defaultError)
+				} 
+				return Yup.string().nullable()
+			}),
 			animalsOfInterest: Yup.object().shape({
 				cat: Yup.boolean(),
 				dog: Yup.boolean()
@@ -173,17 +176,7 @@ const validationSchema  = Yup.object().shape({
 			responsibleForCareInCaseOfTravel: Yup.string().required(),
 			howWillEducate: Yup.string().required(),
 			timeAlone: Yup.string().required(),
-			foodType: Yup.object().shape({
-				animal: Yup.boolean(),
-				human: Yup.boolean(),
-				other: Yup.boolean(),
-				otherDescription: Yup.string().when('other', (other) => {
-					if (other && other[0]) {
-						return Yup.string().required(defaultError)
-					} 
-					return Yup.string().nullable()
-				})
-			})
+			foodType: Yup.string().required(defaultError)
 		}),
 		attitudesTowardsTheAnimal: Yup.object().shape({
 			getsLost: Yup.string().required(),
@@ -210,6 +203,30 @@ const validationSchema  = Yup.object().shape({
 
 export default function AdoptionForm() {
 	const router = useRouter();
+	
+    const [ongs, setOngs] = useState<IOng[]>([]);
+    const [ongId, setOngId] = useState("ongId1");
+    const [animals, setAnimals] = useState<IAnimalSimple[]>([]);
+
+    useEffect(() => {
+        get(`/api/v1/managements/ongs`)
+            .then((response) => {
+                setOngs(response);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch ONGs:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        get(`/api/v1/animals/getNotAdoptedByOng/${ongId}`)
+            .then((response) => {
+                setAnimals(response);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch animals:", error);
+            });
+    }, [ongId]);
   
     const [step, setStep] = useState(1);
 	const stepTitle: { [key: number]: string } = {
@@ -270,16 +287,9 @@ export default function AdoptionForm() {
 				rent: ""
 			},
 			residence: {
-				type: {
-					house: undefined,
-					apartment: undefined,
-					grange: undefined,
-					other: undefined,
-					otherDescription: ""
-				},
-				own: undefined,
-				rent: undefined,
-				inherited: undefined
+				type: "",
+				otherDescription: "",
+				situation: ""
 			}
 		},
 		housingDetails: {
@@ -305,8 +315,8 @@ export default function AdoptionForm() {
 				livesWithWho: "",
 				amountOfChildrenInTheHouse: 0,
 				childrensAge: "",
-				alergicResidents: undefined,
-				whatHappensInCaseOfAlergies: "",
+				allergicResidents: undefined,
+				whatHappensInCaseOfAllergies: "",
 				allResidentsAgree: undefined,
 				hasOtherAnimals: undefined,
 				numberOfAnimalsCurrently: 0,
@@ -321,10 +331,12 @@ export default function AdoptionForm() {
 			},
 			adoptionMotivation: "",
 			adoptionMotivationDescription: "",
+			wantSpecificAnimal: undefined,
 			animalsOfInterest: {
 				cat: undefined,
 				dog: undefined
-			}
+			},
+			specificAnimal: ""
 		},
 		interest: {
 			dog: {
@@ -367,12 +379,7 @@ export default function AdoptionForm() {
 			hasPetCarrier: undefined,
 			dailyWalks: 0,
 			timeAlone: "",
-			foodType: {
-				animal: undefined,
-				human: undefined,
-				other: undefined,
-				otherDescription: ""
-			}
+			foodType: ""
 		},
 		attitudesTowardsTheAnimal: {
 			getsLost: "",
@@ -399,33 +406,41 @@ export default function AdoptionForm() {
 
 	const scrollToTop = () => {
 		window.scrollTo({
-		  top: 0,
-		  behavior: 'smooth',
+			top: 0,
+			behavior: 'smooth',
 		});
-	  };
+	};
 
 	const nextStep = (formikProps: FormikProps<FormData>) => {
 		console.log(formikProps);
-		setStep((prevStep) => prevStep + 1);
-		scrollToTop();
+		if(step === 5 && formikProps.values?.animals?.specificAnimal) {
+			setStep((prevStep) => prevStep + 2);
+		} else {
+			setStep((prevStep) => prevStep + 1);
+		}
 	};
 
-	const prevStep = () => {
-		setStep((prevStep) => prevStep - 1);
+	const prevStep = (formikProps: FormikProps<FormData>) => {
+		if(step === 7 && formikProps.values?.animals?.specificAnimal) {
+			setStep((prevStep) => prevStep - 2);
+		} else {
+			setStep((prevStep) => prevStep - 1);
+		}
 	};
 
-	// Função para submeter o formulário ao final
 	const handleSubmit = async (values: any) => {
-		console.log(values);
-		// const response = await fetch('/api/adoption', {
-		// 	method: 'POST',
-		// 	body: JSON.stringify(values),
-		// });
-
-		// if (response.ok) {
-		// 	router.push('/adoption-success');
-		// }
+		try {
+			const response = await post('/api/v1/adoptions', values);
+			console.log(response);
+			// router.push('/public/animals');
+		} catch (error) {
+			console.error("Error submitting form:", error);
+		}
 	};
+
+	useEffect(() => {
+		scrollToTop();
+	}, [step]);
 
 	const renderStep = (formikProps: FormikProps<FormData>) => {
 		switch (step) {
@@ -662,37 +677,37 @@ export default function AdoptionForm() {
 									<label className="font-Roboto text-base text-black">
 										Tipo<label className="text-error"> *</label>
 									</label>
-									<Checkbox
+									<RadioButton
 										label="Casa"
-										id="socioeconomicProfile.residence.type.house"
-										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.house}
-										onChange={formikProps.handleChange}
+										id="socioeconomicProfile.residence.type"
+										isSelected={formikProps?.values?.socioeconomicProfile?.residence?.type === "house"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.residence.type", "house")}
 									/>
-									<Checkbox
+									<RadioButton
 										label="Apartamento"
-										id="socioeconomicProfile.residence.type.apartment"
-										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.apartment}
-										onChange={formikProps.handleChange}
+										id="socioeconomicProfile.residence.type"
+										isSelected={formikProps?.values?.socioeconomicProfile?.residence?.type === "apartment"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.residence.type", "apartment")}
 									/>
-									<Checkbox
+									<RadioButton
 										label="Sítio"
-										id="socioeconomicProfile.residence.type.grange"
-										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.grange}
-										onChange={formikProps.handleChange}
+										id="socioeconomicProfile.residence.type"
+										isSelected={formikProps?.values?.socioeconomicProfile?.residence?.type === "grange"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.residence.type", "grange")}
 									/>
-									<Checkbox
+									<RadioButton
 										label="Outro"
-										id="socioeconomicProfile.residence.type.other"
-										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.type?.other}
-										onChange={formikProps.handleChange}
+										id="socioeconomicProfile.residence.type"
+										isSelected={formikProps?.values?.socioeconomicProfile?.residence?.type === "other"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.residence.type", "other")}
 									/>
-									{formikProps?.values?.socioeconomicProfile?.residence?.type?.other && (
+									{formikProps?.values?.socioeconomicProfile?.residence?.type === "other" && (
 										<Input
-											name="socioeconomicProfile.residence.type.otherDescription"
-											value={formikProps?.values?.socioeconomicProfile?.residence?.type?.otherDescription}
+											name="socioeconomicProfile.residence.otherDescription"
+											value={formikProps?.values?.socioeconomicProfile?.residence?.otherDescription}
 											onChange={formikProps.handleChange}
 											placeholder="ex: fazenda"
-											className="text-black"
+											className="text-black mt-2"
 											variant="form"
 											required
 										/>
@@ -702,23 +717,23 @@ export default function AdoptionForm() {
 									<label className="font-Roboto text-base text-black">
 										Situação da residência<label className="text-error"> *</label>
 									</label>
-									<Checkbox
+									<RadioButton
 										label="Própria"
-										id="socioeconomicProfile.residence.own"
-										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.own}
-										onChange={formikProps.handleChange}
+										id="socioeconomicProfile.residence.situation"
+										isSelected={formikProps?.values?.socioeconomicProfile?.residence?.situation === "own"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.residence.situation", "own")}
 									/>
-									<Checkbox
+									<RadioButton
 										label="Alugada"
-										id="socioeconomicProfile.residence.rent"
-										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.rent}
-										onChange={formikProps.handleChange}
+										id="socioeconomicProfile.residence.situation"
+										isSelected={formikProps?.values?.socioeconomicProfile?.residence?.situation === "rent"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.residence.situation", "rent")}
 									/>
-									<Checkbox
+									<RadioButton
 										label="Herdada"
-										id="socioeconomicProfile.residence.inherited"
-										isChecked={formikProps?.values?.socioeconomicProfile?.residence?.inherited}
-										onChange={formikProps.handleChange}
+										id="socioeconomicProfile.residence.situation"
+										isSelected={formikProps?.values?.socioeconomicProfile?.residence?.situation === "inherited"}
+										onChange={() => formikProps.setFieldValue("socioeconomicProfile.residence.situation", "inherited")}
 									/>
 								</div>
 							</div>
@@ -936,16 +951,16 @@ export default function AdoptionForm() {
 									</div>
 								)}
 								<YesNoRadioButton
-									value={formikProps.values?.coexistence?.generalCharacteristics?.alergicResidents}
-									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.alergicResidents", value)}
+									value={formikProps.values?.coexistence?.generalCharacteristics?.allergicResidents}
+									onChange={(value) => formikProps.setFieldValue("coexistence.generalCharacteristics.allergicResidents", value)}
 									label={"Alguém na sua casa é alérgico a animais?"}
 									required									
 								/>	
-								{formikProps.values?.coexistence?.generalCharacteristics?.alergicResidents && (
+								{formikProps.values?.coexistence?.generalCharacteristics?.allergicResidents && (
 									<Input
 										label="Como lidará com a alergia?"
-										name="coexistence.generalCharacteristics.whatHappensInCaseOfAlergies"
-										value={formikProps?.values?.coexistence?.generalCharacteristics?.whatHappensInCaseOfAlergies}
+										name="coexistence.generalCharacteristics.whatHappensInCaseOfAllergies"
+										value={formikProps?.values?.coexistence?.generalCharacteristics?.whatHappensInCaseOfAllergies}
 										onChange={formikProps.handleChange}
 										className="text-black"
 										variant="form"
@@ -1076,7 +1091,7 @@ export default function AdoptionForm() {
 									Por que quer adotar um animal?<label className="text-error"> *</label>
 								</label>
 								<RadioButton
-									label="Compania"
+									label="Companhia"
 									id="animals.adoptionMotivation"
 									isSelected={formikProps?.values?.animals?.adoptionMotivation === "company"}
 									onChange={() => formikProps.setFieldValue("animals.adoptionMotivation", "company")}
@@ -1113,24 +1128,58 @@ export default function AdoptionForm() {
 							</div>
 						</div>
 						<p className="font-black font-Roboto text-xl text-primary mt-11">Animais de interesse</p>
-						<p className="text-sm text-gray-700 mb-3">Selecione todas as opções do seu interesse</p>
-							<div className="flex flex-col">
-								<label className="font-Roboto text-base text-black">
-									Animais que deseja adotar<label className="text-error"> *</label>
-								</label>
-								<Checkbox
-									label="Gato"
-									id="animals.animalsOfInterest.cat"
-									isChecked={formikProps?.values?.animals?.animalsOfInterest?.cat}
-									onChange={formikProps.handleChange}
-								/>
-								<Checkbox
-									label="Cachorro"
-									id="animals.animalsOfInterest.dog"
-									isChecked={formikProps?.values?.animals?.animalsOfInterest?.dog}
-									onChange={formikProps.handleChange}
-								/>
-							</div>
+						<YesNoRadioButton
+							value={formikProps.values.animals.wantSpecificAnimal}
+							onChange={(value) => formikProps.setFieldValue("animals.wantSpecificAnimal", value)}
+							label={"Você deseja algum animal específico da ONG?"}
+							required									
+						/>
+						{formikProps.values?.animals?.wantSpecificAnimal ? 
+							(
+								<div className="mt-7 grid gap-7">
+									<ComboBox 
+										label="Selecione a ONG que possui o animal desejado:"
+										placeholder="Escolha uma ONG"
+										options={ongs.map((ong) => ({ value: ong.Id, label: ong.name }))}
+										value={ongId} 
+										onChange={(value) => {
+											setOngId(value);
+											formikProps.setFieldValue("animals.specificAnimal", "")
+										}}
+										missingMessage="Nenhuma ONG encontrada"
+										required
+									/>
+									<ComboBox 
+										label="Selecione o animal desejado:"
+										placeholder="Escolha um animal"
+										options={animals.map((animal) => ({ value: animal.id, label: animal.name }))}
+										value={formikProps?.values?.animals?.specificAnimal} 
+										onChange={(value) => formikProps.setFieldValue("animals.specificAnimal", value)}
+										missingMessage="Nenhum animal encontrado"
+										required
+									/>
+								</div>
+							) : (
+								<div className="flex flex-col">
+									<label className="font-Roboto text-base text-black mt-7">
+										Animais que deseja adotar<label className="text-error"> * </label>
+										<label className="text-sm text-gray-700">(Selecione todas as opções do seu interesse)</label>
+									</label>
+									<Checkbox
+										label="Gato"
+										id="animals.animalsOfInterest.cat"
+										isChecked={formikProps?.values?.animals?.animalsOfInterest?.cat}
+										onChange={formikProps.handleChange}
+									/>
+									<Checkbox
+										label="Cachorro"
+										id="animals.animalsOfInterest.dog"
+										isChecked={formikProps?.values?.animals?.animalsOfInterest?.dog}
+										onChange={formikProps.handleChange}
+									/>
+								</div>
+							)
+						}
 					</div>
 				);
 			case 6:
@@ -1363,6 +1412,21 @@ export default function AdoptionForm() {
 								label={"Possui caixa de transporte apropriada para levar o animal? "}
 								required									
 							/>)}
+							<label className="font-Roboto text-base text-black">
+								Qual será o tipo de alimentação principal do animal?<label className="text-error"> *</label>
+							</label>
+							<RadioButton
+								label="Ração"
+								id="dailyCare.foodType"
+								isSelected={formikProps?.values?.dailyCare?.foodType === "animal"}
+								onChange={() => formikProps.setFieldValue("dailyCare.foodType", "animal")}
+							/>
+							<RadioButton
+								label="Comida humana"
+								id="dailyCare.foodType"
+								isSelected={formikProps?.values?.dailyCare?.foodType === "human"}
+								onChange={() => formikProps.setFieldValue("dailyCare.foodType", "human")}
+							/>
 						</div>
 					</>
 				);
@@ -1549,7 +1613,7 @@ export default function AdoptionForm() {
 									label="Anterior"
 									variant="outline"
 									type="button"
-									onClick={prevStep}
+									onClick={() => prevStep(formikProps)}
 									className="mr-4"
 								/>
 							)}
@@ -1565,7 +1629,7 @@ export default function AdoptionForm() {
 								variant="outline"
 								type="button"
 								disabled={Object.keys(formikProps.errors[schemaTitle[step]] || {}).length > 0}
-								onClick={() => formikProps.validateForm().then(() => console.log(formikProps.values))}
+								onClick={() => formikProps.validateForm().then(() => handleSubmit(formikProps.values))}
 							/>)}
 						</div>
 					</Form>

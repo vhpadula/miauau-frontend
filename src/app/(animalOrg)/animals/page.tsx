@@ -5,22 +5,14 @@ import { Button, Filter, Input } from "@/components";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { get } from "@/services/baseServices";
-import Animal from "./[animalId]/page";
 import Link from "next/link";
-
-type Animal = {
-    id: string;
-    name: string;
-    imagePath: string;
-    type: string;
-    ageGroup: string;
-};
+import { IAnimalSimple } from "@/types";
 
 export default function Animals() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showFilterPopup, setShowFilterPopup] = useState(false);
-    const [animals, setAnimals] = useState<Animal[]>([]);
+    const [animals, setAnimals] = useState<IAnimalSimple[]>([]);
     const router = useRouter();
 
     const handleSearchChange = (event: any) => {

@@ -30,16 +30,9 @@ export interface FormData {
             rent: string
         },
         residence: {
-            type: {
-                house: boolean | undefined,
-                apartment: boolean | undefined,
-                grange: boolean | undefined,
-                other: boolean | undefined,
-                otherDescription: string
-            },
-            own: boolean | undefined,
-            rent: boolean | undefined,
-            inherited: boolean | undefined
+            type: string,
+            otherDescription: string,
+            situation: string
         }
     },
     housingDetails: {
@@ -65,8 +58,8 @@ export interface FormData {
             livesWithWho: string,
             amountOfChildrenInTheHouse: number,
             childrensAge: string,
-            alergicResidents: boolean | undefined,
-            whatHappensInCaseOfAlergies: string,
+            allergicResidents: boolean | undefined,
+            whatHappensInCaseOfAllergies: string,
             allResidentsAgree: boolean | undefined,
             hasOtherAnimals: boolean | undefined,
             numberOfAnimalsCurrently: number,
@@ -81,6 +74,8 @@ export interface FormData {
         },
         adoptionMotivation: string,
         adoptionMotivationDescription: string,
+        wantSpecificAnimal: boolean | undefined,
+        specificAnimal: string,
         animalsOfInterest: {
             cat: boolean | undefined,
             dog: boolean | undefined
@@ -127,12 +122,7 @@ export interface FormData {
         hasPetCarrier: boolean | undefined,
         dailyWalks: number,
         timeAlone: string,
-        foodType: {
-            animal: boolean | undefined,
-            human: boolean | undefined,
-            other: boolean | undefined,
-            otherDescription: string
-        }
+        foodType: string
     },
     attitudesTowardsTheAnimal: {
         getsLost: string,
