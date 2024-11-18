@@ -4,14 +4,16 @@ import {
 	Input,
 	Checkbox,
 	RadioButton,
-	YesNoRadioButton
+	YesNoRadioButton,
+	ComboBox
 } from "@/components";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import { FormData } from "./types";
-import { post } from "@/services/baseServices";
+import { get, post } from "@/services/baseServices";
 import * as Yup from "yup";
+import { IAnimalSimple, IOng } from "@/types";
 
 const defaultError = 'Preenchimento obrigatório';
 
@@ -201,6 +203,30 @@ const validationSchema  = Yup.object().shape({
 
 export default function AdoptionForm() {
 	const router = useRouter();
+	
+    const [ongs, setOngs] = useState<IOng[]>([]);
+    const [ongId, setOngId] = useState("ongId1");
+    const [animals, setAnimals] = useState<IAnimalSimple[]>([]);
+
+    useEffect(() => {
+        get(`/api/v1/managements/ongs`)
+            .then((response) => {
+                setOngs(response);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch ONGs:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        get(`/api/v1/animals/getNotAdoptedByOng/${ongId}`)
+            .then((response) => {
+                setAnimals(response);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch animals:", error);
+            });
+    }, [ongId]);
   
     const [step, setStep] = useState(1);
 	const stepTitle: { [key: number]: string } = {
@@ -1110,15 +1136,26 @@ export default function AdoptionForm() {
 						/>
 						{formikProps.values?.animals?.wantSpecificAnimal ? 
 							(
-								<div className="mt-7">
-									<Input
-										label="Identificação do animal"
-										name="animals.specificAnimal"
-										value={formikProps?.values?.animals?.specificAnimal}
-										onChange={formikProps.handleChange}
-										placeholder="0001 - Paçoca"
-										className="text-black"
-										variant="form"
+								<div className="mt-7 grid gap-7">
+									<ComboBox 
+										label="Selecione a ONG que possui o animal desejado:"
+										placeholder="Escolha uma ONG"
+										options={ongs.map((ong) => ({ value: ong.Id, label: ong.name }))}
+										value={ongId} 
+										onChange={(value) => {
+											setOngId(value);
+											formikProps.setFieldValue("animals.specificAnimal", "")
+										}}
+										missingMessage="Nenhuma ONG encontrada"
+										required
+									/>
+									<ComboBox 
+										label="Selecione o animal desejado:"
+										placeholder="Escolha um animal"
+										options={animals.map((animal) => ({ value: animal.id, label: animal.name }))}
+										value={formikProps?.values?.animals?.specificAnimal} 
+										onChange={(value) => formikProps.setFieldValue("animals.specificAnimal", value)}
+										missingMessage="Nenhum animal encontrado"
 										required
 									/>
 								</div>

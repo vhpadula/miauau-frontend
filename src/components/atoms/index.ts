@@ -6,3 +6,4 @@ export { default as Checkbox } from  "./Checkbox";
 export { default as RadioButton } from  "./RadioButton";
 export { default as YesNoRadioButton } from  "./YesNoRadioButton";
 export { default as Filter } from  "./Filter";
+export { default as ComboBox } from  "./ComboBox";
