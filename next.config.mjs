@@ -9,6 +9,11 @@ const nextConfig = {
                 port: '10000',
                 pathname: '/devstoreaccount1/animals/**'
             },
+            {
+                protocol: 'https',
+                hostname: 'chipmunk-worthy-multiply.ngrok-free.app',
+                pathname: '/api/v1/animals/blob/**'
+            },
         ],
     }
 };

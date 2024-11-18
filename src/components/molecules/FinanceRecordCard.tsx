@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { IFinanceRecord } from "@/__mocks__/dataMock";
+import { IFinanceRecord } from "@/types";
 
 const FinanceRecordCard: React.FC<IFinanceRecord> = ({
     id,
@@ -20,10 +20,20 @@ const FinanceRecordCard: React.FC<IFinanceRecord> = ({
             className="flex items-center justify-between bg-white shadow-md rounded-lg w-full h-24"
         >
             <div className="flex items-center">
-                <Image src={type === 'Entrada' ? incomeSrc : outcomeSrc} alt="Animais" width={35} height={35} className="rounded-full m-5"/>
+                <Image
+                    src={type === "Entrada" ? incomeSrc : outcomeSrc}
+                    alt="Animais"
+                    width={35}
+                    height={35}
+                    className="rounded-full m-5"
+                />
                 <div>
-                    <p className="font-bold text-gray-700 text-base mb-1">{label}</p>
-                    <p className="text-gray-700 text-xs font-medium">{type} | {incomeType || outcomeType} | {date}</p>
+                    <p className="font-bold text-gray-700 text-base mb-1">
+                        {label}
+                    </p>
+                    <p className="text-gray-700 text-xs font-medium">
+                        {type} | {incomeType || outcomeType} | {date}
+                    </p>
                     <p className="text-gray-700 text-xs font-medium">{value}</p>
                 </div>
             </div>

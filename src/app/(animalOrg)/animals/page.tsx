@@ -15,7 +15,6 @@ export default function Animals() {
     const [animals, setAnimals] = useState<IAnimalSimple[]>([]);
     const router = useRouter();
 
-
     const handleSearchChange = (event: any) => {
         setSearchTerm(event.target.value.toLowerCase());
     };
@@ -26,8 +25,12 @@ export default function Animals() {
     };
 
     const filteredAnimals = animals.filter((animal) => {
-        const matchesSearchTerm = searchTerm ? animal.name.toLowerCase().includes(searchTerm) : true;
-        const matchesSpecies = selectedSpecies ? animal.type === selectedSpecies : true;
+        const matchesSearchTerm = searchTerm
+            ? animal.name.toLowerCase().includes(searchTerm)
+            : true;
+        const matchesSpecies = selectedSpecies
+            ? animal.type === selectedSpecies
+            : true;
         return matchesSearchTerm && matchesSpecies;
     });
 
@@ -58,7 +61,7 @@ export default function Animals() {
                         variant="primary"
                         type="button"
                         className="px-1.5 mr-2 h-full"
-                        onClick={() => router.push('/animals/new')}
+                        onClick={() => router.push("/animals/new")}
                     />
                 </div>
                 <div className="flex-grow md:flex-grow-0 lg:flex-grow-0 lg:w-2/3 md:w-1/2">
@@ -88,10 +91,10 @@ export default function Animals() {
                     />
                     {showFilterPopup && (
                         <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-3 z-20">
-                            <Filter 
+                            <Filter
                                 filterLabel="Filtrar por espécie"
-                                options={['Todos', 'Gato', 'Cachorro']} 
-                                selectedOption={selectedSpecies} 
+                                options={["Todos", "Gato", "Cachorro"]}
+                                selectedOption={selectedSpecies}
                                 onClick={handleSpeciesSelect}
                             />
                         </div>
@@ -101,9 +104,8 @@ export default function Animals() {
             <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 m-2 w-full p-5 max-h-screen">
                 {filteredAnimals.length > 0 ? (
                     filteredAnimals.map((animal) => (
-                        <Link href={`/animals/${animal.id}`} key={`link-${animal.id}`}>
+                        <Link href={`/animals/${animal.id}`} key={animal.id}>
                             <AnimalCard
-                                key={animal.id}
                                 id={animal.id}
                                 imageSrc={animal.imagePath}
                                 name={animal.name}
@@ -113,7 +115,9 @@ export default function Animals() {
                         </Link>
                     ))
                 ) : (
-                    <p className="text-center text-gray-700">Nenhum animal encontrado.</p>
+                    <p className="text-center text-gray-700">
+                        Nenhum animal encontrado.
+                    </p>
                 )}
             </div>
         </div>
