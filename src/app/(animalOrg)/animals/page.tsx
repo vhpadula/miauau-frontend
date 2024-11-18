@@ -5,22 +5,14 @@ import { Button, Filter, Input } from "@/components";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { get } from "@/services/baseServices";
-import Animal from "./[animalId]/page";
 import Link from "next/link";
-
-type Animal = {
-    id: string;
-    name: string;
-    imagePath: string;
-    type: string;
-    ageGroup: string;
-};
+import { IAnimalSimple } from "@/types";
 
 export default function Animals() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showFilterPopup, setShowFilterPopup] = useState(false);
-    const [animals, setAnimals] = useState<Animal[]>([]);
+    const [animals, setAnimals] = useState<IAnimalSimple[]>([]);
     const router = useRouter();
 
 
@@ -109,7 +101,7 @@ export default function Animals() {
             <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 m-2 w-full p-5 max-h-screen">
                 {filteredAnimals.length > 0 ? (
                     filteredAnimals.map((animal) => (
-                        <Link href={`/animals/${animal.id}`}>
+                        <Link href={`/animals/${animal.id}`} key={`link-${animal.id}`}>
                             <AnimalCard
                                 key={animal.id}
                                 id={animal.id}

@@ -15,13 +15,15 @@ const AnimalCard: React.FC<AnimalCardProps> = ({
     type,
     age,
 }) => {
+    const image = imageSrc != null ? imageSrc :
+        type === "Gato" ? "/images/cat.png" : "/images/dog.png"
     return (
         <div
             id={id}
             className="flex items-center justify-between bg-white shadow-md rounded-lg w-full h-24"
         >
             <div className="flex items-center">
-                <Image src={imageSrc} alt="Animais" width={70} height={70} className="rounded-full m-3"/>
+                <Image src={image} alt="Animais" width={70} height={70} className="rounded-full m-3"/>
                 <div>
                     <p className="font-bold text-gray-700 text-base">{name}</p>
                     <p className="text-gray-700 text-xs font-medium">{type} | {age}</p>
