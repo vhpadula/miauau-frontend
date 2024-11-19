@@ -6,6 +6,7 @@ import { candidates as mockCandidates, animals as mockAnimals } from '../../../.
 import { get } from "@/services/baseServices";
 import QRCode from 'qrcode';
 import { useRouter } from "next/navigation";
+import { ICandidateSimple } from "@/types";
 
 type Animal = {
     id: string;
@@ -40,8 +41,8 @@ export default function Animal ({params}: {
     
     const [ animal, setAnimal ] = useState<Animal>(emptyAnimal);
     const [ qrcode, setQrcode ] = useState<string>("");
+    const [ candidates, setcandidates ] = useState<ICandidateSimple[]>(mockCandidates);
     const router = useRouter();
-    const candidates = mockCandidates;
 
     const handleExport = () => {
         const link = document.createElement('a');
@@ -67,11 +68,24 @@ export default function Animal ({params}: {
         });
     }, []);
 
+    useEffect(() => {
+        get(`/api/v1/adoptions/${params.animalId}`)
+            .then((response) => {
+                setcandidates(response);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch ONGs:", error);
+            });
+    }, []);
+
+    const image = animal.imagePath != null ? animal.imagePath :
+        animal.type === "Gato" ? "/images/cat.png" : "/images/dog.png"
+
     return (
         <>
             <div className="flex flex-col items-center pt-20">
                 <div className="bg-secondary w-full flex flex-row items-center px-5 pt-2 pb-20">
-                    <Image src={animal.imagePath} alt="Animais" width={100} height={100} className="border-[3px] border-white rounded-full my-6"/>
+                    <Image src={image} alt="Animais" width={100} height={100} className="border-[3px] border-white rounded-full my-6"/>
                     <div className="mx-3 flex-grow">
                         <p className="font-bold text-white text-xl">{animal.name}</p>
                         <p className="text-white text-xs font-light">{animal.type.toUpperCase()} | {animal.ageGroup.toUpperCase()}</p>
@@ -133,7 +147,7 @@ export default function Animal ({params}: {
                         id={candidate.id}
                         name={candidate.name}
                         occupation={candidate.occupation}
-                        livesAlone={candidate.livesAlone}
+                        livengSituation={candidate.livingSituation}
                         age={candidate.age}
                     />
                 ))}

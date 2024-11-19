@@ -1,4 +1,4 @@
-import { IFinanceRecord, IVolunteer } from "@/types";
+import { IFinanceRecord, IVolunteer, ICandidateSimple } from "@/types";
 
 export const volunteers: IVolunteer[] = [
     {
@@ -186,62 +186,62 @@ export const animals = [
     },
 ];
 
-export const candidates = [
+export const candidates: ICandidateSimple[] = [
     {
         id: "1",
         name: "João",
         age: "35 anos",
-        livesAlone: true,
-        occupation: "Veterinário"
+        occupation: "Veterinário",
+        livingSituation: "Mora sozinho"
     },
     {
         id: "2",
         name: "Maria",
         age: "29 anos",
-        livesAlone: true,
-        occupation: "Engenheira Ambiental"
+        occupation: "Engenheira Ambiental",
+        livingSituation: "Mora sozinho"
     },
     {
         id: "3",
         name: "Carlos",
         age: "42 anos",
-        livesAlone: true,
-        occupation: "Administrador"
+        occupation: "Administrador",
+        livingSituation: "Mora sozinho"
     },
     {
         id: "4",
         name: "Ana Paula",
         age: "27 anos",
-        livesAlone: true,
-        occupation: "Bióloga"
+        occupation: "Bióloga",
+        livingSituation: "Mora sozinho"
     },
     {
         id: "5",
         name: "Lucas",
         age: "30 anos",
-        livesAlone: true,
-        occupation: "Designer Gráfico"
+        occupation: "Designer Gráfico",
+        livingSituation: "Não mora sozinho"
     },
     {
         id: "6",
         name: "Patrícia",
         age: "38 anos",
-        livesAlone: true,
-        occupation: "Assistente Social"
+        occupation: "Assistente Social",
+        livingSituation: "Não mora sozinho"
     },
     {
         id: "7",
         name: "Roberto",
         age: "45 anos",
-        livesAlone: true,
-        occupation: "Advogado"
+        occupation: "Advogado",
+        livingSituation: "Não mora sozinho"
     },
     {
         id: "8",
         name: "Juliana",
         age: "31 anos",
-        livesAlone: true,
-        occupation: "Veterinária"
+        occupation: "Veterinária",
+        livingSituation: "Não mora sozinho"
     },
 ];
 

@@ -4,7 +4,7 @@ type AdoptionCandidateCardProps = {
     id: string;
     name: string;
     occupation: string;
-    livesAlone: boolean;
+    livengSituation: string;
     age: string;
 };
 
@@ -12,7 +12,7 @@ const AdoptionCandidateCard: React.FC<AdoptionCandidateCardProps> = ({
     id,
     name,
     occupation,
-    livesAlone,
+    livengSituation,
     age,
 }) => {
     return (
@@ -23,7 +23,7 @@ const AdoptionCandidateCard: React.FC<AdoptionCandidateCardProps> = ({
             <div className="flex items-center ml-3 my-3">
                 <div>
                     <p className="font-bold text-gray-700 text-base mb-1">{name}</p>
-                    <p className="text-gray-700 text-xs font-medium">{age} | {occupation} | {livesAlone ? "Mora sozinho" : "Não mora sozinho"}</p>
+                    <p className="text-gray-700 text-xs font-medium">{age} | {occupation} | {livengSituation}</p>
                 </div>
             </div>
             <Image

@@ -432,7 +432,7 @@ export default function AdoptionForm() {
 		try {
 			const response = await post('/api/v1/adoptions', values);
 			console.log(response);
-			// router.push('/public/animals');
+			router.push('/public/animals');
 		} catch (error) {
 			console.error("Error submitting form:", error);
 		}
@@ -1523,7 +1523,7 @@ export default function AdoptionForm() {
 							<YesNoRadioButton
 								value={formikProps?.values?.agreements?.certaintyOfAdoption}
 								onChange={(value) => formikProps.setFieldValue("agreements.certaintyOfAdoption", value)}
-								label={"Você está certo da adocção?"}
+								label={"Você está certo da adoção?"}
 								required									
 							/>
 							<YesNoRadioButton
