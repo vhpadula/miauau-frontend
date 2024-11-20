@@ -1,4 +1,4 @@
-export interface FormData {
+export interface IAdoptionFormData {
     personalInformation: {
         identification: {
             name: string,

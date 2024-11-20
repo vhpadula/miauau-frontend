@@ -10,10 +10,9 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
-import { FormData } from "./types";
 import { get, post } from "@/services/baseServices";
 import * as Yup from "yup";
-import { IAnimalSimple, IOng } from "@/types";
+import { IAdoptionFormData, IAnimalSimple, IOng } from "@/types";
 
 const defaultError = 'Preenchimento obrigatório';
 
@@ -255,7 +254,7 @@ export default function AdoptionForm() {
 		9: "agreements"
 	}
 
-	const initialValues: FormData = {
+	const initialValues: IAdoptionFormData = {
 		personalInformation: {
 			identification: {
 				name: "",
@@ -411,7 +410,7 @@ export default function AdoptionForm() {
 		});
 	};
 
-	const nextStep = (formikProps: FormikProps<FormData>) => {
+	const nextStep = (formikProps: FormikProps<IAdoptionFormData>) => {
 		console.log(formikProps);
 		if(step === 5 && formikProps.values?.animals?.specificAnimal) {
 			setStep((prevStep) => prevStep + 2);
@@ -420,7 +419,7 @@ export default function AdoptionForm() {
 		}
 	};
 
-	const prevStep = (formikProps: FormikProps<FormData>) => {
+	const prevStep = (formikProps: FormikProps<IAdoptionFormData>) => {
 		if(step === 7 && formikProps.values?.animals?.specificAnimal) {
 			setStep((prevStep) => prevStep - 2);
 		} else {
@@ -442,7 +441,7 @@ export default function AdoptionForm() {
 		scrollToTop();
 	}, [step]);
 
-	const renderStep = (formikProps: FormikProps<FormData>) => {
+	const renderStep = (formikProps: FormikProps<IAdoptionFormData>) => {
 		switch (step) {
 			case 1:
 				return (
@@ -1599,12 +1598,12 @@ export default function AdoptionForm() {
 					<p className="font-Roboto text-sm text-gray-700 text-center">Este formulário serve para o controle de identificação e adoções dos animais resgatados da ONG Anjos na Terra em Ação.</p>
 				</div>
 			</div>
-			<Formik<FormData>
+			<Formik<IAdoptionFormData>
 				initialValues={initialValues}
 				validationSchema={validationSchema}
 				onSubmit={handleSubmit}
 			>
-				{(formikProps: FormikProps<FormData>) => (
+				{(formikProps: FormikProps<IAdoptionFormData>) => (
 					<Form className="w-full px-10 py-11">
 						{renderStep(formikProps)}
 						<div className="grid grid-cols-2 gap-4 pt-11">
