@@ -13,7 +13,8 @@ interface ComboBoxProps<T> {
     placeholder?: string;
     label?: string;
     missingMessage?: string;
-    required?: boolean
+    required?: boolean;
+    disabled?: boolean;
 }
 
 const ComboBox = <T extends string | number>({
@@ -23,7 +24,8 @@ const ComboBox = <T extends string | number>({
     placeholder = "Select an option",
     label,
     missingMessage,
-    required
+    required,
+    disabled
 }: ComboBoxProps<T>) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -81,6 +83,7 @@ const ComboBox = <T extends string | number>({
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             placeholder={placeholder}
+            disabled={disabled}
             />
             {isOpen && (
             <ul className="list-none p-0 mt-1 max-h-[150px] overflow-y-auto border border-gray-300 bg-white absolute z-50 w-full">

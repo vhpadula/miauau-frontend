@@ -8,9 +8,10 @@ interface YesNoRadioButtonProps {
     required: boolean;
     helperText?: string;
     className?: string;
+    disabled?: boolean;
 }
 
-const YesNoRadioButton: FC<YesNoRadioButtonProps> = ({ label, sublabel, value, onChange, required,helperText, className, ...props }) => {
+const YesNoRadioButton: FC<YesNoRadioButtonProps> = ({ label, sublabel, value, onChange, required,helperText, className, disabled, ...props }) => {
   return (
     <div className={`flex flex-col space-y-2 ${className}`}>
         {label && (<label className="font-Roboto text-base text-black">
@@ -21,12 +22,15 @@ const YesNoRadioButton: FC<YesNoRadioButtonProps> = ({ label, sublabel, value, o
             className={`cursor-pointer py-2 px-3 border rounded-md transition focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 value === true ? "bg-accent" : ""
             }`}
-            onClick={() => onChange(true)}
+            onClick={() => {
+                if (!disabled) {onChange(true)}
+            }}
         >
             <input
                 type="radio"
                 checked={value === true}
                 onChange={() => onChange(true)}
+                disabled={disabled}
                 {...props}
             />
             <label className="pl-2.5 text-black cursor-pointer">Sim</label>
@@ -36,12 +40,15 @@ const YesNoRadioButton: FC<YesNoRadioButtonProps> = ({ label, sublabel, value, o
             className={`cursor-pointer py-2 px-3 border rounded-md transition focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 value === false ? "bg-accent" : ""
             }`}
-            onClick={() => onChange(false)}
+            onClick={() => {
+                if (!disabled) {onChange(false)}
+            }}
         >
             <input
             type="radio"
             checked={value === false}
             onChange={() => onChange(false)}
+            disabled={disabled}
             {...props}
             />
             <label className="pl-2.5 text-black cursor-pointer">Não</label>

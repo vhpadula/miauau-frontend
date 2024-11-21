@@ -8,7 +8,7 @@ interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const RadioButton: FC<RadioButtonProps> = ({ label, isSelected, onChange, ...props }) => {
   const handleClick = () => {
-    if (!isSelected) {
+    if (!isSelected && !props.disabled) {
       onChange({
         target: {
             checked: true,

@@ -11,7 +11,7 @@ const Checkbox: FC<CheckboxProps> = ({ label, isChecked, onChange, id, ...props 
     return (
         <div 
             className={`mt-2 py-2 px-3 border rounded-md outline-none transition focus:ring-2 focus:ring-blue-400 focus:border-transparent ${isChecked ? "bg-accent" : ""}`}
-            onClick={() => {
+            onClick={() => {props.disabled ? undefined :
                 onChange({
                   target: {
                     type: "checkbox",

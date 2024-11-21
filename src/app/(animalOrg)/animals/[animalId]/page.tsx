@@ -7,6 +7,7 @@ import { get } from "@/services/baseServices";
 import QRCode from 'qrcode';
 import { useRouter } from "next/navigation";
 import { ICandidateSimple } from "@/types";
+import Link from "next/link";
 
 type Animal = {
     id: string;
@@ -69,14 +70,14 @@ export default function Animal ({params}: {
     }, []);
 
     useEffect(() => {
-        get(`/api/v1/adoptions/${params.animalId}`)
+        get(`/api/v1/adoptions/specific-animal/${params.animalId}`)
             .then((response) => {
                 setcandidates(response);
             })
             .catch((error) => {
                 console.error("Failed to fetch ONGs:", error);
             });
-    }, []);
+    }, [params.animalId]);
 
     const image = animal.imagePath != null ? animal.imagePath :
         animal.type === "Gato" ? "/images/cat.png" : "/images/dog.png"
@@ -142,14 +143,16 @@ export default function Animal ({params}: {
             <p className="text-secondary font-bold text-xl mt-12 mx-5 pb-5">Candidatos à adoção</p>
             <div className="grid grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 mx-5  max-h-screen">
                 {candidates.map((candidate) => (
-                    <AdoptionCandidateCard
-                        key={candidate.id}
-                        id={candidate.id}
-                        name={candidate.name}
-                        occupation={candidate.occupation}
-                        livengSituation={candidate.livingSituation}
-                        age={candidate.age}
-                    />
+                    <Link href={`/candidates/${candidate.id}`} key={candidate.id}>
+                        <AdoptionCandidateCard
+                            key={candidate.id}
+                            id={candidate.id}
+                            name={candidate.name}
+                            occupation={candidate.occupation}
+                            livengSituation={candidate.livingSituation}
+                            age={candidate.age}
+                        />
+                    </Link>
                 ))}
             </div>
         </>
