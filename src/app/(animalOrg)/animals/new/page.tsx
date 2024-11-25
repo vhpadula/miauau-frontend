@@ -84,33 +84,33 @@ const validationSchema  = Yup.object().shape({
 				return Yup.string().required(defaultError)
 			} 
 			return Yup.string().nullable()
-		}),
-		rescue: Yup.object().shape({
-			howDidItArrive: Yup.string().required(),
-            description: Yup.string().when('howDidItArrive', (howDidItArrive) => {
-				if (howDidItArrive && howDidItArrive[0] === 'Outro') {
-					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
-				} 
-				return Yup.string().nullable()
-			}),
-            responsible: Yup.object().shape({
-                name: Yup.string().required(),
-                phone: Yup.string().required(),
-                donnation: Yup.object().shape({
-                    money: Yup.boolean().required(),
-                    food: Yup.boolean().required(),
-                    antiFleas: Yup.boolean().required(),
-                    timeToHelp: Yup.boolean().required(),
-                    other: Yup.boolean().required(),
-                    otherDescription: Yup.string().when('other', (other) => {
-						if (other && other[0]) {
-							return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
-						} 
-						return Yup.string().nullable()
-					}),
-                })
-            })
 		})
+		// rescue: Yup.object().shape({
+		// 	howDidItArrive: Yup.string().required(),
+        //     description: Yup.string().when('howDidItArrive', (howDidItArrive) => {
+		// 		if (howDidItArrive && howDidItArrive[0] === 'Outro') {
+		// 			return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
+		// 		} 
+		// 		return Yup.string().nullable()
+		// 	}),
+        //     responsible: Yup.object().shape({
+        //         name: Yup.string().required(),
+        //         phone: Yup.string().required(),
+        //         donnation: Yup.object().shape({
+        //             money: Yup.boolean().required(),
+        //             food: Yup.boolean().required(),
+        //             antiFleas: Yup.boolean().required(),
+        //             timeToHelp: Yup.boolean().required(),
+        //             other: Yup.boolean().required(),
+        //             otherDescription: Yup.string().when('other', (other) => {
+		// 				if (other && other[0]) {
+		// 					return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
+		// 				} 
+		// 				return Yup.string().nullable()
+		// 			}),
+        //         })
+        //     })
+		// })
 	});
 
 

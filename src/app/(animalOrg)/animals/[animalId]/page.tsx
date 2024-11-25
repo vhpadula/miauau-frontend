@@ -86,8 +86,10 @@ export default function Animal ({params}: {
         <>
             <div className="flex flex-col items-center pt-20">
                 <div className="bg-secondary w-full flex flex-row items-center px-5 pt-2 pb-20">
-                    <Image src={image} alt="Animais" width={100} height={100} className="border-[3px] border-white rounded-full my-6"/>
-                    <div className="mx-3 flex-grow">
+                    <div className="relative w-24 h-24">
+                        <Image src={image} alt="Animais" fill={true} className="order-[3px] border-white rounded-full"/>
+                    </div>
+                    <div className="mx-3 flex-grow my-6">
                         <p className="font-bold text-white text-xl">{animal.name}</p>
                         <p className="text-white text-xs font-light">{animal.type.toUpperCase()} | {animal.ageGroup.toUpperCase()}</p>
                         <Button

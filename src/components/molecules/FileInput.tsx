@@ -32,7 +32,17 @@ const FileInput: React.FC<FileInputProps> = ({ imagePath, onChange }) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      {preview && <Image src={preview} alt="Preview" width={345} height={200} className="mb-2 rounded-full" />}
+      {/* {preview && <Image src={preview} alt="Preview" width={345} height={200} className="mb-2 rounded-full" />} */}
+      {preview && 
+        <div className="w-128 h-52 m-3 overflow-hidden rounded-full">
+          <Image 
+              src={preview} 
+              alt="Animais" 
+              fill={true}
+              className="object-cover object-center w-full h-full"
+          />
+        </div>
+      }
       <input
         type="file"
         accept="image/png, image/jpeg, image/jpg"

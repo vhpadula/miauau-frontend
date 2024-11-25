@@ -46,7 +46,7 @@ export default function Animals() {
 
     return (
         <div className="flex flex-col items-center h-screen">
-            <div className="sticky top-20 mt-20 flex items-center bg-white justify-center w-full p-5 mb-4 shadow-[0px_4px_4px_rgba(0,0,0,0.1)]">
+            <div className="sticky z-10 top-20 mt-20 flex items-center bg-white justify-center w-full p-5 mb-4 shadow-[0px_4px_4px_rgba(0,0,0,0.1)]">
                 <div>
                     <Button
                         icon={
@@ -107,6 +107,7 @@ export default function Animals() {
                         <Link href={`/animals/${animal.id}`} key={animal.id}>
                             <AnimalCard
                                 id={animal.id}
+                                number={animal.animalNumber}
                                 imageSrc={animal.imagePath}
                                 name={animal.name}
                                 type={animal.type}
