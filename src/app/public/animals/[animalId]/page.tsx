@@ -60,12 +60,15 @@ export default function AnimalPublic ({params}: {
         animal.type === "Gato" ? "/images/cat.png" : "/images/dog.png"
 
     return (
-        <>
-            <div className="flex flex-col pt-20 items-center justify-center min-h-screen bg-secondary">
+        <div className="bg-secondary w-full flex justify-center">
+            <div className="flex flex-col pt-20 items-center justify-center min-h-screen sm:w-1/3">
                 <div className="flex flex-col items-center px-5 pt-2 pb-20">
                     <div 
-                        className="my-6 relative rounded-full overflow-hidden border-[6px] border-white"
-                        style={{ width: `${windowWidth*0.75}px`, height: `${windowWidth*0.75}px` }}
+                        className="my-6 relative rounded-full overflow-hidden border-[6px] border-white
+                            w-[75vw] h-[75vw]
+                            sm:w-[60vw] sm:h-[60vw]
+                            md:w-[40vw] md:h-[40vw]
+                            lg:w-[30vw] lg:h-[30vw]"
                     >
                         <Image 
                             src={image} 
@@ -86,7 +89,7 @@ export default function AnimalPublic ({params}: {
                         (ID: {animal.animalNumber})
                     </p>}
                     {/* TODO: Adicionar link para envio de msgs quando ong tiver whatsapp */}
-                    <div className="flex items-center justify-between bg-white shadow-md rounded-lg w-full p-1 mt-12">
+                    {/* <div className="flex items-center justify-between bg-white shadow-md rounded-lg w-full p-1 mt-12">
                         <div className="flex items-center">
                             <div className="m-3">
                                 <Image 
@@ -109,9 +112,9 @@ export default function AnimalPublic ({params}: {
                             height={20}
                             className="mx-4"
                         />
-                    </div>
+                    </div> */}
                     <Link href="https://www.instagram.com/onganjosnaterra/" className="w-full">
-                        <div className="flex items-center justify-between bg-white shadow-md rounded-lg w-full p-1 mt-2">
+                        <div className="flex items-center justify-between bg-white shadow-md rounded-lg w-full p-1 mt-12">
                             <div className="flex items-center">
                                 <div className="m-3">
                                     <Image 
@@ -138,7 +141,7 @@ export default function AnimalPublic ({params}: {
                     </Link>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
