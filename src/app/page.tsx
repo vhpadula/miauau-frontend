@@ -16,9 +16,11 @@ export default function Home() {
 
             <main className="flex w-full min-h-screen flex-col items-center justify-between">
                 <div className="flex w-full justify-end">
-                    <OutlineBtn width="36" height="12" className="mr-2 my-1">
-                        Sobre Nós
-                    </OutlineBtn>
+                    <Link href="/about">
+                        <OutlineBtn width="36" height="12" className="mr-2 my-1">
+                            Sobre Nós
+                        </OutlineBtn>
+                    </Link>
                     <Link href="/animals">
                         <OutlineBtn
                             width="36"
