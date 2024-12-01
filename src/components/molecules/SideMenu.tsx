@@ -19,6 +19,11 @@ const navigation = [
         href: "/volunteers",
         iconPath: "/icons/users.svg",
     },
+    {
+        name: "Candidatos",
+        href: "/candidates",
+        iconPath: "/icons/candidates.svg",
+    },
     { 
         name: "Finanças", 
         href: "/finance", 
