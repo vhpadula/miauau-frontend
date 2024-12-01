@@ -1,5 +1,3 @@
-import { number } from "yup";
-
 export interface IAnimalSimple {
     id: string;
     animalNumber: string;
@@ -8,4 +6,6 @@ export interface IAnimalSimple {
     type: 'Gato' | 'Cachorro' | '';
     ageGroup: 'Filhote' | 'Adulto' | 'Idoso' | '';
     sex: 'Fêmea' | 'Macho' | '';
+    castrated: boolean;
+    color: string;
 }

@@ -34,7 +34,7 @@ const AnimalCard: React.FC<AnimalCardProps> = ({
                         />
                 </div>
                 <div>
-                    <p className="font-bold text-gray-700 text-base">{name} ID: {number}</p>
+                    <p className="font-bold text-gray-700 text-base">{name} - ID: {number}</p>
                     <p className="text-gray-700 text-xs font-medium">{type} | {age}</p>
                 </div>
             </div>
