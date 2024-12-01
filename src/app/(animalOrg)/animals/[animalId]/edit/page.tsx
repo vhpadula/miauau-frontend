@@ -90,14 +90,14 @@ const validationSchema  = Yup.object().shape({
 				return Yup.string().nullable()
 			}),
             responsible: Yup.object().shape({
-                name: Yup.string().required(),
-                phone: Yup.string().required(),
+                name: Yup.string(),
+                phone: Yup.string(),
                 donnation: Yup.object().shape({
-                    money: Yup.boolean().required(),
-                    food: Yup.boolean().required(),
-                    antiFleas: Yup.boolean().required(),
-                    timeToHelp: Yup.boolean().required(),
-                    other: Yup.boolean().required(),
+                    money: Yup.boolean(),
+                    food: Yup.boolean(),
+                    antiFleas: Yup.boolean(),
+                    timeToHelp: Yup.boolean(),
+                    other: Yup.boolean(),
                     otherDescription: Yup.string().when('other', (other) => {
 						if (other && other[0]) {
 							return Yup.string().required('Descrição necessária se "outro" estiver selecionado')
