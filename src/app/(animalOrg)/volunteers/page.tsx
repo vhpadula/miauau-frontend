@@ -98,7 +98,7 @@ export default function VolunteersList () {
                     )}
                 </div>
             </div>
-            <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 w-full p-5 max-h-screen">
+            <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 w-full p-5 h-fit">
                 {currentVolunteers.map((volunteer: IVolunteer) => (
                     <VolunteerCard
                         key={volunteer.id}
