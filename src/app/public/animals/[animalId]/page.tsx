@@ -68,7 +68,8 @@ export default function AnimalPublic ({params}: {
                             w-[75vw] h-[75vw]
                             sm:w-[60vw] sm:h-[60vw]
                             md:w-[40vw] md:h-[40vw]
-                            lg:w-[30vw] lg:h-[30vw]"
+                            lg:w-[30vw] lg:h-[30vw]
+                            xl:w-[20vw] xl:h-[20vw]"
                     >
                         <Image 
                             src={image} 

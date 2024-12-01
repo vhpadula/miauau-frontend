@@ -83,8 +83,8 @@ export default function Animal ({params}: {
         animal.type === "Gato" ? "/images/cat.png" : "/images/dog.png"
 
     return (
-        <>
-            <div className="flex flex-col items-center pt-20">
+        <div className="w-full flex flex-col items-center">
+            <div className="flex flex-col items-center pt-20 sm:w-3/4 lg:w-2/3 md:w-1/2 xl:w-1/3">
                 <div className="bg-secondary w-full flex flex-row items-center px-5 pt-4 pb-36">
                     <div className="relative w-28 h-28 rounded-full overflow-hidden border-4 border-white">
                         <Image 
@@ -150,27 +150,30 @@ export default function Animal ({params}: {
                     </div>
                 </div>
             </div>
-            <p className="text-secondary font-bold text-xl mx-5 pb-5">Candidatos à adoção</p>
-            <div className="grid grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 mx-5  max-h-screen">
-                {candidates.length == 0 && (
-                    <p className="text-center text-gray-700">
-                        Nenhum candidato encontrado.
-                    </p>
-                )}
-                {candidates.map((candidate) => (
-                    <Link href={`/candidates/${candidate.id}`} key={candidate.id}>
-                        <AdoptionCandidateCard
-                            key={candidate.id}
-                            id={candidate.id}
-                            name={candidate.name}
-                            occupation={candidate.occupation}
-                            livengSituation={candidate.livingSituation}
-                            age={candidate.age}
-                        />
-                    </Link>
-                ))}
+            <div className=" w-full lg:w-2/3 md:w-1/2 sm:w-3/4 xl:w-1/3 mb-10">
+                <p className="text-secondary font-bold text-xl mx-5 pb-5">Candidatos à adoção</p>
+                <div className="grid grid-cols-1 gap-4 mx-5 max-h-screen">
+                    {candidates.length == 0 && (
+                        <p className="text-center text-gray-700">
+                            Nenhum candidato encontrado.
+                        </p>
+                    )}
+                    {candidates.map((candidate) => (
+                        <Link href={`/candidates/${candidate.id}`} key={candidate.id}>
+                            <AdoptionCandidateCard
+                                key={candidate.id}
+                                id={candidate.id}
+                                name={candidate.name}
+                                occupation={candidate.occupation}
+                                livengSituation={candidate.livingSituation}
+                                age={candidate.age}
+                            />
+                        </Link>
+                    ))}
+                </div>
+            
             </div>
-        </>
+        </div>
     );
 };
 
