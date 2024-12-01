@@ -85,33 +85,41 @@ export default function Animal ({params}: {
     return (
         <>
             <div className="flex flex-col items-center pt-20">
-                <div className="bg-secondary w-full flex flex-row items-center px-5 pt-2 pb-20">
-                    <div className="relative w-24 h-24">
-                        <Image src={image} alt="Animais" fill={true} className="order-[3px] border-white rounded-full"/>
+                <div className="bg-secondary w-full flex flex-row items-center px-5 pt-4 pb-36">
+                    <div className="relative w-28 h-28 rounded-full overflow-hidden border-4 border-white">
+                        <Image 
+                            src={image} 
+                            alt="Animais" 
+                            fill={true} 
+                            className="object-cover"
+                        />
                     </div>
                     <div className="mx-3 flex-grow my-6">
                         <p className="font-bold text-white text-xl">{animal.name}</p>
                         <p className="text-white text-xs font-light">{animal.type.toUpperCase()} | {animal.ageGroup.toUpperCase()}</p>
-                        <Button
-                            label="Levar para a feira de adoção"
-                            className="text-xs w-full mt-2"
-                            variant="primary"
-                            type="submit"
-                        />
                     </div>
-                    <div className="flex flex-col items-center">
-                        <Image src={qrcode} alt="QRCode" width={60} height={60} className="rounded-lg"/>
-                        <Button
-                            label="Exportar"
-                            className="text-xs w-full mt-2"
-                            variant="primary"
-                            type="submit"
-                            onClick={handleExport}
-                        />
+                    <div className="flex flex-col items-center rounded-lg bg-white cursor-pointer p-[1px]" onClick={handleExport}>
+                        <Image src={qrcode} alt="QRCode" width={85} height={85} className="rounded-lg"/>
+                        <div className="flex mb-2">
+                            <Image 
+                                src="/icons/share.svg" 
+                                alt="share" 
+                                width={15} 
+                                height={15} 
+                            />
+                            <label className="text-black text-sm cursor-pointer ml-1">Exportar</label>
+                        </div>
                     </div>
                 </div>
-                <div className="px-4 w-full -m-3">
-                    <div className="flex items-start justify-between bg-white shadow-md rounded-lg -mt-16">
+                <div className="px-4 w-full -m-12">
+                    <div className="flex flex-col gap-2 -mt-20">
+                        <div className="flex items-center justify-center bg-white shadow-md rounded-full text-black text-xs w-full py-1">Adotar</div>
+                        <div className="flex items-center justify-center bg-white shadow-md rounded-full text-black text-xs w-full py-1">Levar para feira de adoção</div>
+                    </div>
+                    
+                </div>
+                <div className="px-4 w-full m-8 mt-10">
+                    <div className="flex items-start justify-between bg-white shadow-md rounded-lg ">
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col items-center justify-center m-5">
                                 <Image src="/icons/cat-dog-vet.svg" alt="Animais" width={50} height={50}/>
@@ -142,8 +150,13 @@ export default function Animal ({params}: {
                     </div>
                 </div>
             </div>
-            <p className="text-secondary font-bold text-xl mt-12 mx-5 pb-5">Candidatos à adoção</p>
+            <p className="text-secondary font-bold text-xl mx-5 pb-5">Candidatos à adoção</p>
             <div className="grid grid-cols-1 lg:w-2/3 md:w-1/2 gap-4 mx-5  max-h-screen">
+                {candidates.length == 0 && (
+                    <p className="text-center text-gray-700">
+                        Nenhum candidato encontrado.
+                    </p>
+                )}
                 {candidates.map((candidate) => (
                     <Link href={`/candidates/${candidate.id}`} key={candidate.id}>
                         <AdoptionCandidateCard
