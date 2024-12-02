@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { AdoptionCandidateCard, Button } from "@/components";
 import { candidates as mockCandidates, animals as mockAnimals } from '../../../../__mocks__/dataMock';
-import { get } from "@/services/baseServices";
+import { get, put } from "@/services/baseServices";
 import QRCode from 'qrcode';
 import { useRouter } from "next/navigation";
 import { ICandidateSimple } from "@/types";
@@ -20,6 +20,9 @@ type Animal = {
     fiv: boolean;
     dewormed: string;
     vaccinated: string;
+    isAdopted: boolean;
+    sex: string;
+    isAtEvent: boolean;
 };
 
 
@@ -38,11 +41,15 @@ export default function Animal ({params}: {
         fiv: false,
         dewormed: "",
         vaccinated: "",
+        isAdopted: false,
+        sex: "",
+        isAtEvent: false
     };
     
     const [ animal, setAnimal ] = useState<Animal>(emptyAnimal);
     const [ qrcode, setQrcode ] = useState<string>("");
     const [ candidates, setcandidates ] = useState<ICandidateSimple[]>(mockCandidates);
+    const [ currentStatus, setCurrentStatus ] = useState<string>("");
     const router = useRouter();
 
     const handleExport = () => {
@@ -57,6 +64,20 @@ export default function Animal ({params}: {
     const hasFivOrFelv = (animal: Animal): boolean => {
         return animal.fiv || animal.felv;
     };
+
+    const handleAdopt = async () => {
+        try {
+			const response = await put(`/api/v1/animals/adopt/${params.animalId}`, !animal.isAdopted);
+            setAnimal(response);
+		} catch (error) {
+			console.error("Error trying to adopt:", error);
+		}
+    }
+
+
+    const handleAdoptionEvent = () => {
+        console.log("klklklk")
+    }
 
     useEffect(() => {
         get(`/api/v1/animals/${params.animalId}`)
@@ -79,8 +100,20 @@ export default function Animal ({params}: {
             });
     }, [params.animalId]);
 
+    useEffect(() => {
+        let status = "";
+        if (animal.isAdopted) {
+            status = `Adotad${animal.sex == "Macho" ? "o" : "a"}`;
+        } else if (animal.isAtEvent) {
+            status = `Levad${animal.sex == "Macho" ? "o" : "a"} à feira`
+        } else {
+            status = "Disponível"
+        }
+        setCurrentStatus(status);
+    }, [animal]);
+
     const image = animal.imagePath != null ? animal.imagePath :
-        animal.type === "Gato" ? "/images/cat.png" : "/images/dog.png"
+        animal.type === "Gato" ? "/images/cat4.png" : "/images/dog.png"
 
     return (
         <div className="w-full flex flex-col items-center">
@@ -97,6 +130,7 @@ export default function Animal ({params}: {
                     <div className="mx-3 flex-grow my-6">
                         <p className="font-bold text-white text-xl">{animal.name}</p>
                         <p className="text-white text-xs font-light">{animal.type.toUpperCase()} | {animal.ageGroup.toUpperCase()}</p>
+                        <p className="text-white text-xs font-light mt-2">{currentStatus}</p>
                     </div>
                     <div className="flex flex-col items-center rounded-lg bg-white cursor-pointer p-[1px]" onClick={handleExport}>
                         <Image src={qrcode} alt="QRCode" width={85} height={85} className="rounded-lg"/>
@@ -113,8 +147,18 @@ export default function Animal ({params}: {
                 </div>
                 <div className="px-4 w-full -m-12">
                     <div className="flex flex-col gap-2 -mt-20">
-                        <div className="flex items-center justify-center bg-white shadow-md rounded-full text-black text-xs w-full py-1">Adotar</div>
-                        <div className="flex items-center justify-center bg-white shadow-md rounded-full text-black text-xs w-full py-1">Levar para feira de adoção</div>
+                        <div 
+                            className="flex items-center justify-center shadow-md rounded-full text-xs w-full py-1 cursor-pointer bg-primary text-white hover:bg-blue-700 focus:ring-blue-400"
+                            onClick={handleAdopt}
+                        >
+                            {animal.isAdopted ? "Devolver" : "Adotar"}
+                        </div>
+                        <div 
+                            className="flex items-center justify-center shadow-md rounded-full text-xs w-full py-1 cursor-pointer bg-white border border-primary text-primary hover:bg-accent"
+                            onClick={handleAdoptionEvent}
+                        >
+                            {animal.isAtEvent ? "Retornar da feira de adoção" : "Levar para feira de adoção"}
+                        </div>
                     </div>
                     
                 </div>
