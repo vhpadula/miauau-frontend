@@ -75,8 +75,13 @@ export default function Animal ({params}: {
     }
 
 
-    const handleAdoptionEvent = () => {
-        console.log("klklklk")
+    const handleAdoptionEvent = async () => {
+        try {
+			const response = await put(`/api/v1/animals/adoption-event/${params.animalId}`, !animal.isAtEvent);
+            setAnimal(response);
+		} catch (error) {
+			console.error("Error trying to adopt:", error);
+		}
     }
 
     useEffect(() => {
