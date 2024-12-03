@@ -19,7 +19,9 @@ export default function About() {
         <div className="text-white text-justify grid gap-8 mx-8">
           <p>
             O presente sistema foi desenvolvido por estudantes da Escola
-            Politécnica da USP, Leticia Cohen, Michel Brito e Victor Padula.
+            Politécnica da USP, Leticia Cohen, Michel Brito e Victor Padula, e
+            orientados pelo Professor Dr. Jorge Risco do departamento de
+            Engenharia de Computação e Sistemas Digitais.
           </p>
           <p>
             Este projeto tem como objetivo o desenvolvimento de uma plataforma
