@@ -1,7 +1,7 @@
 "use client";
 
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 interface FileInputProps {
   imagePath?: string;
@@ -19,11 +19,15 @@ const FileInput: React.FC<FileInputProps> = ({ imagePath, onChange }) => {
     const file = event.target.files?.[0] || null;
     if (file) {
       const fileType = file.type;
-      if (fileType === 'image/png' || fileType === 'image/jpeg' || fileType === 'image/jpg') {
+      if (
+        fileType === "image/png" ||
+        fileType === "image/jpeg" ||
+        fileType === "image/jpg"
+      ) {
         setPreview(URL.createObjectURL(file));
         onChange(file);
       } else {
-        alert('Please select a valid image file (png, jpeg, jpg)');
+        alert("Please select a valid image file (png, jpeg, jpg)");
         setPreview(undefined);
         onChange(null);
       }
@@ -33,16 +37,16 @@ const FileInput: React.FC<FileInputProps> = ({ imagePath, onChange }) => {
   return (
     <div className="flex flex-col items-center justify-center">
       {/* {preview && <Image src={preview} alt="Preview" width={345} height={200} className="mb-2 rounded-full" />} */}
-      {preview && 
-        <div className="w-128 h-52 m-3 overflow-hidden rounded-full">
-          <Image 
-              src={preview} 
-              alt="Animais" 
-              fill={true}
-              className="object-cover object-center w-full h-full"
+      {preview && (
+        <div className="relative w-[280px] h-[160px] m-3 overflow-hidden rounded-full">
+          <Image
+            src={preview}
+            alt="Animais"
+            fill={true}
+            className="object-cover object-center w-full h-full"
           />
         </div>
-      }
+      )}
       <input
         type="file"
         accept="image/png, image/jpeg, image/jpg"
@@ -50,8 +54,11 @@ const FileInput: React.FC<FileInputProps> = ({ imagePath, onChange }) => {
         className="hidden"
         id="file-input"
       />
-      <label htmlFor="file-input" className="cursor-pointer bg-primary p-2 rounded">
-      {preview ? 'Mudar Imagem' : 'Inserir Imagem'}
+      <label
+        htmlFor="file-input"
+        className="cursor-pointer bg-primary p-2 rounded"
+      >
+        {preview ? "Mudar Imagem" : "Inserir Imagem"}
       </label>
     </div>
   );
