@@ -4,7 +4,7 @@ import { register, login } from "@/services/authService";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+
 export default function Login() {
   const router = useRouter();
   const { login: contextLogin } = useAuth();
@@ -16,8 +16,6 @@ export default function Login() {
   const [tryingToRegister, setTryingToRegister] = useState(false);
   const [registerErrorMessage, setRegisterErrorMessage] = useState("");
   const [registerSuccessMessage, setRegisterSuccessMessage] = useState("");
-
-  const isMobile = window.innerWidth < 768;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
