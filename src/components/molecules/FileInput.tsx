@@ -49,7 +49,7 @@ const FileInput: React.FC<FileInputProps> = ({ imagePath, onChange }) => {
       )}
       <input
         type="file"
-        accept="image/png, image/jpeg, image/jpg"
+        accept="image/*"
         onChange={handleFileChange}
         className="hidden"
         id="file-input"

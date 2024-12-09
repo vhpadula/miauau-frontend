@@ -17,6 +17,8 @@ export default function Login() {
   const [registerErrorMessage, setRegisterErrorMessage] = useState("");
   const [registerSuccessMessage, setRegisterSuccessMessage] = useState("");
 
+  const isMobile = window.innerWidth < 768;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
@@ -76,7 +78,7 @@ export default function Login() {
     <>
       <main className="h-screen">
         <div className="flex flex-col items-center h-screen bg-gray-100 pt-24">
-          <TitleLogo size="xl" ongTextColor="primary" />
+          <TitleLogo size="l" ongTextColor="primary" />
           <div className="flex flex-col bg-white border border-gray-400 rounded-lg m-2 max-h-screen px-11 pt-5 pb-14 w-4/5 sm:w-2/3 md:w-1/4">
             <form onSubmit={handleSubmit} className="grid gap-5">
               <Input
@@ -112,14 +114,13 @@ export default function Login() {
                   disabled={tryingToLogin || tryingToRegister}
                   onClick={handleRegister}
                 />
-                <Link href="/animals">
-                  <Button
-                    label={tryingToLogin ? "Carregando..." : "Login"}
-                    variant="primary"
-                    type="submit"
-                    disabled={tryingToLogin || tryingToRegister}
-                  />
-                </Link>
+                <Button
+                  label={tryingToLogin ? "Carregando..." : "Login"}
+                  variant="primary"
+                  type="submit"
+                  disabled={tryingToLogin || tryingToRegister}
+                  onClick={() => router.push("/animals")}
+                />
               </div>
               {registerErrorMessage && (
                 <p className="text-error text-sm text-center">
