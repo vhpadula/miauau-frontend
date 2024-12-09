@@ -1,16 +1,10 @@
 "use client";
-import {
-  Button,
-  Checkbox,
-  Input,
-  RadioButton,
-  YesNoRadioButton,
-} from "@/components";
+import { Button, Input } from "@/components";
 import { useRouter } from "next/navigation";
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
 import { IVolunteer } from "@/types";
-import { get, post } from "@/services/baseServices";
+import { get, put, remove } from "@/services/baseServices";
 import { useEffect, useState } from "react";
 
 const defaultError = "Preenchimento obrigatório";
@@ -22,17 +16,9 @@ const validationSchema = Yup.object().shape({
   age: Yup.number()
     .required(defaultError)
     .max(99, "A idade deve ter no máximo 2 dígitos"),
-  contribution: Yup.object()
-    .shape({
-      material: Yup.boolean(),
-      time: Yup.boolean(),
-      finance: Yup.boolean(),
-    })
-    .test(
-      "at-least-one-true",
-      "Pelo menos uma contribuição deve ser selecionada",
-      (value) => value.material || value.time || value.finance
-    ),
+  role: Yup.string()
+    .oneOf(["Material", "Tempo", "Financeiro"], "Contribuição inválida")
+    .required(defaultError),
 });
 
 export default function VolunteerEditForm({
@@ -62,12 +48,26 @@ export default function VolunteerEditForm({
 
   const handleSubmit = async (values: IVolunteer) => {
     try {
-      const response = await post("/api/v1/persons/volunteers", values);
+      const response = await put(
+        `/api/v1/persons/volunteers/${params.volunteerId}`,
+        values
+      );
       setTimeout(() => {
         router.push("/volunteers");
       }, 1000);
     } catch (error) {
       console.error("Error submitting form:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await remove(`/api/v1/persons/${params.volunteerId}`);
+      setTimeout(() => {
+        router.push("/volunteers");
+      }, 1000);
+    } catch (error) {
+      console.error("Error deleting volunteer:", error);
     }
   };
 
@@ -174,7 +174,7 @@ export default function VolunteerEditForm({
                   variant="primary"
                   type="button"
                   onClick={() => {
-                    console.log("Deletar");
+                    handleDelete();
                   }}
                 />
               </div>
